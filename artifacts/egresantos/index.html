@@ -134,10 +134,10 @@
             <span class="text-sm font-semibold text-gray-300"><i class="fa-solid fa-ticket text-magenta-soft mr-1"></i> Entradas</span>
             <span id="from-price" class="font-bold text-white lg:text-lg">Entradas desde —</span>
           </div>
-          <button onclick="openModal()" class="w-full btn-magenta text-white font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider">
+          <button id="buy-btn" onclick="openModal()" class="w-full btn-magenta text-white font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider">
             Comprar entradas
           </button>
-          <p class="text-[10px] text-center text-gray-400 mt-3 hidden lg:block">Transacción segura. Pago por transferencia.</p>
+          <p id="buy-hint" class="text-[10px] text-center text-gray-400 mt-3 hidden lg:block">Transacción segura. Pago por transferencia.</p>
         </div>
       </div>
     </main>
@@ -272,7 +272,7 @@
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-      import { getFirestore, doc, addDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+      import { getFirestore, doc, addDoc, collection, onSnapshot, serverTimestamp, query } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
@@ -402,8 +402,44 @@
           state.event = { ...state.event, ...snap.data() };
           try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.event)); } catch (e) {}
           renderEvent();
+          updateSoldOut();
         }
       }, (err) => console.warn("snapshot:", err));
+
+      // ====== Firestore: live sales count for sold-out logic ======
+      let totalSold = 0;
+      onSnapshot(query(collection(db, "ventas")), (snap) => {
+        let sum = 0;
+        snap.forEach(d => { sum += Number(d.data().cantidad || 0); });
+        totalSold = sum;
+        updateSoldOut();
+      }, (err) => console.warn("sales snapshot:", err));
+
+      function updateSoldOut() {
+        const cupo = Number(state.event.cupoMaximo || 0);
+        const btn = $("buy-btn");
+        const hint = $("buy-hint");
+        if (!btn) return;
+        if (cupo > 0 && totalSold >= cupo) {
+          btn.disabled = true;
+          btn.classList.remove("btn-magenta");
+          btn.classList.add("bg-red-900/40", "text-red-300", "cursor-not-allowed", "border", "border-red-500/30");
+          btn.innerHTML = '<i class="fa-solid fa-ban mr-2"></i> CAPACIDAD AGOTADA';
+          if (hint) hint.textContent = "El evento alcanzó el cupo máximo. Gracias por el apoyo.";
+        } else {
+          btn.disabled = false;
+          btn.classList.add("btn-magenta");
+          btn.classList.remove("bg-red-900/40", "text-red-300", "cursor-not-allowed", "border", "border-red-500/30");
+          btn.textContent = "Comprar entradas";
+          if (hint) hint.textContent = "Transacción segura. Pago por transferencia.";
+          // Soft warning when 90%+
+          if (cupo > 0 && totalSold / cupo >= 0.9 && hint) {
+            const left = cupo - totalSold;
+            hint.innerHTML = `<span class="text-yellow-400 font-bold"><i class="fa-solid fa-fire"></i> Últimas ${left} entradas</span>`;
+            hint.classList.remove("hidden");
+          }
+        }
+      }
 
       renderEvent();
 

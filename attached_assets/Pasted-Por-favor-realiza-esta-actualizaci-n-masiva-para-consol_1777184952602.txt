@@ -1,0 +1,41 @@
+Por favor, realiza esta actualización masiva para consolidar el sistema. Necesito que el proyecto sea una herramienta profesional completa antes de exportarlo.
+
+1. Dashboard de Administración (admin.html) - Control Total:
+
+Configuración del Evento: Campos para editar Título, Fecha, Hora, Ubicación (Texto), Link de Google Maps y Público (ej: +16 con DNI).
+
+Gestión de RRPP: Panel para añadir/eliminar nombres de promotores. Debe generar automáticamente links con el formato ?ref=nombre.
+
+Métricas en Vivo: Widgets destacados que muestren: Total de ventas ($), Cantidad de tickets vendidos y "Personas en Local" (Check-in).
+
+Control de Stock: Campo para definir "Cupo Máximo" de personas.
+
+Exportación: Botón para descargar la base de datos de ventas en formato CSV.
+
+2. Sistema de Validación (scanner.html):
+
+Crea una página nueva protegida por login.
+
+Usa la cámara del móvil para escanear los QRs generados por la ticketera.
+
+Lógica de validación: Al escanear un DNI, debe buscar en la colección ventas de Firestore:
+
+Si el estado es "pendiente": Cambiar a "ingresado", mostrar pantalla VERDE y sonar un aviso de éxito.
+
+Si ya fue ingresado: Mostrar pantalla ROJA con aviso "TICKET YA UTILIZADO".
+
+Si no existe: Mostrar pantalla AMARILLA "NO ENCONTRADO".
+
+3. Inteligencia en la Web del Cliente (index.html):
+
+Sold Out Automático: Si las ventas alcanzan el "Cupo Máximo" definido en el Admin, el botón de compra debe desactivarse y mostrar "CAPACIDAD AGOTADA".
+
+Sincronización: Todos los textos y precios deben leerse en tiempo real de Firestore (onSnapshot).
+
+Seguridad en Pago: Mantener los datos de transferencia (Sergio Ismael Cepeda Ortiz) y el botón de envío de comprobante a WhatsApp.
+
+4. Estética y Cierre:
+
+Mantén el diseño oscuro con acentos magenta (#c2007e) y efecto glassmorphism.
+
+Una vez que termines de escribir todos los archivos, por favor explícame detalladamente cómo puedo exportar todo este proyecto en un archivo ZIP para tener mi respaldo local, ya que mi plan está por expirar.

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>Scanner · EGRESANTOS</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              magenta: '#c2007e',
+              'magenta-soft': '#ff2ea6',
+              ink: '#0a0a0a',
+            },
+            fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      .input-pro {
+        width: 100%;
+        border-radius: 0.85rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.95rem 1.1rem;
+        font-size: 1rem;
+        color: white;
+        transition: all 0.18s ease;
+      }
+      .input-pro::placeholder { color: rgba(255, 255, 255, 0.25); }
+      .input-pro:focus {
+        outline: none; border-color: #c2007e;
+        box-shadow: 0 0 0 3px rgba(194, 0, 126, 0.15);
+      }
+      #qr-reader { width: 100%; border-radius: 1rem; overflow: hidden; }
+      #qr-reader video { border-radius: 1rem; }
+      #qr-reader__scan_region { background: #000 !important; min-height: 280px; }
+      #qr-reader__dashboard_section_csr button {
+        background: #c2007e !important;
+        color: white !important;
+        border-radius: 0.85rem !important;
+        padding: 0.75rem 1.25rem !important;
+        font-weight: 700 !important;
+        border: none !important;
+        margin: 0.25rem !important;
+      }
+      #qr-reader__dashboard_section_swaplink { color: #ff2ea6 !important; }
+      #qr-reader select {
+        background: rgba(255,255,255,0.05) !important;
+        color: white !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        border-radius: 0.5rem !important;
+        padding: 0.4rem !important;
+      }
+      .result-flash {
+        animation: flash 0.4s ease;
+      }
+      @keyframes flash {
+        0% { transform: scale(0.95); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      .glass-soft {
+        background: rgba(20,20,20,0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.06);
+      }
+    </style>
+  </head>
+  <body class="bg-ink text-white font-sans antialiased min-h-screen overflow-x-hidden">
+    <div class="bg-radial-glow"></div>
+
+    <!-- LOGIN -->
+    <section id="login-view" class="relative z-10 min-h-screen grid place-items-center px-5">
+      <div class="w-full max-w-sm">
+        <div class="text-center mb-8">
+          <img src="/logo.png" alt="EGRESANTOS" class="h-10 mx-auto opacity-90" />
+          <p class="mt-4 text-[10px] tracking-[0.4em] uppercase text-white/40">Validación de tickets</p>
+        </div>
+
+        <div class="rounded-3xl glass-soft p-7">
+          <h1 class="text-3xl font-black italic tracking-tight mb-1">Scanner</h1>
+          <p class="text-xs text-white/50 mb-6">Acceso para personal en puerta</p>
+
+          <form id="login-form" class="space-y-3">
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Email</label>
+              <input id="login-email" type="email" required autocomplete="email" placeholder="puerta@egresantos.com" class="input-pro mt-1" />
+            </div>
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Contraseña</label>
+              <input id="login-password" type="password" required autocomplete="current-password" placeholder="••••••••" class="input-pro mt-1" />
+            </div>
+            <p id="login-error" class="hidden text-xs text-red-400 pt-1"></p>
+            <button id="login-btn" type="submit" class="w-full mt-3 rounded-2xl bg-magenta text-white font-black italic text-base py-4 tracking-tight hover:bg-magenta-soft active:scale-[0.99] transition shadow-[0_0_40px_-10px_rgba(194,0,126,0.6)]">
+              INGRESAR
+            </button>
+          </form>
+        </div>
+
+        <a href="/" class="block text-center mt-6 text-[10px] tracking-[0.3em] uppercase text-white/30 hover:text-magenta-soft transition">← volver al sitio</a>
+      </div>
+    </section>
+
+    <!-- SCANNER -->
+    <section id="scanner-view" class="hidden relative z-10 max-w-md mx-auto px-4 pt-5 pb-20">
+      <header class="flex items-center justify-between mb-5">
+        <div class="flex items-center gap-3">
+          <img src="/logo.png" alt="EGRESANTOS" class="h-7 w-auto opacity-90" />
+          <div>
+            <p class="text-[9px] tracking-[0.3em] uppercase text-white/40">Validación</p>
+            <p id="scanner-user" class="text-xs font-bold truncate max-w-[140px]">—</p>
+          </div>
+        </div>
+        <button id="logout-btn" class="text-[9px] tracking-[0.3em] uppercase text-white/50 hover:text-magenta-soft transition px-3 py-1.5 border border-white/10 rounded-full">salir</button>
+      </header>
+
+      <!-- LIVE COUNTER -->
+      <div class="grid grid-cols-3 gap-2 mb-5">
+        <div class="rounded-2xl glass-soft p-3 text-center">
+          <p class="text-[8px] tracking-[0.2em] uppercase text-white/50">En local</p>
+          <p id="cnt-in" class="text-2xl font-black italic text-emerald-400">0</p>
+        </div>
+        <div class="rounded-2xl glass-soft p-3 text-center">
+          <p class="text-[8px] tracking-[0.2em] uppercase text-white/50">Vendidas</p>
+          <p id="cnt-sold" class="text-2xl font-black italic">0</p>
+        </div>
+        <div class="rounded-2xl glass-soft p-3 text-center">
+          <p class="text-[8px] tracking-[0.2em] uppercase text-white/50">Cupo</p>
+          <p id="cnt-cap" class="text-2xl font-black italic text-magenta-soft">—</p>
+        </div>
+      </div>
+
+      <!-- CAMERA -->
+      <div class="rounded-3xl glass-soft p-3 mb-4">
+        <div id="qr-reader"></div>
+        <p class="text-center text-[10px] text-white/40 mt-2 px-2">Apuntá al código de barras del DNI o un QR. Pedí permiso de cámara si te lo solicita el navegador.</p>
+      </div>
+
+      <!-- MANUAL -->
+      <form id="manual-form" class="rounded-3xl glass-soft p-4 mb-4">
+        <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Buscar manualmente por DNI</label>
+        <div class="flex gap-2 mt-2">
+          <input id="manual-dni" type="tel" inputmode="numeric" placeholder="40123456" class="input-pro flex-1" />
+          <button type="submit" class="rounded-2xl bg-magenta hover:bg-magenta-soft text-white font-bold px-5 transition active:scale-[0.99]">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </button>
+        </div>
+      </form>
+
+      <p class="text-[10px] text-center text-white/30 tracking-wider">Cada ticket se valida una sola vez. Sonido obligatorio.</p>
+    </section>
+
+    <!-- RESULT MODAL -->
+    <div id="result-modal" class="hidden fixed inset-0 z-[80] flex items-center justify-center px-4 backdrop-blur-md">
+      <div id="result-card" class="result-flash max-w-sm w-full rounded-3xl p-7 text-center border-2 shadow-2xl">
+        <div id="result-icon" class="mx-auto w-20 h-20 rounded-full flex items-center justify-center mb-5 text-5xl"></div>
+        <h2 id="result-title" class="text-3xl font-black italic tracking-tight mb-2"></h2>
+        <p id="result-subtitle" class="text-sm opacity-90 mb-1"></p>
+        <p id="result-detail" class="text-xs opacity-70 mb-6 font-mono"></p>
+        <button id="result-close" class="w-full rounded-2xl bg-white/10 hover:bg-white/20 text-white font-bold py-4 transition active:scale-[0.99]">
+          CONTINUAR
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[90] hidden rounded-2xl bg-[#141414] border border-magenta/40 px-5 py-3 text-sm shadow-2xl"></div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+      import { getFirestore, doc, collection, query, where, getDocs, updateDoc, onSnapshot, orderBy } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
+        authDomain: "egresantos-nights.firebaseapp.com",
+        projectId: "egresantos-nights",
+        storageBucket: "egresantos-nights.firebasestorage.app",
+        messagingSenderId: "992418363007",
+        appId: "1:992418363007:web:e60cb64e260090b92ab14a"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+      const $ = (id) => document.getElementById(id);
+
+      let html5QrCode = null;
+      let busy = false;
+      let lastScan = "";
+      let lastScanAt = 0;
+      let unsubscribers = [];
+      let cupoMaximo = 0;
+
+      function showToast(msg, isError = false) {
+        const t = $("toast");
+        t.textContent = msg;
+        t.classList.remove("hidden");
+        t.classList.toggle("border-red-500/60", isError);
+        t.classList.toggle("border-magenta/40", !isError);
+        setTimeout(() => t.classList.add("hidden"), 2500);
+      }
+
+      // ===== Sounds (Web Audio) =====
+      let audioCtx = null;
+      function ensureAudio() {
+        if (!audioCtx) {
+          try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+          catch (e) {}
+        }
+      }
+      function beep(freq, durationMs, type = "sine", gainVal = 0.15) {
+        ensureAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.value = freq;
+        osc.type = type;
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + durationMs / 1000);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + durationMs / 1000);
+      }
+      function soundSuccess() { beep(880, 120, "sine"); setTimeout(() => beep(1320, 180, "sine"), 130); }
+      function soundError()   { beep(220, 350, "square", 0.18); }
+      function soundWarn()    { beep(440, 200, "triangle", 0.18); setTimeout(() => beep(440, 200, "triangle", 0.18), 220); }
+
+      // ===== Auth =====
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          $("login-view").classList.add("hidden");
+          $("scanner-view").classList.remove("hidden");
+          $("scanner-user").textContent = user.email;
+          startCamera();
+          startStats();
+        } else {
+          $("scanner-view").classList.add("hidden");
+          $("login-view").classList.remove("hidden");
+          stopCamera();
+          stopStats();
+        }
+      });
+
+      $("login-form").addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        const err = $("login-error");
+        err.classList.add("hidden");
+        const btn = $("login-btn");
+        btn.disabled = true;
+        btn.textContent = "INGRESANDO...";
+        try {
+          await signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value);
+        } catch (e) {
+          let msg = "Email o contraseña incorrectos.";
+          if (e?.code === "auth/too-many-requests") msg = "Demasiados intentos. Probá más tarde.";
+          else if (e?.code === "auth/network-request-failed") msg = "Sin conexión. Revisá internet.";
+          err.textContent = msg;
+          err.classList.remove("hidden");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "INGRESAR";
+        }
+      });
+
+      $("logout-btn").addEventListener("click", () => signOut(auth));
+
+      // ===== Live stats =====
+      function startStats() {
+        stopStats();
+        unsubscribers.push(onSnapshot(doc(db, "config", "event"), (snap) => {
+          const d = snap.exists() ? snap.data() : {};
+          cupoMaximo = Number(d.cupoMaximo || 0);
+          $("cnt-cap").textContent = cupoMaximo > 0 ? cupoMaximo : "—";
+        }));
+        unsubscribers.push(onSnapshot(query(collection(db, "ventas"), orderBy("createdAt", "desc")), (snap) => {
+          let inLocal = 0, sold = 0;
+          snap.forEach(d => {
+            const v = d.data();
+            const cant = Number(v.cantidad || 0);
+            sold += cant;
+            if ((v.estado || "").toLowerCase() === "ingresado") inLocal += cant;
+          });
+          $("cnt-in").textContent = inLocal;
+          $("cnt-sold").textContent = sold;
+        }));
+      }
+      function stopStats() {
+        unsubscribers.forEach(u => { try { u(); } catch (e) {} });
+        unsubscribers = [];
+      }
+
+      // ===== Camera scanner =====
+      async function startCamera() {
+        if (html5QrCode) return;
+        try {
+          html5QrCode = new Html5Qrcode("qr-reader");
+          const cams = await Html5Qrcode.getCameras();
+          if (!cams || cams.length === 0) {
+            $("qr-reader").innerHTML = `<div class="p-6 text-center text-white/50 text-sm"><i class="fa-solid fa-camera-slash text-2xl mb-2"></i><br>No se detectó cámara. Usá la búsqueda manual abajo.</div>`;
+            return;
+          }
+          const back = cams.find(c => /back|rear|environment/i.test(c.label)) || cams[cams.length - 1];
+          await html5QrCode.start(
+            back.id,
+            { fps: 10, qrbox: { width: 260, height: 260 }, aspectRatio: 1.333 },
+            onScanSuccess,
+            () => {} // ignore per-frame errors
+          );
+        } catch (e) {
+          console.error(e);
+          $("qr-reader").innerHTML = `<div class="p-6 text-center text-white/50 text-sm"><i class="fa-solid fa-triangle-exclamation text-2xl mb-2 text-yellow-400"></i><br>${e.message || "Permiso de cámara denegado"}<br><span class="text-[10px] text-white/40">Usá la búsqueda manual abajo.</span></div>`;
+        }
+      }
+      async function stopCamera() {
+        if (!html5QrCode) return;
+        try { await html5QrCode.stop(); } catch (e) {}
+        try { html5QrCode.clear(); } catch (e) {}
+        html5QrCode = null;
+      }
+
+      function onScanSuccess(decodedText) {
+        if (busy) return;
+        // Debounce duplicate scans within 2s
+        const now = Date.now();
+        if (decodedText === lastScan && now - lastScanAt < 2000) return;
+        lastScan = decodedText;
+        lastScanAt = now;
+        const dni = extractDni(decodedText);
+        if (!dni) {
+          showToast("Código sin DNI válido", true);
+          soundWarn();
+          return;
+        }
+        validateDni(dni);
+      }
+
+      function extractDni(raw) {
+        if (!raw) return null;
+        const txt = String(raw).trim();
+        // Argentine DNI PDF417 format: fields separated by @ — DNI is field index 4
+        if (txt.includes("@")) {
+          const parts = txt.split("@").map(p => p.trim());
+          for (const p of parts) {
+            if (/^\d{7,9}$/.test(p)) return p;
+          }
+        }
+        // Plain digits
+        if (/^\d{7,9}$/.test(txt)) return txt;
+        // Extract longest digit run
+        const m = txt.match(/\d{7,9}/);
+        return m ? m[0] : null;
+      }
+
+      // ===== Manual lookup =====
+      $("manual-form").addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        const dni = $("manual-dni").value.trim();
+        if (!/^\d{7,9}$/.test(dni)) return showToast("DNI inválido (7-9 dígitos)", true);
+        validateDni(dni);
+      });
+
+      // ===== Validation logic =====
+      async function validateDni(dni) {
+        if (busy) return;
+        busy = true;
+        ensureAudio();
+        try {
+          const q = query(collection(db, "ventas"), where("dni", "==", dni));
+          const snap = await getDocs(q);
+          if (snap.empty) {
+            soundWarn();
+            return showResult({
+              status: "notfound",
+              title: "NO ENCONTRADO",
+              subtitle: "No hay ventas registradas con este DNI",
+              detail: `DNI: ${dni}`,
+            });
+          }
+
+          // Pick the most relevant: prefer one not yet ingresado
+          const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+          const pendiente = docs.find(d => (d.estado || "").toLowerCase() !== "ingresado");
+          const target = pendiente || docs[0];
+
+          if ((target.estado || "").toLowerCase() === "ingresado") {
+            soundError();
+            return showResult({
+              status: "used",
+              title: "YA INGRESÓ",
+              subtitle: target.nombre || "—",
+              detail: `DNI: ${dni} · ${target.cantidad || 1} tix`,
+            });
+          }
+
+          // Mark as ingresado
+          await updateDoc(doc(db, "ventas", target.id), {
+            estado: "ingresado",
+            ingresadoAt: new Date().toISOString(),
+          });
+          soundSuccess();
+          showResult({
+            status: "ok",
+            title: "BIENVENIDO",
+            subtitle: target.nombre || "—",
+            detail: `${target.cantidad || 1} tix · ${target.tipo || ""}`,
+          });
+        } catch (e) {
+          console.error(e);
+          soundError();
+          showResult({
+            status: "error",
+            title: "ERROR",
+            subtitle: "No se pudo validar",
+            detail: e.message || "",
+          });
+        } finally {
+          $("manual-dni").value = "";
+        }
+      }
+
+      function showResult({ status, title, subtitle, detail }) {
+        const card = $("result-card");
+        const icon = $("result-icon");
+        const palette = {
+          ok:       { bg: "#052e1a", border: "#22c55e", text: "#86efac", iconBg: "#22c55e", iconColor: "#052e1a", iconCls: "fa-check" },
+          used:     { bg: "#3a0a14", border: "#ef4444", text: "#fca5a5", iconBg: "#ef4444", iconColor: "#3a0a14", iconCls: "fa-ban" },
+          notfound: { bg: "#3a2a05", border: "#facc15", text: "#fde68a", iconBg: "#facc15", iconColor: "#3a2a05", iconCls: "fa-circle-question" },
+          error:    { bg: "#1f1f1f", border: "#666", text: "#aaa", iconBg: "#666", iconColor: "#fff", iconCls: "fa-triangle-exclamation" },
+        }[status];
+
+        card.style.background = palette.bg;
+        card.style.borderColor = palette.border;
+        card.style.color = palette.text;
+        icon.style.background = palette.iconBg;
+        icon.style.color = palette.iconColor;
+        icon.innerHTML = `<i class="fa-solid ${palette.iconCls}"></i>`;
+        $("result-title").textContent = title;
+        $("result-subtitle").textContent = subtitle || "";
+        $("result-detail").textContent = detail || "";
+        $("result-modal").classList.remove("hidden");
+        // Re-flash animation
+        card.classList.remove("result-flash");
+        void card.offsetWidth;
+        card.classList.add("result-flash");
+      }
+
+      $("result-close").addEventListener("click", () => {
+        $("result-modal").classList.add("hidden");
+        busy = false;
+      });
+
+      // Close on backdrop click
+      $("result-modal").addEventListener("click", (e) => {
+        if (e.target === $("result-modal")) {
+          $("result-modal").classList.add("hidden");
+          busy = false;
+        }
+      });
+    </script>
+  </body>
+</html>
