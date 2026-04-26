@@ -87,7 +87,7 @@
               <i class="fa-solid fa-id-card text-magenta-soft mt-1"></i>
               <div>
                 <h4 class="font-bold text-gray-200">Público</h4>
-                <p class="text-gray-400">Mayores de 16 años con DNI en mano</p>
+                <p id="event-publico" class="text-gray-400">Mayores de 16 años con DNI en mano</p>
               </div>
             </div>
           </div>
@@ -111,9 +111,14 @@
 
         <!-- Map -->
         <div class="card-dark p-6 md:p-8">
-          <h3 class="text-xl font-bold mb-4">Ver ubicación en el mapa</h3>
+          <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
+            <h3 class="text-xl font-bold">Ver ubicación en el mapa</h3>
+            <a id="event-maps-link" href="#" target="_blank" rel="noopener" class="hidden text-xs text-magenta-soft hover:text-magenta transition font-semibold">
+              <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Abrir en Maps
+            </a>
+          </div>
           <div class="w-full h-56 md:h-64 rounded-xl overflow-hidden">
-            <iframe
+            <iframe id="event-map-iframe"
               src="https://www.google.com/maps?q=San+Miguel+entre+6+y+7,+Pocito,+San+Juan,+Argentina&output=embed"
               width="100%" height="100%" style="border:0;"
               allowfullscreen="" loading="lazy"
@@ -326,6 +331,18 @@
         return "$" + Number(n).toLocaleString("es-AR");
       }
 
+      function buildDateLabel(dateStr, timeStr) {
+        if (!dateStr) return "";
+        try {
+          const [y, m, d] = dateStr.split("-").map(Number);
+          const date = new Date(y, m - 1, d);
+          const dias = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+          const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+          const label = `${dias[date.getDay()]} ${date.getDate()} de ${meses[date.getMonth()]}`;
+          return timeStr ? `${label} — ${timeStr} hs` : label;
+        } catch (err) { return dateStr; }
+      }
+
       function renderEvent() {
         const e = state.event;
         if (e.title) {
@@ -336,8 +353,29 @@
         const banner = $("event-banner");
         if (e.bannerUrl && banner.src !== e.bannerUrl) banner.src = e.bannerUrl;
         if (e.organizer) $("event-organizer").textContent = e.organizer;
-        if (e.date) $("event-date").textContent = e.date;
+
+        // Date: prefer structured eventDate+eventTime, fallback to legacy `date` text
+        const dateLabel = e.eventDate ? buildDateLabel(e.eventDate, e.eventTime) : (e.date || "");
+        if (dateLabel) $("event-date").textContent = dateLabel;
+
         if (e.location) $("event-location").textContent = e.location;
+        if (e.publico) $("event-publico").textContent = e.publico;
+
+        // Map: use custom googleMapsUrl if provided, otherwise build from location
+        const mapsLink = $("event-maps-link");
+        const mapIframe = $("event-map-iframe");
+        if (e.googleMapsUrl) {
+          mapsLink.href = e.googleMapsUrl;
+          mapsLink.classList.remove("hidden");
+          // Try to embed the same URL; if it's a /maps/place link Google will render it
+          mapIframe.src = e.googleMapsUrl.includes("output=embed") ? e.googleMapsUrl : `${e.googleMapsUrl}${e.googleMapsUrl.includes("?") ? "&" : "?"}output=embed`;
+        } else if (e.location) {
+          const q = encodeURIComponent(e.location);
+          mapIframe.src = `https://www.google.com/maps?q=${q}&output=embed`;
+          mapsLink.href = `https://www.google.com/maps?q=${q}`;
+          mapsLink.classList.remove("hidden");
+        }
+
         if (e.description) {
           $("event-description").innerHTML = e.description
             .split(/\n+/)
