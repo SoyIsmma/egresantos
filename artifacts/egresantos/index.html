@@ -59,8 +59,8 @@
       <div class="lg:col-span-8 space-y-6">
         <!-- Banner -->
         <div class="w-full h-56 md:h-[22rem] bg-[#2a2a2a] rounded-2xl overflow-hidden relative">
-          <img src="/banner.png" alt="Banner Evento" class="w-full h-full object-cover opacity-85" />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent"></div>
+          <img id="event-banner" src="/banner.png" alt="Banner Evento" class="w-full h-full object-cover opacity-85" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent pointer-events-none"></div>
         </div>
 
         <!-- Title card -->
@@ -332,6 +332,9 @@
           $("event-title").textContent = e.title;
           document.title = e.title;
         }
+        // Banner: Base64 data URI from admin upload, or external URL, fallback to /banner.png
+        const banner = $("event-banner");
+        if (e.bannerUrl && banner.src !== e.bannerUrl) banner.src = e.bannerUrl;
         if (e.organizer) $("event-organizer").textContent = e.organizer;
         if (e.date) $("event-date").textContent = e.date;
         if (e.location) $("event-location").textContent = e.location;

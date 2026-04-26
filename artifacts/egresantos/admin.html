@@ -108,6 +108,29 @@
             <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Organizadores</label>
             <input id="ev-organizer" type="text" placeholder="Organiza: EGRESANTOS &amp; ISMMA PRODUCCIONES" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
           </div>
+
+          <div>
+            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Banner del evento</label>
+            <div class="mt-1 flex items-center gap-3">
+              <div id="ev-img-preview-wrap" class="h-20 w-32 flex-shrink-0 rounded-2xl overflow-hidden border border-white/10 bg-white/[0.03] flex items-center justify-center">
+                <img id="ev-img-preview" alt="Preview" class="hidden h-full w-full object-cover" />
+                <i id="ev-img-icon" class="fa-regular fa-image text-2xl text-white/20"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <label for="ev-img-file" class="cursor-pointer block w-full rounded-2xl border border-dashed border-white/15 bg-white/[0.03] hover:border-magenta hover:bg-magenta/5 px-4 py-3 text-center text-sm font-semibold text-white/70 hover:text-white transition">
+                  <i class="fa-solid fa-cloud-arrow-up mr-2 text-magenta-soft"></i>
+                  <span id="ev-img-label">Elegir imagen</span>
+                </label>
+                <input id="ev-img-file" type="file" accept="image/png, image/jpeg, image/webp" class="hidden" />
+                <div class="flex items-center justify-between mt-2 px-1">
+                  <p class="text-[10px] text-white/40">Recomendado: JPG/PNG de 1280×700px (máx 700 KB)</p>
+                  <button id="ev-img-clear" type="button" class="hidden text-[10px] text-white/40 hover:text-red-400 transition">
+                    <i class="fa-solid fa-xmark mr-1"></i>Quitar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Fecha y hora</label>
@@ -305,6 +328,15 @@
           $("ev-cvu").value = data.cvu ?? "0000177500094392422010";
           $("ev-whatsapp").value = data.whatsapp ?? "5492646279449";
           $("ev-instagram").value = data.instagram ?? "https://instagram.com/egresantos";
+
+          // Banner preview from existing bannerUrl (Base64 data URI or external URL)
+          if (data.bannerUrl) {
+            currentBannerData = data.bannerUrl;
+            renderBannerPreview(data.bannerUrl);
+          } else if (!pendingBannerData) {
+            currentBannerData = "";
+            renderBannerPreview("");
+          }
         }));
 
         // Sales snapshot
@@ -379,6 +411,57 @@
         });
       }
 
+      // ===== Banner upload (file → Base64) =====
+      let currentBannerData = "";   // value coming from Firestore
+      let pendingBannerData = "";   // value chosen locally, not yet saved
+
+      function renderBannerPreview(src) {
+        const img = $("ev-img-preview");
+        const icon = $("ev-img-icon");
+        const clearBtn = $("ev-img-clear");
+        if (src) {
+          img.src = src;
+          img.classList.remove("hidden");
+          icon.classList.add("hidden");
+          clearBtn.classList.remove("hidden");
+        } else {
+          img.removeAttribute("src");
+          img.classList.add("hidden");
+          icon.classList.remove("hidden");
+          clearBtn.classList.add("hidden");
+          $("ev-img-label").textContent = "Elegir imagen";
+        }
+      }
+
+      $("ev-img-file").addEventListener("change", (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Hard cap at 700 KB to stay safely under Firestore's 1 MB doc limit
+        const MAX_BYTES = 700 * 1024;
+        if (file.size > MAX_BYTES) {
+          showToast(`Imagen demasiado grande (${(file.size / 1024).toFixed(0)} KB). Máx 700 KB.`, true);
+          e.target.value = "";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          pendingBannerData = String(reader.result);
+          $("ev-img-label").textContent = file.name.length > 22 ? file.name.slice(0, 22) + "…" : file.name;
+          renderBannerPreview(pendingBannerData);
+        };
+        reader.onerror = () => showToast("No se pudo leer el archivo", true);
+        reader.readAsDataURL(file);
+      });
+
+      $("ev-img-clear").addEventListener("click", () => {
+        pendingBannerData = "__CLEAR__";
+        currentBannerData = "";
+        $("ev-img-file").value = "";
+        renderBannerPreview("");
+      });
+
       // ===== Save event config =====
       $("event-form").addEventListener("submit", async (ev) => {
         ev.preventDefault();
@@ -386,7 +469,7 @@
         btn.disabled = true;
         btn.textContent = "GUARDANDO...";
         try {
-          await setDoc(doc(db, "config", "event"), {
+          const payload = {
             title: $("ev-title").value.trim(),
             organizer: $("ev-organizer").value.trim(),
             date: $("ev-date").value.trim(),
@@ -400,7 +483,23 @@
             whatsapp: $("ev-whatsapp").value.replace(/\D/g, ""),
             instagram: $("ev-instagram").value.trim(),
             updatedAt: new Date().toISOString(),
-          }, { merge: true });
+          };
+
+          // Banner: only write the field if there's a pending change
+          if (pendingBannerData === "__CLEAR__") {
+            payload.bannerUrl = "";
+          } else if (pendingBannerData) {
+            payload.bannerUrl = pendingBannerData;
+          }
+
+          await setDoc(doc(db, "config", "event"), payload, { merge: true });
+
+          // Reset pending after successful save
+          if (pendingBannerData) {
+            currentBannerData = payload.bannerUrl ?? currentBannerData;
+            pendingBannerData = "";
+            $("ev-img-file").value = "";
+          }
           showToast("Cambios guardados");
         } catch (e) {
           console.error(e);
