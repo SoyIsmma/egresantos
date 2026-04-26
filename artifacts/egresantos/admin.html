@@ -105,8 +105,22 @@
             <input id="ev-title" type="text" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
           </div>
           <div>
+            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Organizadores</label>
+            <input id="ev-organizer" type="text" placeholder="Organiza: EGRESANTOS &amp; ISMMA PRODUCCIONES" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Fecha y hora</label>
+              <input id="ev-date" type="text" placeholder="Jueves 11 de diciembre — 23:00 hs" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Ubicación</label>
+              <input id="ev-location" type="text" placeholder="San Miguel entre 6 y 7, Pocito" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+          </div>
+          <div>
             <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Descripción</label>
-            <textarea id="ev-description" rows="3" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition resize-none"></textarea>
+            <textarea id="ev-description" rows="4" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition resize-none"></textarea>
           </div>
           <div class="grid grid-cols-2 gap-3">
             <div>
@@ -118,12 +132,40 @@
               <input id="ev-price-vip" type="number" min="0" step="100" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
             </div>
           </div>
-          <div>
-            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">WhatsApp (con código país, sin +)</label>
-            <input id="ev-whatsapp" type="tel" placeholder="5492645000000" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+
+          <div class="pt-4 mt-4 border-t border-white/5">
+            <p class="text-xs text-magenta-soft tracking-wide uppercase mb-3 font-bold">Datos de pago (transferencia)</p>
+
+            <div class="space-y-3">
+              <div>
+                <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Titular de la cuenta</label>
+                <input id="ev-titular" type="text" placeholder="SERGIO ISMAEL CEPEDA ORTIZ" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Alias</label>
+                  <input id="ev-alias" type="text" placeholder="egresantos" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+                </div>
+                <div>
+                  <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">CVU / CBU</label>
+                  <input id="ev-cvu" type="text" placeholder="0000177500094392422010" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base font-mono focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+                </div>
+              </div>
+            </div>
           </div>
 
-          <button id="save-event-btn" type="submit" class="w-full mt-3 rounded-3xl bg-magenta text-white font-black italic text-base py-4 tracking-tight hover:bg-magenta-soft active:scale-[0.99] transition shadow-[0_0_40px_-10px_rgba(194,0,126,0.6)]">
+          <div class="pt-4 mt-4 border-t border-white/5 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">WhatsApp (sin +)</label>
+              <input id="ev-whatsapp" type="tel" placeholder="5492646279449" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Instagram</label>
+              <input id="ev-instagram" type="url" placeholder="https://instagram.com/egresantos" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+          </div>
+
+          <button id="save-event-btn" type="submit" class="w-full mt-5 rounded-3xl bg-magenta text-white font-black italic text-base py-4 tracking-tight hover:bg-magenta-soft active:scale-[0.99] transition shadow-[0_0_40px_-10px_rgba(194,0,126,0.6)]">
             GUARDAR CAMBIOS
           </button>
         </form>
@@ -251,11 +293,18 @@
         const eventRef = doc(db, "config", "event");
         unsubscribers.push(onSnapshot(eventRef, (snap) => {
           const data = snap.exists() ? snap.data() : {};
-          $("ev-title").value = data.title ?? "EGRESANTOS — Último Último Día";
+          $("ev-title").value = data.title ?? "Egresantos U.U.D - Capital San Juan";
+          $("ev-organizer").value = data.organizer ?? "Organiza: EGRESANTOS & ISMMA PRODUCCIONES";
+          $("ev-date").value = data.date ?? "Jueves 11 de diciembre — 23:00 hs";
+          $("ev-location").value = data.location ?? "San Miguel entre 6 y 7, Pocito, San Juan";
           $("ev-description").value = data.description ?? "Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.";
-          $("ev-price-general").value = data.priceGeneral ?? 0;
-          $("ev-price-vip").value = data.priceVIP ?? 0;
-          $("ev-whatsapp").value = data.whatsapp ?? "";
+          $("ev-price-general").value = data.priceGeneral ?? 6000;
+          $("ev-price-vip").value = data.priceVIP ?? 12000;
+          $("ev-titular").value = data.titular ?? "SERGIO ISMAEL CEPEDA ORTIZ";
+          $("ev-alias").value = data.alias ?? "egresantos";
+          $("ev-cvu").value = data.cvu ?? "0000177500094392422010";
+          $("ev-whatsapp").value = data.whatsapp ?? "5492646279449";
+          $("ev-instagram").value = data.instagram ?? "https://instagram.com/egresantos";
         }));
 
         // Sales snapshot
@@ -339,10 +388,17 @@
         try {
           await setDoc(doc(db, "config", "event"), {
             title: $("ev-title").value.trim(),
+            organizer: $("ev-organizer").value.trim(),
+            date: $("ev-date").value.trim(),
+            location: $("ev-location").value.trim(),
             description: $("ev-description").value.trim(),
             priceGeneral: Number($("ev-price-general").value) || 0,
             priceVIP: Number($("ev-price-vip").value) || 0,
+            titular: $("ev-titular").value.trim(),
+            alias: $("ev-alias").value.trim(),
+            cvu: $("ev-cvu").value.replace(/\s/g, ""),
             whatsapp: $("ev-whatsapp").value.replace(/\D/g, ""),
+            instagram: $("ev-instagram").value.trim(),
             updatedAt: new Date().toISOString(),
           }, { merge: true });
           showToast("Cambios guardados");

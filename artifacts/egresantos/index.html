@@ -3,18 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#050505" />
-    <title>EGRESANTOS — Último Último Día</title>
-    <meta name="description" content="EGRESANTOS — Último Último Día. Una noche donde las reglas se rompen. 11 de Diciembre. San Miguel, Pocito, San Juan." />
+    <meta name="theme-color" content="#1a1a1a" />
+    <title>Egresantos | Edición U.U.D</title>
+    <meta name="description" content="EGRESANTOS — Último Último Día. La verdadera fiesta de fin de año de San Juan. 11 de Diciembre." />
     <meta property="og:title" content="EGRESANTOS — Último Último Día" />
-    <meta property="og:description" content="Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada." />
+    <meta property="og:description" content="La verdadera fiesta de fin de año de San Juan. Capacidad limitada." />
     <meta property="og:image" content="/banner.png" />
-    <meta property="og:type" content="website" />
     <link rel="icon" type="image/png" href="/logo.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -22,164 +20,254 @@
             colors: {
               magenta: '#c2007e',
               'magenta-soft': '#ff2ea6',
-              ink: '#050505',
-              card: '#1a1a1a',
             },
-            fontFamily: {
-              sans: ['Inter', 'system-ui', 'sans-serif'],
-            },
-            borderRadius: {
-              '4xl': '2rem',
-            },
+            fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
           },
         },
       };
     </script>
     <link rel="stylesheet" href="/style.css" />
   </head>
-  <body class="bg-ink text-white font-sans antialiased min-h-screen overflow-x-hidden">
+  <body class="min-h-screen pb-32 lg:pb-10 relative bg-[#1a1a1a] text-white">
     <!-- Background gradient layers -->
     <div class="bg-radial-glow"></div>
-    <div class="bg-grain"></div>
 
-    <main class="relative z-10 max-w-2xl mx-auto px-5 pt-8 pb-20 md:pt-14">
-      <!-- Header -->
-      <header class="flex items-center justify-between mb-8">
-        <img src="/logo.png" alt="EGRESANTOS" class="h-10 w-auto opacity-90" />
-        <span class="text-[10px] tracking-[0.3em] uppercase text-white/50">SAN JUAN · 2026</span>
-      </header>
-
-      <!-- Hero / Banner -->
-      <section class="relative overflow-hidden rounded-4xl glass mb-6">
-        <img src="/banner.png" alt="EGRESANTOS Banner" class="w-full aspect-[16/10] object-cover opacity-80" />
-        <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent"></div>
-        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-          <p class="text-[10px] tracking-[0.4em] uppercase text-magenta-soft mb-3">Egresantos presenta</p>
-          <h1 id="event-title" class="text-4xl md:text-6xl font-black italic leading-[0.9] tracking-tight">
-            EGRESANTOS<br/><span class="text-magenta-soft">— Último Último Día</span>
-          </h1>
+    <!-- NAV -->
+    <nav class="w-full bg-[#141414] border-b border-white/5 py-3 px-4 md:px-6 flex justify-between items-center sticky top-0 z-40">
+      <div class="flex items-center gap-6">
+        <img src="/logo.png" alt="Logo" class="h-8 w-auto" />
+        <div class="hidden md:flex gap-5 text-xs font-semibold text-gray-300">
+          <a href="#" class="hover:text-white transition">Home</a>
+          <a id="nav-instagram" href="https://instagram.com/egresantos" target="_blank" rel="noopener" class="hover:text-white transition">Instagram</a>
+          <a id="nav-help" href="https://wa.me/5492646279449" target="_blank" rel="noopener" class="hover:text-white transition">Ayuda</a>
         </div>
-      </section>
-
-      <!-- Description -->
-      <section class="rounded-4xl glass p-6 md:p-8 mb-6">
-        <p id="event-description" class="text-lg md:text-xl leading-relaxed text-white/85 italic font-light">
-          Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.
-        </p>
-      </section>
-
-      <!-- Event meta -->
-      <section class="grid grid-cols-2 gap-3 mb-6">
-        <div class="rounded-3xl glass p-5">
-          <p class="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-2">Fecha</p>
-          <p class="text-2xl font-black italic tracking-tight">11 DIC</p>
-          <p class="text-xs text-white/60 mt-1">22:00 hs</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-xs border border-white/10">
+          <i class="fa-solid fa-moon text-magenta-soft"></i>
         </div>
-        <div class="rounded-3xl glass p-5">
-          <p class="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-2">Ubicación</p>
-          <p class="text-sm font-bold leading-tight">San Miguel<br/>Entre 6 y 7</p>
-          <p class="text-xs text-white/60 mt-1">Pocito · San Juan</p>
+        <div class="bg-[#2a2a2a] rounded-full px-4 py-1.5 flex items-center gap-2 border border-white/10 text-xs font-semibold">
+          <span id="rrpp-name" class="hidden md:inline">VENTA DIRECTA</span>
+          <i class="fa-solid fa-user-circle text-gray-400 text-lg"></i>
         </div>
-      </section>
+      </div>
+    </nav>
 
-      <!-- Map -->
-      <section class="rounded-4xl glass overflow-hidden mb-6">
-        <iframe
-          src="https://www.google.com/maps?q=San+Miguel+entre+6+y+7,+Pocito,+San+Juan,+Argentina&output=embed"
-          class="w-full h-56 md:h-64 grayscale-[30%] contrast-125"
-          style="border:0; filter: invert(0.92) hue-rotate(180deg);"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </section>
+    <!-- MAIN -->
+    <main class="max-w-7xl mx-auto px-4 mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+      <!-- LEFT COLUMN -->
+      <div class="lg:col-span-8 space-y-6">
+        <!-- Banner -->
+        <div class="w-full h-56 md:h-[22rem] bg-[#2a2a2a] rounded-2xl overflow-hidden relative">
+          <img src="/banner.png" alt="Banner Evento" class="w-full h-full object-cover opacity-85" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent"></div>
+        </div>
 
-      <!-- Ticket selector -->
-      <section class="rounded-4xl glass p-6 md:p-8 mb-6">
-        <h2 class="text-2xl font-black italic tracking-tight mb-1">Conseguí tu entrada</h2>
-        <p class="text-xs text-white/50 mb-6 tracking-wide uppercase">Capacidad limitada · No se reembolsa</p>
+        <!-- Title card -->
+        <div class="card-dark p-6 md:p-8">
+          <h1 id="event-title" class="text-3xl md:text-4xl font-black mb-2 tracking-tight italic">Egresantos U.U.D - Capital San Juan</h1>
+          <p id="event-organizer" class="text-sm text-gray-400 mb-6 font-semibold">Organiza: EGRESANTOS &amp; ISMMA PRODUCCIONES</p>
 
-        <div class="space-y-3">
-          <button type="button" data-ticket="general" class="ticket-card group w-full text-left rounded-3xl border border-white/10 bg-white/[0.02] p-5 transition-all hover:border-magenta hover:bg-white/[0.04]">
-            <div class="flex justify-between items-start gap-4">
+          <div class="space-y-4 text-sm">
+            <div class="flex gap-3">
+              <i class="fa-solid fa-calendar-day text-magenta-soft mt-1"></i>
               <div>
-                <p class="text-[10px] tracking-[0.3em] uppercase text-white/50">Entrada</p>
-                <p class="text-2xl font-black italic tracking-tight">GENERAL</p>
-                <p class="text-xs text-white/60 mt-1">Acceso a la pista principal</p>
-              </div>
-              <div class="text-right">
-                <p class="text-[10px] tracking-[0.3em] uppercase text-white/40">ARS</p>
-                <p class="text-2xl font-black italic" data-price="general">—</p>
+                <h4 class="font-bold text-gray-200">Fecha y hora</h4>
+                <p id="event-date" class="text-gray-400">Jueves 11 de diciembre — 23:00 hs</p>
               </div>
             </div>
-          </button>
-
-          <button type="button" data-ticket="vip" class="ticket-card group w-full text-left rounded-3xl border border-magenta/40 bg-gradient-to-br from-magenta/10 to-transparent p-5 transition-all hover:border-magenta hover:from-magenta/20">
-            <div class="flex justify-between items-start gap-4">
+            <div class="flex gap-3">
+              <i class="fa-solid fa-location-dot text-magenta-soft mt-1"></i>
               <div>
-                <p class="text-[10px] tracking-[0.3em] uppercase text-magenta-soft">Premium</p>
-                <p class="text-2xl font-black italic tracking-tight">VIP</p>
-                <p class="text-xs text-white/70 mt-1">Acceso preferencial + zona exclusiva</p>
-              </div>
-              <div class="text-right">
-                <p class="text-[10px] tracking-[0.3em] uppercase text-white/40">ARS</p>
-                <p class="text-2xl font-black italic text-magenta-soft" data-price="vip">—</p>
+                <h4 class="font-bold text-gray-200">Ubicación</h4>
+                <p id="event-location" class="text-gray-400">San Miguel entre 6 y 7, Pocito, San Juan</p>
               </div>
             </div>
-          </button>
-        </div>
-
-        <!-- Quantity stepper -->
-        <div class="mt-6 flex items-center justify-between rounded-3xl border border-white/10 bg-white/[0.02] p-3 pl-5">
-          <div>
-            <p class="text-[10px] tracking-[0.3em] uppercase text-white/50">Cantidad</p>
-            <p id="qty-display" class="text-xl font-black italic">1</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button id="qty-minus" type="button" class="h-12 w-12 rounded-2xl border border-white/10 bg-white/5 text-2xl font-black hover:bg-white/10 active:scale-95 transition">−</button>
-            <button id="qty-plus" type="button" class="h-12 w-12 rounded-2xl border border-white/10 bg-white/5 text-2xl font-black hover:bg-white/10 active:scale-95 transition">+</button>
+            <div class="flex gap-3">
+              <i class="fa-solid fa-id-card text-magenta-soft mt-1"></i>
+              <div>
+                <h4 class="font-bold text-gray-200">Público</h4>
+                <p class="text-gray-400">Mayores de 16 años con DNI en mano</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Buyer form -->
-        <form id="purchase-form" class="mt-6 space-y-3">
-          <div>
-            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Nombre y Apellido</label>
-            <input id="buyer-name" type="text" required minlength="3" placeholder="María Pérez" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base placeholder:text-white/30 focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+        <!-- About -->
+        <div class="card-dark p-6 md:p-8">
+          <h3 class="text-xl font-bold mb-4">Sobre el evento</h3>
+          <div id="event-description" class="text-sm text-gray-300 space-y-2 leading-relaxed">
+            <p>Es el punto final. Una noche donde las reglas se rompen.</p>
+            <p><strong class="text-magenta-soft">DE SANTOS NO QUEDA NADA.</strong></p>
+            <p>La pista que te identifica. La música que nos une. La fiesta que recorre la provincia.</p>
+            <p class="text-yellow-500 font-semibold mt-4"><i class="fa-solid fa-triangle-exclamation"></i> CAPACIDAD SÚPER LIMITADA — ASEGURÁ TU ANTICIPADA.</p>
+            <ul class="list-none mt-2 space-y-1 text-gray-300">
+              <li><i class="fa-solid fa-check text-magenta-soft mr-2"></i>Sector General con pista extendida</li>
+              <li><i class="fa-solid fa-check text-magenta-soft mr-2"></i>Sector VIP: sin filas, barra exclusiva, baños premium</li>
+            </ul>
+            <p class="mt-4 font-bold italic">Esta no es una fiesta más. Es nuestra reunión.</p>
           </div>
-          <div>
-            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">DNI</label>
-            <input id="buyer-dni" type="tel" inputmode="numeric" pattern="[0-9]{7,9}" required placeholder="40123456" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base placeholder:text-white/30 focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
-          </div>
+        </div>
 
-          <!-- Total -->
-          <div class="flex items-center justify-between rounded-3xl bg-white/[0.03] border border-white/10 p-5 mt-2">
-            <div>
-              <p class="text-[10px] tracking-[0.3em] uppercase text-white/50">Total a pagar</p>
-              <p id="selection-summary" class="text-xs text-white/60 mt-1">Seleccioná una entrada</p>
-            </div>
-            <p id="total-amount" class="text-3xl font-black italic text-magenta-soft">—</p>
+        <!-- Map -->
+        <div class="card-dark p-6 md:p-8">
+          <h3 class="text-xl font-bold mb-4">Ver ubicación en el mapa</h3>
+          <div class="w-full h-56 md:h-64 rounded-xl overflow-hidden">
+            <iframe
+              src="https://www.google.com/maps?q=San+Miguel+entre+6+y+7,+Pocito,+San+Juan,+Argentina&output=embed"
+              width="100%" height="100%" style="border:0;"
+              allowfullscreen="" loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
+        </div>
+      </div>
 
-          <button id="submit-btn" type="submit" disabled class="w-full mt-3 rounded-3xl bg-magenta text-white font-black italic text-lg py-5 tracking-tight disabled:bg-white/10 disabled:text-white/40 enabled:hover:bg-magenta-soft enabled:active:scale-[0.99] transition shadow-[0_0_40px_-10px_rgba(194,0,126,0.6)]">
-            CONFIRMAR POR WHATSAPP
+      <!-- RIGHT COLUMN — sticky buy panel -->
+      <div class="lg:col-span-4 z-30">
+        <div class="fixed bottom-0 left-0 w-full lg:static lg:sticky lg:top-24 panel-buy lg:rounded-2xl p-4 lg:p-6 shadow-[0_-10px_30px_rgba(0,0,0,0.6)] lg:shadow-none z-50 border-t lg:border border-white/5">
+          <div class="flex justify-between items-center mb-4 lg:mb-6">
+            <span class="text-sm font-semibold text-gray-300"><i class="fa-solid fa-ticket text-magenta-soft mr-1"></i> Entradas</span>
+            <span id="from-price" class="font-bold text-white lg:text-lg">Entradas desde —</span>
+          </div>
+          <button onclick="openModal()" class="w-full btn-magenta text-white font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider">
+            Comprar entradas
           </button>
-          <p class="text-[10px] text-center text-white/40 tracking-wider">Al confirmar, te llevamos a WhatsApp para coordinar el pago</p>
-        </form>
-      </section>
-
-      <!-- Footer -->
-      <footer class="text-center pt-6 pb-2">
-        <p class="text-[10px] tracking-[0.4em] uppercase text-white/30">de santos no queda nada</p>
-        <a href="/admin.html" class="inline-block mt-4 text-[9px] tracking-[0.3em] uppercase text-white/20 hover:text-magenta-soft transition">admin</a>
-      </footer>
+          <p class="text-[10px] text-center text-gray-400 mt-3 hidden lg:block">Transacción segura. Pago por transferencia.</p>
+        </div>
+      </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="text-center py-8 mt-8 relative z-10">
+      <p class="text-[10px] tracking-[0.4em] uppercase text-white/30">de santos no queda nada</p>
+      <a href="/admin.html" class="inline-block mt-3 text-[9px] tracking-[0.3em] uppercase text-white/20 hover:text-magenta-soft transition">admin</a>
+    </footer>
+
+    <!-- CHECKOUT MODAL -->
+    <div id="checkout-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center px-4 bg-black/90 backdrop-blur-sm">
+      <div class="card-dark max-w-lg w-full p-6 md:p-8 border border-white/10 relative max-h-[90vh] overflow-y-auto">
+        <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition z-10">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <!-- STEP 1: Tickets -->
+        <div id="step-tickets">
+          <h3 class="text-2xl font-bold mb-1">Seleccioná tus entradas</h3>
+          <p class="text-xs text-gray-400 mb-6">Elegí cuántas y de qué tipo</p>
+
+          <div class="space-y-4 mb-6">
+            <div class="bg-black/30 p-4 rounded-xl border border-white/5 flex justify-between items-center">
+              <div>
+                <h4 class="font-bold">General U.U.D</h4>
+                <p class="text-magenta-soft font-bold text-sm" id="modal-price-gen">—</p>
+              </div>
+              <div class="flex items-center gap-2 bg-white/5 rounded-lg p-1 border border-white/10">
+                <button onclick="changeQty('gen', -1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">−</button>
+                <span id="qty-gen" class="font-bold w-5 text-center text-sm">0</span>
+                <button onclick="changeQty('gen', 1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">+</button>
+              </div>
+            </div>
+            <div class="bg-black/30 p-4 rounded-xl border border-magenta/30 flex justify-between items-center relative overflow-hidden">
+              <div class="absolute -right-7 top-2 bg-magenta text-[10px] font-bold px-7 py-0.5 rotate-45">VIP</div>
+              <div>
+                <h4 class="font-bold">VIP Access</h4>
+                <p class="text-magenta-soft font-bold text-sm" id="modal-price-vip">—</p>
+              </div>
+              <div class="flex items-center gap-2 bg-white/5 rounded-lg p-1 border border-white/10">
+                <button onclick="changeQty('vip', -1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">−</button>
+                <span id="qty-vip" class="font-bold w-5 text-center text-sm">0</span>
+                <button onclick="changeQty('vip', 1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center mb-6 pt-4 border-t border-white/10">
+            <span class="text-gray-400">Total a pagar:</span>
+            <span id="total-price" class="text-2xl font-bold text-white">$0</span>
+          </div>
+
+          <button onclick="goToData()" class="w-full btn-magenta text-white font-bold py-4 rounded-xl">
+            Continuar <i class="fa-solid fa-arrow-right ml-2"></i>
+          </button>
+        </div>
+
+        <!-- STEP 2: Data -->
+        <div id="step-data" class="hidden">
+          <button onclick="backToTickets()" class="text-xs text-gray-400 mb-4 hover:text-white">
+            <i class="fa-solid fa-arrow-left"></i> Volver a entradas
+          </button>
+          <h3 class="text-2xl font-bold mb-2">Tus Datos</h3>
+          <p class="text-sm text-gray-400 mb-6">Necesitamos esto para validar tu acceso al evento.</p>
+
+          <div class="space-y-4 mb-6">
+            <div>
+              <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Nombre Completo</label>
+              <input type="text" id="name" autocomplete="name" placeholder="María Pérez" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-magenta outline-none mt-1 transition" />
+            </div>
+            <div>
+              <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">DNI (sin puntos)</label>
+              <input type="tel" inputmode="numeric" id="dni" placeholder="40123456" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-magenta outline-none mt-1 transition" />
+            </div>
+          </div>
+
+          <p id="data-error" class="hidden text-xs text-red-400 mb-3"></p>
+          <button onclick="goToPayment()" class="w-full btn-magenta text-white font-bold py-4 rounded-xl">
+            Continuar al pago <i class="fa-solid fa-arrow-right ml-2"></i>
+          </button>
+        </div>
+
+        <!-- STEP 3: Payment (alias / CVU, NO QR) -->
+        <div id="step-payment" class="hidden">
+          <button onclick="backToData()" class="text-xs text-gray-400 mb-4 hover:text-white">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+          </button>
+          <h3 class="text-xl font-bold mb-1">Abona para confirmar</h3>
+          <p class="text-xs text-gray-400 mb-5">Transferí el monto exacto y mandanos el comprobante por WhatsApp.</p>
+
+          <div class="bg-black/50 p-4 rounded-xl text-sm text-left space-y-3 mb-6 border border-white/10">
+            <div class="flex justify-between items-center">
+              <span class="text-gray-400 text-xs uppercase tracking-wider">Titular</span>
+              <span id="pay-titular" class="text-white font-semibold text-right">SERGIO ISMAEL CEPEDA ORTIZ</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-gray-400 text-xs uppercase tracking-wider">Alias</span>
+              <button type="button" onclick="copyValue('alias')" class="flex items-center gap-2 text-magenta-soft font-bold hover:text-magenta transition group">
+                <span id="pay-alias">egresantos</span>
+                <i class="fa-regular fa-copy text-xs opacity-60 group-hover:opacity-100"></i>
+              </button>
+            </div>
+            <div class="flex justify-between items-center gap-3">
+              <span class="text-gray-400 text-xs uppercase tracking-wider">CVU</span>
+              <button type="button" onclick="copyValue('cvu')" class="flex items-center gap-2 text-white font-mono text-xs hover:text-magenta-soft transition group min-w-0">
+                <span id="pay-cvu" class="truncate">0000177500094392422010</span>
+                <i class="fa-regular fa-copy text-xs opacity-60 group-hover:opacity-100"></i>
+              </button>
+            </div>
+            <hr class="border-white/10 my-2" />
+            <div class="flex justify-between items-center font-bold">
+              <span class="text-gray-300">Total a transferir</span>
+              <span id="final-total" class="text-magenta-soft text-xl">$0</span>
+            </div>
+          </div>
+
+          <p class="text-[11px] text-gray-400 mb-4 leading-relaxed">
+            <i class="fa-solid fa-circle-info text-magenta-soft mr-1"></i>
+            Una vez transferido, tocá el botón verde para enviar el comprobante por WhatsApp y validar tu compra.
+          </p>
+
+          <button onclick="finalizePurchase()" id="finalize-btn" class="w-full bg-[#25D366] hover:bg-[#1fba59] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.99]">
+            <i class="fa-brands fa-whatsapp text-xl"></i> Enviar Comprobante
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Toast -->
-    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden rounded-2xl bg-card border border-magenta/40 px-5 py-3 text-sm shadow-2xl"></div>
+    <div id="toast" class="fixed bottom-24 lg:bottom-6 left-1/2 -translate-x-1/2 z-[70] hidden rounded-2xl bg-[#242424] border border-magenta/40 px-5 py-3 text-sm shadow-2xl"></div>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-      import { getFirestore, doc, getDoc, addDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+      import { getFirestore, doc, addDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
@@ -195,18 +283,29 @@
 
       // ====== State ======
       const STORAGE_KEY = "egresantos:event";
-      const WHATSAPP_NUMBER = "5492645000000"; // formato internacional sin +
+      const DEFAULT_WHATSAPP = "5492646279449";
       const state = {
         event: {
-          title: "EGRESANTOS — Último Último Día",
+          title: "Egresantos U.U.D - Capital San Juan",
+          organizer: "Organiza: EGRESANTOS & ISMMA PRODUCCIONES",
+          date: "Jueves 11 de diciembre — 23:00 hs",
+          location: "San Miguel entre 6 y 7, Pocito, San Juan",
           description: "Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.",
-          priceGeneral: 0,
-          priceVIP: 0,
-          whatsapp: WHATSAPP_NUMBER,
+          priceGeneral: 6000,
+          priceVIP: 12000,
+          whatsapp: DEFAULT_WHATSAPP,
+          titular: "SERGIO ISMAEL CEPEDA ORTIZ",
+          alias: "egresantos",
+          cvu: "0000177500094392422010",
+          instagram: "https://instagram.com/egresantos",
         },
-        selected: null,
-        qty: 1,
       };
+      const cart = { gen: 0, vip: 0 };
+
+      // RRPP tracking via ?ref=
+      const urlParams = new URLSearchParams(window.location.search);
+      const rrppName = (urlParams.get("ref") || "VENTA DIRECTA").toUpperCase();
+      document.getElementById("rrpp-name").textContent = rrppName;
 
       // Hydrate from localStorage immediately (zero latency)
       try {
@@ -218,50 +317,41 @@
       } catch (e) {}
 
       // ====== Rendering ======
-      function renderEvent() {
-        const e = state.event;
-        if (e.title) {
-          const parts = e.title.split("—");
-          const main = parts[0]?.trim() || e.title;
-          const sub = parts.slice(1).join("—").trim();
-          document.getElementById("event-title").innerHTML = sub
-            ? `${escapeHtml(main)}<br/><span class="text-magenta-soft">— ${escapeHtml(sub)}</span>`
-            : escapeHtml(main);
-          document.title = e.title;
-        }
-        if (e.description) {
-          document.getElementById("event-description").textContent = e.description;
-        }
-        document.querySelector('[data-price="general"]').textContent = formatPrice(e.priceGeneral);
-        document.querySelector('[data-price="vip"]').textContent = formatPrice(e.priceVIP);
-        renderTotal();
+      function $(id) { return document.getElementById(id); }
+      function escapeHtml(s) {
+        return String(s ?? "").replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
       }
-
-      function renderTotal() {
-        const e = state.event;
-        const total = document.getElementById("total-amount");
-        const summary = document.getElementById("selection-summary");
-        const submit = document.getElementById("submit-btn");
-
-        if (!state.selected) {
-          total.textContent = "—";
-          summary.textContent = "Seleccioná una entrada";
-          submit.disabled = true;
-          return;
-        }
-        const unit = state.selected === "vip" ? e.priceVIP : e.priceGeneral;
-        const sum = unit * state.qty;
-        total.textContent = formatPrice(sum);
-        summary.textContent = `${state.qty} × ${state.selected.toUpperCase()} (${formatPrice(unit)} c/u)`;
-        submit.disabled = false;
-      }
-
-      function formatPrice(n) {
+      function fmt(n) {
         if (!n || isNaN(n)) return "—";
         return "$" + Number(n).toLocaleString("es-AR");
       }
-      function escapeHtml(s) {
-        return String(s).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+      function renderEvent() {
+        const e = state.event;
+        if (e.title) {
+          $("event-title").textContent = e.title;
+          document.title = e.title;
+        }
+        if (e.organizer) $("event-organizer").textContent = e.organizer;
+        if (e.date) $("event-date").textContent = e.date;
+        if (e.location) $("event-location").textContent = e.location;
+        if (e.description) {
+          $("event-description").innerHTML = e.description
+            .split(/\n+/)
+            .map(p => `<p>${escapeHtml(p)}</p>`).join("");
+        }
+        $("modal-price-gen").textContent = fmt(e.priceGeneral);
+        $("modal-price-vip").textContent = fmt(e.priceVIP);
+        const minPrice = Math.min(...[e.priceGeneral, e.priceVIP].filter(p => p > 0)) || 0;
+        $("from-price").textContent = minPrice > 0 ? `Entradas desde ${fmt(minPrice)}` : "Entradas desde —";
+
+        if (e.instagram) $("nav-instagram").href = e.instagram;
+        if (e.whatsapp) $("nav-help").href = `https://wa.me/${String(e.whatsapp).replace(/\D/g, "")}`;
+        if (e.titular) $("pay-titular").textContent = e.titular;
+        if (e.alias) $("pay-alias").textContent = e.alias;
+        if (e.cvu) $("pay-cvu").textContent = e.cvu;
+
+        updateTotal();
       }
 
       // ====== Firestore: live event config ======
@@ -274,82 +364,145 @@
         }
       }, (err) => console.warn("snapshot:", err));
 
-      // ====== Interactions ======
-      document.querySelectorAll('.ticket-card').forEach(btn => {
-        btn.addEventListener('click', () => {
-          state.selected = btn.dataset.ticket;
-          document.querySelectorAll('.ticket-card').forEach(b => b.classList.remove('ticket-active'));
-          btn.classList.add('ticket-active');
-          renderTotal();
-        });
-      });
+      renderEvent();
 
-      document.getElementById("qty-plus").addEventListener("click", () => {
-        if (state.qty < 10) { state.qty++; document.getElementById("qty-display").textContent = state.qty; renderTotal(); }
-      });
-      document.getElementById("qty-minus").addEventListener("click", () => {
-        if (state.qty > 1) { state.qty--; document.getElementById("qty-display").textContent = state.qty; renderTotal(); }
-      });
+      // ====== Modal ======
+      function openModal() {
+        $("checkout-modal").classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        showStep("tickets");
+      }
+      function closeModal() {
+        $("checkout-modal").classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+      function showStep(step) {
+        ["tickets", "data", "payment"].forEach(s => {
+          $(`step-${s}`).classList.toggle("hidden", s !== step);
+        });
+      }
+      function changeQty(type, val) {
+        cart[type] = Math.max(0, Math.min(10, cart[type] + val));
+        $(`qty-${type}`).textContent = cart[type];
+        updateTotal();
+      }
+      function updateTotal() {
+        const total = cart.gen * (state.event.priceGeneral || 0) + cart.vip * (state.event.priceVIP || 0);
+        $("total-price").textContent = fmt(total) === "—" ? "$0" : fmt(total);
+        $("final-total").textContent = fmt(total) === "—" ? "$0" : fmt(total);
+      }
+      function goToData() {
+        if (cart.gen + cart.vip === 0) {
+          showToast("Seleccioná al menos 1 entrada", true);
+          return;
+        }
+        showStep("data");
+      }
+      function backToTickets() { showStep("tickets"); }
+      function backToData() { showStep("data"); }
+
+      async function goToPayment() {
+        const name = $("name").value.trim();
+        const dni = $("dni").value.trim();
+        const err = $("data-error");
+        err.classList.add("hidden");
+        if (name.length < 3 || !/^[0-9]{7,9}$/.test(dni)) {
+          err.textContent = "Revisá el nombre y el DNI (7-9 dígitos sin puntos).";
+          err.classList.remove("hidden");
+          return;
+        }
+        // Pre-register the sale as "pendiente" so admin sees it live
+        try {
+          const total = cart.gen * (state.event.priceGeneral || 0) + cart.vip * (state.event.priceVIP || 0);
+          const items = [];
+          if (cart.gen > 0) items.push({ tipo: "general", cantidad: cart.gen, precio: state.event.priceGeneral });
+          if (cart.vip > 0) items.push({ tipo: "vip", cantidad: cart.vip, precio: state.event.priceVIP });
+          const tipoResumen = items.map(i => `${i.cantidad}x ${i.tipo.toUpperCase()}`).join(" + ");
+
+          window.__lastSale = await addDoc(collection(db, "ventas"), {
+            nombre: name.toUpperCase(),
+            dni,
+            tipo: tipoResumen,
+            cantidad: cart.gen + cart.vip,
+            general: cart.gen,
+            vip: cart.vip,
+            total,
+            promotor: rrppName,
+            evento: state.event.title,
+            estado: "pendiente",
+            createdAt: serverTimestamp(),
+          });
+        } catch (e) {
+          console.error(e);
+          // Continue anyway — payment flow shouldn't be blocked
+        }
+        showStep("payment");
+      }
+
+      function copyValue(field) {
+        const txt = field === "alias" ? state.event.alias : state.event.cvu;
+        if (!txt) return;
+        navigator.clipboard?.writeText(txt).then(
+          () => showToast(`${field.toUpperCase()} copiado`),
+          () => showToast("No se pudo copiar", true)
+        );
+      }
+
+      function finalizePurchase() {
+        const name = $("name").value.trim().toUpperCase();
+        const dni = $("dni").value.trim();
+        const total = cart.gen * (state.event.priceGeneral || 0) + cart.vip * (state.event.priceVIP || 0);
+
+        let pedido = "";
+        if (cart.gen > 0) pedido += `${cart.gen}x GENERAL `;
+        if (cart.vip > 0) pedido += `${cart.vip}x VIP`;
+
+        const lines = [
+          `*¡Hola Egresantos!* 👋`,
+          ``,
+          `He realizado el pago para la edición *U.U.D.*`,
+          ``,
+          `👤 *NOMBRE:* ${name}`,
+          `🪪 *DNI:* ${dni}`,
+          `🎟️ *PEDIDO:* ${pedido.trim()}`,
+          `💰 *TOTAL:* $${total.toLocaleString("es-AR")}`,
+          `📢 *PROMOTOR:* ${rrppName}`,
+          ``,
+          `Adjunto comprobante 📎`,
+        ];
+        const msg = encodeURIComponent(lines.join("\n"));
+        const phone = String(state.event.whatsapp || DEFAULT_WHATSAPP).replace(/\D/g, "");
+        window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+      }
 
       function showToast(msg, isError = false) {
-        const t = document.getElementById("toast");
+        const t = $("toast");
         t.textContent = msg;
         t.classList.remove("hidden");
         t.classList.toggle("border-red-500/60", isError);
         t.classList.toggle("border-magenta/40", !isError);
-        setTimeout(() => t.classList.add("hidden"), 3000);
+        setTimeout(() => t.classList.add("hidden"), 2400);
       }
 
-      // ====== Submit ======
-      document.getElementById("purchase-form").addEventListener("submit", async (ev) => {
-        ev.preventDefault();
-        if (!state.selected) return;
-        const name = document.getElementById("buyer-name").value.trim();
-        const dni = document.getElementById("buyer-dni").value.trim();
-        if (name.length < 3 || !/^[0-9]{7,9}$/.test(dni)) {
-          showToast("Revisá el nombre y el DNI", true);
-          return;
-        }
-        const submit = document.getElementById("submit-btn");
-        submit.disabled = true;
-        submit.textContent = "PROCESANDO...";
-
-        const e = state.event;
-        const unit = state.selected === "vip" ? e.priceVIP : e.priceGeneral;
-        const total = unit * state.qty;
-
-        try {
-          await addDoc(collection(db, "ventas"), {
-            nombre: name,
-            dni,
-            tipo: state.selected,
-            cantidad: state.qty,
-            precioUnitario: unit,
-            total,
-            evento: e.title,
-            estado: "pendiente",
-            createdAt: serverTimestamp(),
-          });
-
-          const msg =
-            `*RESERVA EGRESANTOS*%0A%0A` +
-            `Hola! Quiero confirmar mi entrada.%0A%0A` +
-            `*Evento:* ${encodeURIComponent(e.title)}%0A` +
-            `*Nombre:* ${encodeURIComponent(name)}%0A` +
-            `*DNI:* ${encodeURIComponent(dni)}%0A` +
-            `*Tipo:* ${state.selected.toUpperCase()}%0A` +
-            `*Cantidad:* ${state.qty}%0A` +
-            `*Total:* $${total.toLocaleString("es-AR")}`;
-
-          const phone = (e.whatsapp || WHATSAPP_NUMBER).replace(/\D/g, "");
-          window.location.href = `https://wa.me/${phone}?text=${msg}`;
-        } catch (err) {
-          console.error(err);
-          showToast("No pudimos registrar la compra. Probá de nuevo.", true);
-          submit.disabled = false;
-          submit.textContent = "CONFIRMAR POR WHATSAPP";
-        }
+      // ESC closes modal
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
       });
+      // click outside closes
+      $("checkout-modal").addEventListener("click", (e) => {
+        if (e.target.id === "checkout-modal") closeModal();
+      });
+
+      // Expose handlers for inline onclick
+      window.openModal = openModal;
+      window.closeModal = closeModal;
+      window.changeQty = changeQty;
+      window.goToData = goToData;
+      window.backToTickets = backToTickets;
+      window.backToData = backToData;
+      window.goToPayment = goToPayment;
+      window.copyValue = copyValue;
+      window.finalizePurchase = finalizePurchase;
     </script>
   </body>
 </html>
