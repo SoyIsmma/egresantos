@@ -1,0 +1,96 @@
+/* EGRESANTOS — Avantti Dark Mode */
+
+html {
+  -webkit-tap-highlight-color: transparent;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #050505;
+  font-feature-settings: "ss01", "cv11";
+  letter-spacing: -0.01em;
+}
+
+/* Radial glows in corners (#c2007e at 10% opacity) */
+.bg-radial-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 0% 0%, rgba(194, 0, 126, 0.12), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 0%, rgba(194, 0, 126, 0.08), transparent 60%),
+    radial-gradient(ellipse 70% 40% at 50% 100%, rgba(194, 0, 126, 0.10), transparent 65%);
+}
+
+/* Subtle grain layer */
+.bg-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Glassmorphism card base */
+.glass {
+  background: rgba(26, 26, 26, 0.55);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 30px 60px -30px rgba(0, 0, 0, 0.8);
+}
+
+/* Italic display font tracking */
+h1, h2 {
+  font-feature-settings: "ss01", "cv11";
+  letter-spacing: -0.035em;
+}
+
+/* Selected ticket */
+.ticket-active {
+  border-color: #c2007e !important;
+  background: linear-gradient(180deg, rgba(194, 0, 126, 0.18), rgba(194, 0, 126, 0.04)) !important;
+  box-shadow: 0 0 50px -15px rgba(194, 0, 126, 0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* Inputs autofill fix */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-text-fill-color: #ffffff;
+  -webkit-box-shadow: 0 0 0px 1000px #141414 inset;
+  caret-color: #ffffff;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] { -moz-appearance: textfield; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #050505; }
+::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
+
+/* Disable text selection on UI chrome elements */
+button, label { user-select: none; -webkit-user-select: none; }
+
+/* Smooth fade-in on load */
+main, #login-view, #admin-view {
+  animation: fadeUp 0.5s ease-out both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}

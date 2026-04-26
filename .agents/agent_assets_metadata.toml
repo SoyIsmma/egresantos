@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "xAkodhV1tPh9iAIHNWazO"
+uri = "file://artifacts/egresantos/public/banner.png"
+type = "image"
+title = "generated_image"
+
+[[generated]]
+id = "zNiHDWhL-Zy6129LVGUj6"
+uri = "file://artifacts/egresantos/public/logo.png"
+type = "image"
+title = "generated_image"

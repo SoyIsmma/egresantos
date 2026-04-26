@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#050505" />
+    <title>EGRESANTOS — Último Último Día</title>
+    <meta name="description" content="EGRESANTOS — Último Último Día. Una noche donde las reglas se rompen. 11 de Diciembre. San Miguel, Pocito, San Juan." />
+    <meta property="og:title" content="EGRESANTOS — Último Último Día" />
+    <meta property="og:description" content="Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada." />
+    <meta property="og:image" content="/banner.png" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              magenta: '#c2007e',
+              'magenta-soft': '#ff2ea6',
+              ink: '#050505',
+              card: '#1a1a1a',
+            },
+            fontFamily: {
+              sans: ['Inter', 'system-ui', 'sans-serif'],
+            },
+            borderRadius: {
+              '4xl': '2rem',
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="bg-ink text-white font-sans antialiased min-h-screen overflow-x-hidden">
+    <!-- Background gradient layers -->
+    <div class="bg-radial-glow"></div>
+    <div class="bg-grain"></div>
+
+    <main class="relative z-10 max-w-2xl mx-auto px-5 pt-8 pb-20 md:pt-14">
+      <!-- Header -->
+      <header class="flex items-center justify-between mb-8">
+        <img src="/logo.png" alt="EGRESANTOS" class="h-10 w-auto opacity-90" />
+        <span class="text-[10px] tracking-[0.3em] uppercase text-white/50">SAN JUAN · 2026</span>
+      </header>
+
+      <!-- Hero / Banner -->
+      <section class="relative overflow-hidden rounded-4xl glass mb-6">
+        <img src="/banner.png" alt="EGRESANTOS Banner" class="w-full aspect-[16/10] object-cover opacity-80" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+          <p class="text-[10px] tracking-[0.4em] uppercase text-magenta-soft mb-3">Egresantos presenta</p>
+          <h1 id="event-title" class="text-4xl md:text-6xl font-black italic leading-[0.9] tracking-tight">
+            EGRESANTOS<br/><span class="text-magenta-soft">— Último Último Día</span>
+          </h1>
+        </div>
+      </section>
+
+      <!-- Description -->
+      <section class="rounded-4xl glass p-6 md:p-8 mb-6">
+        <p id="event-description" class="text-lg md:text-xl leading-relaxed text-white/85 italic font-light">
+          Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.
+        </p>
+      </section>
+
+      <!-- Event meta -->
+      <section class="grid grid-cols-2 gap-3 mb-6">
+        <div class="rounded-3xl glass p-5">
+          <p class="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-2">Fecha</p>
+          <p class="text-2xl font-black italic tracking-tight">11 DIC</p>
+          <p class="text-xs text-white/60 mt-1">22:00 hs</p>
+        </div>
+        <div class="rounded-3xl glass p-5">
+          <p class="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-2">Ubicación</p>
+          <p class="text-sm font-bold leading-tight">San Miguel<br/>Entre 6 y 7</p>
+          <p class="text-xs text-white/60 mt-1">Pocito · San Juan</p>
+        </div>
+      </section>
+
+      <!-- Map -->
+      <section class="rounded-4xl glass overflow-hidden mb-6">
+        <iframe
+          src="https://www.google.com/maps?q=San+Miguel+entre+6+y+7,+Pocito,+San+Juan,+Argentina&output=embed"
+          class="w-full h-56 md:h-64 grayscale-[30%] contrast-125"
+          style="border:0; filter: invert(0.92) hue-rotate(180deg);"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </section>
+
+      <!-- Ticket selector -->
+      <section class="rounded-4xl glass p-6 md:p-8 mb-6">
+        <h2 class="text-2xl font-black italic tracking-tight mb-1">Conseguí tu entrada</h2>
+        <p class="text-xs text-white/50 mb-6 tracking-wide uppercase">Capacidad limitada · No se reembolsa</p>
+
+        <div class="space-y-3">
+          <button type="button" data-ticket="general" class="ticket-card group w-full text-left rounded-3xl border border-white/10 bg-white/[0.02] p-5 transition-all hover:border-magenta hover:bg-white/[0.04]">
+            <div class="flex justify-between items-start gap-4">
+              <div>
+                <p class="text-[10px] tracking-[0.3em] uppercase text-white/50">Entrada</p>
+                <p class="text-2xl font-black italic tracking-tight">GENERAL</p>
+                <p class="text-xs text-white/60 mt-1">Acceso a la pista principal</p>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] tracking-[0.3em] uppercase text-white/40">ARS</p>
+                <p class="text-2xl font-black italic" data-price="general">—</p>
+              </div>
+            </div>
+          </button>
+
+          <button type="button" data-ticket="vip" class="ticket-card group w-full text-left rounded-3xl border border-magenta/40 bg-gradient-to-br from-magenta/10 to-transparent p-5 transition-all hover:border-magenta hover:from-magenta/20">
+            <div class="flex justify-between items-start gap-4">
+              <div>
+                <p class="text-[10px] tracking-[0.3em] uppercase text-magenta-soft">Premium</p>
+                <p class="text-2xl font-black italic tracking-tight">VIP</p>
+                <p class="text-xs text-white/70 mt-1">Acceso preferencial + zona exclusiva</p>
+              </div>
+              <div class="text-right">
+                <p class="text-[10px] tracking-[0.3em] uppercase text-white/40">ARS</p>
+                <p class="text-2xl font-black italic text-magenta-soft" data-price="vip">—</p>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- Quantity stepper -->
+        <div class="mt-6 flex items-center justify-between rounded-3xl border border-white/10 bg-white/[0.02] p-3 pl-5">
+          <div>
+            <p class="text-[10px] tracking-[0.3em] uppercase text-white/50">Cantidad</p>
+            <p id="qty-display" class="text-xl font-black italic">1</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="qty-minus" type="button" class="h-12 w-12 rounded-2xl border border-white/10 bg-white/5 text-2xl font-black hover:bg-white/10 active:scale-95 transition">−</button>
+            <button id="qty-plus" type="button" class="h-12 w-12 rounded-2xl border border-white/10 bg-white/5 text-2xl font-black hover:bg-white/10 active:scale-95 transition">+</button>
+          </div>
+        </div>
+
+        <!-- Buyer form -->
+        <form id="purchase-form" class="mt-6 space-y-3">
+          <div>
+            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Nombre y Apellido</label>
+            <input id="buyer-name" type="text" required minlength="3" placeholder="María Pérez" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base placeholder:text-white/30 focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+          </div>
+          <div>
+            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">DNI</label>
+            <input id="buyer-dni" type="tel" inputmode="numeric" pattern="[0-9]{7,9}" required placeholder="40123456" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base placeholder:text-white/30 focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+          </div>
+
+          <!-- Total -->
+          <div class="flex items-center justify-between rounded-3xl bg-white/[0.03] border border-white/10 p-5 mt-2">
+            <div>
+              <p class="text-[10px] tracking-[0.3em] uppercase text-white/50">Total a pagar</p>
+              <p id="selection-summary" class="text-xs text-white/60 mt-1">Seleccioná una entrada</p>
+            </div>
+            <p id="total-amount" class="text-3xl font-black italic text-magenta-soft">—</p>
+          </div>
+
+          <button id="submit-btn" type="submit" disabled class="w-full mt-3 rounded-3xl bg-magenta text-white font-black italic text-lg py-5 tracking-tight disabled:bg-white/10 disabled:text-white/40 enabled:hover:bg-magenta-soft enabled:active:scale-[0.99] transition shadow-[0_0_40px_-10px_rgba(194,0,126,0.6)]">
+            CONFIRMAR POR WHATSAPP
+          </button>
+          <p class="text-[10px] text-center text-white/40 tracking-wider">Al confirmar, te llevamos a WhatsApp para coordinar el pago</p>
+        </form>
+      </section>
+
+      <!-- Footer -->
+      <footer class="text-center pt-6 pb-2">
+        <p class="text-[10px] tracking-[0.4em] uppercase text-white/30">de santos no queda nada</p>
+        <a href="/admin.html" class="inline-block mt-4 text-[9px] tracking-[0.3em] uppercase text-white/20 hover:text-magenta-soft transition">admin</a>
+      </footer>
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden rounded-2xl bg-card border border-magenta/40 px-5 py-3 text-sm shadow-2xl"></div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+      import { getFirestore, doc, getDoc, addDoc, collection, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
+        authDomain: "egresantos-nights.firebaseapp.com",
+        projectId: "egresantos-nights",
+        storageBucket: "egresantos-nights.firebasestorage.app",
+        messagingSenderId: "992418363007",
+        appId: "1:992418363007:web:e60cb64e260090b92ab14a"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // ====== State ======
+      const STORAGE_KEY = "egresantos:event";
+      const WHATSAPP_NUMBER = "5492645000000"; // formato internacional sin +
+      const state = {
+        event: {
+          title: "EGRESANTOS — Último Último Día",
+          description: "Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.",
+          priceGeneral: 0,
+          priceVIP: 0,
+          whatsapp: WHATSAPP_NUMBER,
+        },
+        selected: null,
+        qty: 1,
+      };
+
+      // Hydrate from localStorage immediately (zero latency)
+      try {
+        const cached = localStorage.getItem(STORAGE_KEY);
+        if (cached) {
+          state.event = { ...state.event, ...JSON.parse(cached) };
+          renderEvent();
+        }
+      } catch (e) {}
+
+      // ====== Rendering ======
+      function renderEvent() {
+        const e = state.event;
+        if (e.title) {
+          const parts = e.title.split("—");
+          const main = parts[0]?.trim() || e.title;
+          const sub = parts.slice(1).join("—").trim();
+          document.getElementById("event-title").innerHTML = sub
+            ? `${escapeHtml(main)}<br/><span class="text-magenta-soft">— ${escapeHtml(sub)}</span>`
+            : escapeHtml(main);
+          document.title = e.title;
+        }
+        if (e.description) {
+          document.getElementById("event-description").textContent = e.description;
+        }
+        document.querySelector('[data-price="general"]').textContent = formatPrice(e.priceGeneral);
+        document.querySelector('[data-price="vip"]').textContent = formatPrice(e.priceVIP);
+        renderTotal();
+      }
+
+      function renderTotal() {
+        const e = state.event;
+        const total = document.getElementById("total-amount");
+        const summary = document.getElementById("selection-summary");
+        const submit = document.getElementById("submit-btn");
+
+        if (!state.selected) {
+          total.textContent = "—";
+          summary.textContent = "Seleccioná una entrada";
+          submit.disabled = true;
+          return;
+        }
+        const unit = state.selected === "vip" ? e.priceVIP : e.priceGeneral;
+        const sum = unit * state.qty;
+        total.textContent = formatPrice(sum);
+        summary.textContent = `${state.qty} × ${state.selected.toUpperCase()} (${formatPrice(unit)} c/u)`;
+        submit.disabled = false;
+      }
+
+      function formatPrice(n) {
+        if (!n || isNaN(n)) return "—";
+        return "$" + Number(n).toLocaleString("es-AR");
+      }
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+      }
+
+      // ====== Firestore: live event config ======
+      const eventRef = doc(db, "config", "event");
+      onSnapshot(eventRef, (snap) => {
+        if (snap.exists()) {
+          state.event = { ...state.event, ...snap.data() };
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.event)); } catch (e) {}
+          renderEvent();
+        }
+      }, (err) => console.warn("snapshot:", err));
+
+      // ====== Interactions ======
+      document.querySelectorAll('.ticket-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+          state.selected = btn.dataset.ticket;
+          document.querySelectorAll('.ticket-card').forEach(b => b.classList.remove('ticket-active'));
+          btn.classList.add('ticket-active');
+          renderTotal();
+        });
+      });
+
+      document.getElementById("qty-plus").addEventListener("click", () => {
+        if (state.qty < 10) { state.qty++; document.getElementById("qty-display").textContent = state.qty; renderTotal(); }
+      });
+      document.getElementById("qty-minus").addEventListener("click", () => {
+        if (state.qty > 1) { state.qty--; document.getElementById("qty-display").textContent = state.qty; renderTotal(); }
+      });
+
+      function showToast(msg, isError = false) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.remove("hidden");
+        t.classList.toggle("border-red-500/60", isError);
+        t.classList.toggle("border-magenta/40", !isError);
+        setTimeout(() => t.classList.add("hidden"), 3000);
+      }
+
+      // ====== Submit ======
+      document.getElementById("purchase-form").addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        if (!state.selected) return;
+        const name = document.getElementById("buyer-name").value.trim();
+        const dni = document.getElementById("buyer-dni").value.trim();
+        if (name.length < 3 || !/^[0-9]{7,9}$/.test(dni)) {
+          showToast("Revisá el nombre y el DNI", true);
+          return;
+        }
+        const submit = document.getElementById("submit-btn");
+        submit.disabled = true;
+        submit.textContent = "PROCESANDO...";
+
+        const e = state.event;
+        const unit = state.selected === "vip" ? e.priceVIP : e.priceGeneral;
+        const total = unit * state.qty;
+
+        try {
+          await addDoc(collection(db, "ventas"), {
+            nombre: name,
+            dni,
+            tipo: state.selected,
+            cantidad: state.qty,
+            precioUnitario: unit,
+            total,
+            evento: e.title,
+            estado: "pendiente",
+            createdAt: serverTimestamp(),
+          });
+
+          const msg =
+            `*RESERVA EGRESANTOS*%0A%0A` +
+            `Hola! Quiero confirmar mi entrada.%0A%0A` +
+            `*Evento:* ${encodeURIComponent(e.title)}%0A` +
+            `*Nombre:* ${encodeURIComponent(name)}%0A` +
+            `*DNI:* ${encodeURIComponent(dni)}%0A` +
+            `*Tipo:* ${state.selected.toUpperCase()}%0A` +
+            `*Cantidad:* ${state.qty}%0A` +
+            `*Total:* $${total.toLocaleString("es-AR")}`;
+
+          const phone = (e.whatsapp || WHATSAPP_NUMBER).replace(/\D/g, "");
+          window.location.href = `https://wa.me/${phone}?text=${msg}`;
+        } catch (err) {
+          console.error(err);
+          showToast("No pudimos registrar la compra. Probá de nuevo.", true);
+          submit.disabled = false;
+          submit.textContent = "CONFIRMAR POR WHATSAPP";
+        }
+      });
+    </script>
+  </body>
+</html>

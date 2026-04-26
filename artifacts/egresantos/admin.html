@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#050505" />
+    <title>Admin · EGRESANTOS</title>
+    <meta name="robots" content="noindex,nofollow" />
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              magenta: '#c2007e',
+              'magenta-soft': '#ff2ea6',
+              ink: '#050505',
+              card: '#1a1a1a',
+            },
+            fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+            borderRadius: { '4xl': '2rem' },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body class="bg-ink text-white font-sans antialiased min-h-screen overflow-x-hidden">
+    <div class="bg-radial-glow"></div>
+    <div class="bg-grain"></div>
+
+    <!-- LOGIN VIEW -->
+    <section id="login-view" class="relative z-10 min-h-screen grid place-items-center px-5">
+      <div class="w-full max-w-sm">
+        <div class="text-center mb-8">
+          <img src="/logo.png" alt="EGRESANTOS" class="h-12 mx-auto opacity-90" />
+          <p class="mt-4 text-[10px] tracking-[0.4em] uppercase text-white/40">Panel de Administración</p>
+        </div>
+
+        <div class="rounded-4xl glass p-7">
+          <h1 class="text-3xl font-black italic tracking-tight mb-1">Acceso</h1>
+          <p class="text-xs text-white/50 mb-6">Solo personal autorizado</p>
+
+          <form id="login-form" class="space-y-3">
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Email</label>
+              <input id="login-email" type="email" required autocomplete="email" placeholder="admin@egresantos.com" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base placeholder:text-white/30 focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Contraseña</label>
+              <input id="login-password" type="password" required autocomplete="current-password" placeholder="••••••••" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base placeholder:text-white/30 focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+            <p id="login-error" class="hidden text-xs text-red-400 pt-1"></p>
+            <button id="login-btn" type="submit" class="w-full mt-3 rounded-3xl bg-magenta text-white font-black italic text-base py-4 tracking-tight hover:bg-magenta-soft active:scale-[0.99] transition shadow-[0_0_40px_-10px_rgba(194,0,126,0.6)]">
+              INGRESAR
+            </button>
+          </form>
+        </div>
+
+        <a href="/" class="block text-center mt-6 text-[10px] tracking-[0.3em] uppercase text-white/30 hover:text-magenta-soft transition">← volver al sitio</a>
+      </div>
+    </section>
+
+    <!-- ADMIN VIEW -->
+    <section id="admin-view" class="hidden relative z-10 max-w-3xl mx-auto px-5 pt-8 pb-20">
+      <header class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-3">
+          <img src="/logo.png" alt="EGRESANTOS" class="h-8 w-auto opacity-90" />
+          <div>
+            <p class="text-[10px] tracking-[0.3em] uppercase text-white/40">Panel</p>
+            <p id="admin-user" class="text-sm font-bold">—</p>
+          </div>
+        </div>
+        <button id="logout-btn" class="text-[10px] tracking-[0.3em] uppercase text-white/50 hover:text-magenta-soft transition px-4 py-2 border border-white/10 rounded-full">salir</button>
+      </header>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-3 gap-3 mb-6">
+        <div class="rounded-3xl glass p-4">
+          <p class="text-[9px] tracking-[0.3em] uppercase text-white/50">Ventas</p>
+          <p id="stat-count" class="text-2xl font-black italic mt-1">0</p>
+        </div>
+        <div class="rounded-3xl glass p-4">
+          <p class="text-[9px] tracking-[0.3em] uppercase text-white/50">Tickets</p>
+          <p id="stat-tickets" class="text-2xl font-black italic mt-1">0</p>
+        </div>
+        <div class="rounded-3xl glass p-4">
+          <p class="text-[9px] tracking-[0.3em] uppercase text-white/50">Total ARS</p>
+          <p id="stat-total" class="text-2xl font-black italic text-magenta-soft mt-1">$0</p>
+        </div>
+      </div>
+
+      <!-- Event Config -->
+      <section class="rounded-4xl glass p-6 md:p-8 mb-6">
+        <h2 class="text-2xl font-black italic tracking-tight mb-1">Control de Evento</h2>
+        <p class="text-xs text-white/50 mb-6 tracking-wide uppercase">Cambios en tiempo real</p>
+
+        <form id="event-form" class="space-y-3">
+          <div>
+            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Título del evento</label>
+            <input id="ev-title" type="text" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+          </div>
+          <div>
+            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Descripción</label>
+            <textarea id="ev-description" rows="3" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition resize-none"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Precio General</label>
+              <input id="ev-price-general" type="number" min="0" step="100" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+            <div>
+              <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">Precio VIP</label>
+              <input id="ev-price-vip" type="number" min="0" step="100" required class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+            </div>
+          </div>
+          <div>
+            <label class="text-[10px] tracking-[0.3em] uppercase text-white/50">WhatsApp (con código país, sin +)</label>
+            <input id="ev-whatsapp" type="tel" placeholder="5492645000000" class="mt-1 w-full rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 text-base focus:border-magenta focus:outline-none focus:ring-2 focus:ring-magenta/30 transition" />
+          </div>
+
+          <button id="save-event-btn" type="submit" class="w-full mt-3 rounded-3xl bg-magenta text-white font-black italic text-base py-4 tracking-tight hover:bg-magenta-soft active:scale-[0.99] transition shadow-[0_0_40px_-10px_rgba(194,0,126,0.6)]">
+            GUARDAR CAMBIOS
+          </button>
+        </form>
+      </section>
+
+      <!-- Sales monitor -->
+      <section class="rounded-4xl glass p-6 md:p-8">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h2 class="text-2xl font-black italic tracking-tight">Monitor de Ventas</h2>
+            <p class="text-xs text-white/50 mt-1 tracking-wide uppercase">Tiempo real</p>
+          </div>
+          <span class="flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-emerald-400">
+            <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span> LIVE
+          </span>
+        </div>
+
+        <div class="overflow-x-auto -mx-6 md:-mx-8 px-6 md:px-8">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-[9px] tracking-[0.3em] uppercase text-white/40 border-b border-white/10">
+                <th class="py-3 pr-3 font-medium">Nombre</th>
+                <th class="py-3 pr-3 font-medium">DNI</th>
+                <th class="py-3 pr-3 font-medium">Tipo</th>
+                <th class="py-3 pr-3 font-medium text-center">Cant</th>
+                <th class="py-3 pr-3 font-medium text-right">Total</th>
+                <th class="py-3 pl-3 font-medium text-right"></th>
+              </tr>
+            </thead>
+            <tbody id="sales-tbody" class="divide-y divide-white/5">
+              <tr><td colspan="6" class="py-10 text-center text-white/40">Cargando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <!-- Toast -->
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden rounded-2xl bg-card border border-magenta/40 px-5 py-3 text-sm shadow-2xl"></div>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+      import { getFirestore, doc, getDoc, setDoc, collection, onSnapshot, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+      import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
+        authDomain: "egresantos-nights.firebaseapp.com",
+        projectId: "egresantos-nights",
+        storageBucket: "egresantos-nights.firebasestorage.app",
+        messagingSenderId: "992418363007",
+        appId: "1:992418363007:web:e60cb64e260090b92ab14a"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      const $ = (id) => document.getElementById(id);
+      let unsubscribers = [];
+
+      function showToast(msg, isError = false) {
+        const t = $("toast");
+        t.textContent = msg;
+        t.classList.remove("hidden");
+        t.classList.toggle("border-red-500/60", isError);
+        t.classList.toggle("border-magenta/40", !isError);
+        setTimeout(() => t.classList.add("hidden"), 3000);
+      }
+      function escapeHtml(s) {
+        return String(s ?? "").replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+      }
+      function formatPrice(n) {
+        if (!n || isNaN(n)) return "$0";
+        return "$" + Number(n).toLocaleString("es-AR");
+      }
+
+      // ===== Auth flow =====
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          $("login-view").classList.add("hidden");
+          $("admin-view").classList.remove("hidden");
+          $("admin-user").textContent = user.email;
+          startLiveData();
+        } else {
+          $("admin-view").classList.add("hidden");
+          $("login-view").classList.remove("hidden");
+          stopLiveData();
+        }
+      });
+
+      $("login-form").addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        const err = $("login-error");
+        err.classList.add("hidden");
+        const btn = $("login-btn");
+        btn.disabled = true;
+        btn.textContent = "INGRESANDO...";
+        try {
+          await signInWithEmailAndPassword(auth, $("login-email").value.trim(), $("login-password").value);
+        } catch (e) {
+          let msg = "No pudimos ingresar. Verificá los datos.";
+          if (e?.code === "auth/invalid-credential" || e?.code === "auth/wrong-password" || e?.code === "auth/user-not-found") {
+            msg = "Email o contraseña incorrectos.";
+          } else if (e?.code === "auth/too-many-requests") {
+            msg = "Demasiados intentos. Probá más tarde.";
+          } else if (e?.code === "auth/network-request-failed") {
+            msg = "Sin conexión. Revisá internet.";
+          }
+          err.textContent = msg;
+          err.classList.remove("hidden");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "INGRESAR";
+        }
+      });
+
+      $("logout-btn").addEventListener("click", () => signOut(auth));
+
+      // ===== Live data (event config + sales) =====
+      function startLiveData() {
+        stopLiveData();
+
+        // Event config snapshot
+        const eventRef = doc(db, "config", "event");
+        unsubscribers.push(onSnapshot(eventRef, (snap) => {
+          const data = snap.exists() ? snap.data() : {};
+          $("ev-title").value = data.title ?? "EGRESANTOS — Último Último Día";
+          $("ev-description").value = data.description ?? "Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.";
+          $("ev-price-general").value = data.priceGeneral ?? 0;
+          $("ev-price-vip").value = data.priceVIP ?? 0;
+          $("ev-whatsapp").value = data.whatsapp ?? "";
+        }));
+
+        // Sales snapshot
+        const salesQ = query(collection(db, "ventas"), orderBy("createdAt", "desc"));
+        unsubscribers.push(onSnapshot(salesQ, (snap) => renderSales(snap), (err) => {
+          console.error(err);
+          $("sales-tbody").innerHTML = `<tr><td colspan="6" class="py-10 text-center text-red-400">Error: ${escapeHtml(err.message)}</td></tr>`;
+        }));
+      }
+
+      function stopLiveData() {
+        unsubscribers.forEach(u => { try { u(); } catch (e) {} });
+        unsubscribers = [];
+      }
+
+      function renderSales(snap) {
+        const tbody = $("sales-tbody");
+        if (snap.empty) {
+          tbody.innerHTML = `<tr><td colspan="6" class="py-10 text-center text-white/40">Sin ventas todavía</td></tr>`;
+          $("stat-count").textContent = "0";
+          $("stat-tickets").textContent = "0";
+          $("stat-total").textContent = "$0";
+          return;
+        }
+
+        let count = 0, tickets = 0, total = 0;
+        const rows = [];
+        snap.forEach((d) => {
+          const v = d.data();
+          count++;
+          tickets += Number(v.cantidad || 0);
+          total += Number(v.total || 0);
+          const tipoColor = v.tipo === "vip" ? "text-magenta-soft" : "text-white/80";
+          rows.push(`
+            <tr class="hover:bg-white/[0.02] transition">
+              <td class="py-3 pr-3">
+                <p class="font-bold">${escapeHtml(v.nombre)}</p>
+                <p class="text-[10px] text-white/40 uppercase tracking-wider">${v.estado || "pendiente"}</p>
+              </td>
+              <td class="py-3 pr-3 text-white/70 tabular-nums">${escapeHtml(v.dni)}</td>
+              <td class="py-3 pr-3"><span class="text-[10px] tracking-[0.3em] uppercase font-bold ${tipoColor}">${escapeHtml(v.tipo)}</span></td>
+              <td class="py-3 pr-3 text-center font-black italic">${escapeHtml(v.cantidad)}</td>
+              <td class="py-3 pr-3 text-right font-bold tabular-nums">${formatPrice(v.total)}</td>
+              <td class="py-3 pl-3 text-right">
+                <button data-del="${d.id}" class="del-btn text-[10px] tracking-[0.3em] uppercase text-white/40 hover:text-red-400 transition px-3 py-1 border border-white/10 hover:border-red-400/50 rounded-full">eliminar</button>
+              </td>
+            </tr>
+          `);
+        });
+        tbody.innerHTML = rows.join("");
+        $("stat-count").textContent = count;
+        $("stat-tickets").textContent = tickets;
+        $("stat-total").textContent = formatPrice(total);
+
+        // attach delete listeners
+        tbody.querySelectorAll(".del-btn").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            if (!confirm("¿Eliminar esta venta? Esta acción no se puede deshacer.")) return;
+            const id = btn.dataset.del;
+            btn.disabled = true;
+            btn.textContent = "...";
+            try {
+              await deleteDoc(doc(db, "ventas", id));
+              showToast("Venta eliminada");
+            } catch (e) {
+              console.error(e);
+              showToast("No se pudo eliminar", true);
+              btn.disabled = false;
+              btn.textContent = "eliminar";
+            }
+          });
+        });
+      }
+
+      // ===== Save event config =====
+      $("event-form").addEventListener("submit", async (ev) => {
+        ev.preventDefault();
+        const btn = $("save-event-btn");
+        btn.disabled = true;
+        btn.textContent = "GUARDANDO...";
+        try {
+          await setDoc(doc(db, "config", "event"), {
+            title: $("ev-title").value.trim(),
+            description: $("ev-description").value.trim(),
+            priceGeneral: Number($("ev-price-general").value) || 0,
+            priceVIP: Number($("ev-price-vip").value) || 0,
+            whatsapp: $("ev-whatsapp").value.replace(/\D/g, ""),
+            updatedAt: new Date().toISOString(),
+          }, { merge: true });
+          showToast("Cambios guardados");
+        } catch (e) {
+          console.error(e);
+          showToast("Error al guardar: " + e.message, true);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "GUARDAR CAMBIOS";
+        }
+      });
+    </script>
+  </body>
+</html>
