@@ -1,34 +1,17 @@
 import { defineConfig } from "vite";
 import path from "path";
 
-const rawPort = process.env.PORT;
-
-if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
-}
-
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
-const basePath = process.env.BASE_PATH;
-
-if (!basePath) {
-  throw new Error(
-    "BASE_PATH environment variable is required but was not provided.",
-  );
-}
+// Configuramos valores por defecto para que no falle en Netlify
+const port = process.env.PORT ? Number(process.env.PORT) : 5173;
+const basePath = process.env.BASE_PATH || "/";
 
 export default defineConfig({
   base: basePath,
   root: path.resolve(import.meta.dirname),
   publicDir: "public",
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    // Ajustamos la salida para que Netlify la encuentre fácil
+    outDir: "dist",
     emptyOutDir: true,
     rollupOptions: {
       input: {
@@ -40,9 +23,8 @@ export default defineConfig({
   },
   server: {
     port,
-    strictPort: true,
+    strictPort: false, // Cambiado a false para evitar bloqueos
     host: "0.0.0.0",
-    allowedHosts: true,
     fs: {
       strict: true,
     },
@@ -50,6 +32,5 @@ export default defineConfig({
   preview: {
     port,
     host: "0.0.0.0",
-    allowedHosts: true,
   },
 });
