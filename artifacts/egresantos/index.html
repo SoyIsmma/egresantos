@@ -908,49 +908,92 @@
       function renderMpButtons() {
         const wrap = $("mp-buttons");
         if (!wrap) return;
+        const name = ($("name")?.value || "").trim();
+        const dni = ($("dni")?.value || "").trim();
         const buttons = [];
         if (cart.gen > 0) {
           buttons.push(`
-            <a href="${MP_LINKS.general.url}" target="_blank" rel="noopener"
-               onclick="onMpClick('general', ${cart.gen})"
-               class="block w-full bg-white hover:bg-gray-100 text-[#009ee3] font-black py-3 rounded-xl text-center transition active:scale-[0.99] shadow-lg">
+            <button type="button"
+               onclick="payWithMp('general', ${cart.gen}, this)"
+               class="mp-btn block w-full bg-white hover:bg-gray-100 text-[#009ee3] font-black py-3 rounded-xl text-center transition active:scale-[0.99] shadow-lg">
               <i class="fa-solid fa-credit-card mr-2"></i>
-              Pagar GENERAL · $${MP_LINKS.general.price.toLocaleString("es-AR")}
-              ${cart.gen > 1 ? `<span class="block text-[10px] font-semibold text-gray-500 mt-0.5">Repetir ${cart.gen} veces</span>` : ""}
-            </a>
+              Pagar GENERAL · $${(MP_LINKS.general.price * cart.gen).toLocaleString("es-AR")}
+              ${cart.gen > 1 ? `<span class="block text-[10px] font-semibold text-gray-500 mt-0.5">${cart.gen} entradas</span>` : ""}
+            </button>
           `);
         }
         if (cart.vip > 0) {
           buttons.push(`
-            <a href="${MP_LINKS.vip.url}" target="_blank" rel="noopener"
-               onclick="onMpClick('vip', ${cart.vip})"
-               class="block w-full bg-gradient-to-r from-magenta to-magenta-soft hover:opacity-90 text-white font-black py-3 rounded-xl text-center transition active:scale-[0.99] shadow-lg">
+            <button type="button"
+               onclick="payWithMp('vip', ${cart.vip}, this)"
+               class="mp-btn block w-full bg-gradient-to-r from-magenta to-magenta-soft hover:opacity-90 text-white font-black py-3 rounded-xl text-center transition active:scale-[0.99] shadow-lg">
               <i class="fa-solid fa-crown mr-2"></i>
-              Pagar VIP · $${MP_LINKS.vip.price.toLocaleString("es-AR")}
-              ${cart.vip > 1 ? `<span class="block text-[10px] font-semibold text-white/80 mt-0.5">Repetir ${cart.vip} veces</span>` : ""}
-            </a>
+              Pagar VIP · $${(MP_LINKS.vip.price * cart.vip).toLocaleString("es-AR")}
+              ${cart.vip > 1 ? `<span class="block text-[10px] font-semibold text-white/80 mt-0.5">${cart.vip} entradas</span>` : ""}
+            </button>
           `);
         }
         buttons.push(`
+          <p class="text-[10px] text-center text-white/40 mt-2">
+            Pagás en Mercado Pago. Volvés y tu ticket aparece confirmado en segundos.
+          </p>
           <button type="button" onclick="goToTicket()"
-                  class="block w-full bg-emerald-500 hover:bg-emerald-400 text-white font-black py-3 rounded-xl text-center transition active:scale-[0.99] mt-3">
-            <i class="fa-solid fa-ticket mr-2"></i> YA PAGUÉ — VER MI TICKET
+                  class="block w-full bg-white/5 hover:bg-white/10 text-white/80 font-bold py-2.5 rounded-xl text-center transition active:scale-[0.99] mt-2 border border-white/10">
+            <i class="fa-solid fa-ticket mr-2"></i> Ver mi ticket
           </button>
-          <p class="text-[10px] text-center text-white/50 mt-2 font-mono">Token: ${currentToken || "—"}</p>
+          <p class="text-[10px] text-center text-white/40 mt-2 font-mono">Token: ${currentToken || "—"}</p>
         `);
         wrap.innerHTML = buttons.join("");
       }
 
-      function onMpClick(tipo, qty) {
-        // Update sale to track that user clicked MP
-        if (currentSaleId) {
-          import("https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js")
-            .then(({ updateDoc, doc: docRef }) => {
-              updateDoc(docRef(db, "ventas", currentSaleId), {
-                metodo: "mercadopago",
-                mpClickedAt: new Date().toISOString(),
-              }).catch(() => {});
-            });
+      // Create MP preference on the server, then redirect to init_point
+      async function payWithMp(tipo, qty, btn) {
+        if (!currentToken || !currentSaleId) {
+          showToast("Datos incompletos", true);
+          return;
+        }
+        const originalHtml = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Conectando con Mercado Pago...`;
+        try {
+          const total = tipo === "vip"
+            ? MP_LINKS.vip.price * qty
+            : MP_LINKS.general.price * qty;
+          const res = await fetch("/api/mp/preference", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              token: currentToken,
+              tipo,
+              cantidad: qty,
+              total,
+              nombre: ($("name")?.value || "").trim(),
+              dni: ($("dni")?.value || "").trim(),
+            }),
+          });
+          const data = await res.json();
+          const initPoint = data.init_point || data.sandbox_init_point;
+          if (!res.ok || !initPoint) {
+            throw new Error(data?.error || "no_init_point");
+          }
+          // Mark the sale as having been sent to MP (best effort)
+          try {
+            const { updateDoc, doc: docRef } = await import(
+              "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js"
+            );
+            updateDoc(docRef(db, "ventas", currentSaleId), {
+              metodo: "mercadopago",
+              mpPreferenceId: data.preference_id || null,
+              mpClickedAt: new Date().toISOString(),
+            }).catch(() => {});
+          } catch (e) {}
+          // Redirect to MP checkout
+          window.location.href = initPoint;
+        } catch (err) {
+          console.error(err);
+          btn.disabled = false;
+          btn.innerHTML = originalHtml;
+          showToast("No pudimos abrir Mercado Pago. Probá de nuevo en unos segundos.", true);
         }
       }
 
@@ -1031,7 +1074,7 @@
       window.goToPayment = goToPayment;
       window.copyValue = copyValue;
       window.finalizePurchase = finalizePurchase;
-      window.onMpClick = onMpClick;
+      window.payWithMp = payWithMp;
       window.goToTicket = goToTicket;
 
       // ====== FOMO LIVE BANNER ======
