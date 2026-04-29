@@ -1,16 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
     <meta name="theme-color" content="#1a1a1a" />
     <title>Egresantos | Edición U.U.D</title>
-    <meta name="description" content="EGRESANTOS — Último Último Día. La verdadera fiesta de fin de año de San Juan. 11 de Diciembre." />
+    <meta
+      name="description"
+      content="EGRESANTOS — Último Último Día. La verdadera fiesta de fin de año de San Juan. 11 de Diciembre."
+    />
     <meta property="og:title" content="EGRESANTOS — Último Último Día" />
-    <meta property="og:description" content="La verdadera fiesta de fin de año de San Juan. Capacidad limitada." />
+    <meta
+      property="og:description"
+      content="La verdadera fiesta de fin de año de San Juan. Capacidad limitada."
+    />
     <meta property="og:image" content="/banner.png" />
     <link rel="icon" type="image/png" href="/logo.png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script>
@@ -18,10 +30,10 @@
         theme: {
           extend: {
             colors: {
-              magenta: '#c2007e',
-              'magenta-soft': '#ff2ea6',
+              magenta: "#c2007e",
+              "magenta-soft": "#ff2ea6",
             },
-            fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+            fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
           },
         },
       };
@@ -33,20 +45,40 @@
     <div class="bg-radial-glow"></div>
 
     <!-- NAV -->
-    <nav class="w-full bg-[#141414] border-b border-white/5 py-3 px-4 md:px-6 flex justify-between items-center sticky top-0 z-40">
+    <nav
+      class="w-full bg-[#141414] border-b border-white/5 py-3 px-4 md:px-6 flex justify-between items-center sticky top-0 z-40"
+    >
       <div class="flex items-center gap-6">
         <img src="/logo.png" alt="Logo" class="h-8 w-auto" />
         <div class="hidden md:flex gap-5 text-xs font-semibold text-gray-300">
           <a href="#" class="hover:text-white transition">Home</a>
-          <a id="nav-instagram" href="https://instagram.com/egresantos" target="_blank" rel="noopener" class="hover:text-white transition">Instagram</a>
-          <a id="nav-help" href="https://wa.me/5492646279449" target="_blank" rel="noopener" class="hover:text-white transition">Ayuda</a>
+          <a
+            id="nav-instagram"
+            href="https://instagram.com/egresantos"
+            target="_blank"
+            rel="noopener"
+            class="hover:text-white transition"
+            >Instagram</a
+          >
+          <a
+            id="nav-help"
+            href="https://wa.me/5492646279449"
+            target="_blank"
+            rel="noopener"
+            class="hover:text-white transition"
+            >Ayuda</a
+          >
         </div>
       </div>
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-xs border border-white/10">
+        <div
+          class="w-8 h-8 rounded-full bg-[#2a2a2a] flex items-center justify-center text-xs border border-white/10"
+        >
           <i class="fa-solid fa-moon text-magenta-soft"></i>
         </div>
-        <div class="bg-[#2a2a2a] rounded-full px-4 py-1.5 flex items-center gap-2 border border-white/10 text-xs font-semibold">
+        <div
+          class="bg-[#2a2a2a] rounded-full px-4 py-1.5 flex items-center gap-2 border border-white/10 text-xs font-semibold"
+        >
           <span id="rrpp-name" class="hidden md:inline">VENTA DIRECTA</span>
           <i class="fa-solid fa-user-circle text-gray-400 text-lg"></i>
         </div>
@@ -54,40 +86,67 @@
     </nav>
 
     <!-- MAIN -->
-    <main class="max-w-7xl mx-auto px-4 mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10">
+    <main
+      class="max-w-7xl mx-auto px-4 mt-6 md:mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 relative z-10"
+    >
       <!-- LEFT COLUMN -->
       <div class="lg:col-span-8 space-y-6">
         <!-- Banner -->
-        <div class="w-full h-56 md:h-[22rem] bg-[#2a2a2a] rounded-2xl overflow-hidden relative">
-          <img id="event-banner" src="/banner.png" alt="Banner Evento" class="w-full h-full object-cover opacity-85" />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent pointer-events-none"></div>
+        <div
+          class="w-full h-56 md:h-[22rem] bg-[#2a2a2a] rounded-2xl overflow-hidden relative"
+        >
+          <img
+            id="event-banner"
+            src="/banner.png"
+            alt="Banner Evento"
+            class="w-full h-full object-cover opacity-85"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-[#1a1a1a] via-transparent to-transparent pointer-events-none"
+          ></div>
         </div>
 
         <!-- Title card -->
         <div class="card-dark p-6 md:p-8">
-          <h1 id="event-title" class="text-3xl md:text-4xl font-black mb-2 tracking-tight italic">Egresantos U.U.D - Capital San Juan</h1>
-          <p id="event-organizer" class="text-sm text-gray-400 mb-6 font-semibold">Organiza: EGRESANTOS &amp; ISMMA PRODUCCIONES</p>
+          <h1
+            id="event-title"
+            class="text-3xl md:text-4xl font-black mb-2 tracking-tight italic"
+          >
+            Egresantos U.U.D - Capital San Juan
+          </h1>
+          <p
+            id="event-organizer"
+            class="text-sm text-gray-400 mb-6 font-semibold"
+          >
+            Organiza: EGRESANTOS &amp; ISMMA PRODUCCIONES
+          </p>
 
           <div class="space-y-4 text-sm">
             <div class="flex gap-3">
               <i class="fa-solid fa-calendar-day text-magenta-soft mt-1"></i>
               <div>
                 <h4 class="font-bold text-gray-200">Fecha y hora</h4>
-                <p id="event-date" class="text-gray-400">Jueves 11 de diciembre — 23:00 hs</p>
+                <p id="event-date" class="text-gray-400">
+                  Jueves 11 de diciembre — 23:00 hs
+                </p>
               </div>
             </div>
             <div class="flex gap-3">
               <i class="fa-solid fa-location-dot text-magenta-soft mt-1"></i>
               <div>
                 <h4 class="font-bold text-gray-200">Ubicación</h4>
-                <p id="event-location" class="text-gray-400">San Miguel entre 6 y 7, Pocito, San Juan</p>
+                <p id="event-location" class="text-gray-400">
+                  San Miguel entre 6 y 7, Pocito, San Juan
+                </p>
               </div>
             </div>
             <div class="flex gap-3">
               <i class="fa-solid fa-id-card text-magenta-soft mt-1"></i>
               <div>
                 <h4 class="font-bold text-gray-200">Público</h4>
-                <p id="event-publico" class="text-gray-400">Mayores de 16 años con DNI en mano</p>
+                <p id="event-publico" class="text-gray-400">
+                  Mayores de 16 años con DNI en mano
+                </p>
               </div>
             </div>
           </div>
@@ -96,16 +155,37 @@
         <!-- About -->
         <div class="card-dark p-6 md:p-8">
           <h3 class="text-xl font-bold mb-4">Sobre el evento</h3>
-          <div id="event-description" class="text-sm text-gray-300 space-y-2 leading-relaxed">
+          <div
+            id="event-description"
+            class="text-sm text-gray-300 space-y-2 leading-relaxed"
+          >
             <p>Es el punto final. Una noche donde las reglas se rompen.</p>
-            <p><strong class="text-magenta-soft">DE SANTOS NO QUEDA NADA.</strong></p>
-            <p>La pista que te identifica. La música que nos une. La fiesta que recorre la provincia.</p>
-            <p class="text-yellow-500 font-semibold mt-4"><i class="fa-solid fa-triangle-exclamation"></i> CAPACIDAD SÚPER LIMITADA — ASEGURÁ TU ANTICIPADA.</p>
+            <p>
+              <strong class="text-magenta-soft"
+                >DE SANTOS NO QUEDA NADA.</strong
+              >
+            </p>
+            <p>
+              La pista que te identifica. La música que nos une. La fiesta que
+              recorre la provincia.
+            </p>
+            <p class="text-yellow-500 font-semibold mt-4">
+              <i class="fa-solid fa-triangle-exclamation"></i> CAPACIDAD SÚPER
+              LIMITADA — ASEGURÁ TU ANTICIPADA.
+            </p>
             <ul class="list-none mt-2 space-y-1 text-gray-300">
-              <li><i class="fa-solid fa-check text-magenta-soft mr-2"></i>Sector General con pista extendida</li>
-              <li><i class="fa-solid fa-check text-magenta-soft mr-2"></i>Sector VIP: sin filas, barra exclusiva, baños premium</li>
+              <li>
+                <i class="fa-solid fa-check text-magenta-soft mr-2"></i>Sector
+                General con pista extendida
+              </li>
+              <li>
+                <i class="fa-solid fa-check text-magenta-soft mr-2"></i>Sector
+                VIP: sin filas, barra exclusiva, baños premium
+              </li>
             </ul>
-            <p class="mt-4 font-bold italic">Esta no es una fiesta más. Es nuestra reunión.</p>
+            <p class="mt-4 font-bold italic">
+              Esta no es una fiesta más. Es nuestra reunión.
+            </p>
           </div>
         </div>
 
@@ -113,45 +193,87 @@
         <div class="card-dark p-6 md:p-8">
           <div class="flex items-center justify-between mb-4 gap-3 flex-wrap">
             <h3 class="text-xl font-bold">Ver ubicación en el mapa</h3>
-            <a id="event-maps-link" href="#" target="_blank" rel="noopener" class="hidden text-xs text-magenta-soft hover:text-magenta transition font-semibold">
-              <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Abrir en Maps
+            <a
+              id="event-maps-link"
+              href="#"
+              target="_blank"
+              rel="noopener"
+              class="hidden text-xs text-magenta-soft hover:text-magenta transition font-semibold"
+            >
+              <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Abrir
+              en Maps
             </a>
           </div>
           <div class="w-full h-56 md:h-64 rounded-xl overflow-hidden">
-            <iframe id="event-map-iframe"
+            <iframe
+              id="event-map-iframe"
               src="https://www.google.com/maps?q=San+Miguel+entre+6+y+7,+Pocito,+San+Juan,+Argentina&output=embed"
-              width="100%" height="100%" style="border:0;"
-              allowfullscreen="" loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"></iframe>
+              width="100%"
+              height="100%"
+              style="border: 0"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
         </div>
       </div>
 
       <!-- RIGHT COLUMN — sticky buy panel -->
       <div class="lg:col-span-4 z-30">
-        <div class="fixed bottom-0 left-0 w-full lg:static lg:sticky lg:top-24 panel-buy lg:rounded-2xl p-4 lg:p-6 shadow-[0_-10px_30px_rgba(0,0,0,0.6)] lg:shadow-none z-50 border-t lg:border border-white/5">
+        <div
+          class="fixed bottom-0 left-0 w-full lg:static lg:sticky lg:top-24 panel-buy lg:rounded-2xl p-4 lg:p-6 shadow-[0_-10px_30px_rgba(0,0,0,0.6)] lg:shadow-none z-50 border-t lg:border border-white/5"
+        >
           <div class="flex justify-between items-center mb-4 lg:mb-6">
-            <span class="text-sm font-semibold text-gray-300"><i class="fa-solid fa-ticket text-magenta-soft mr-1"></i> Entradas</span>
-            <span id="from-price" class="font-bold text-white lg:text-lg">Entradas desde —</span>
+            <span class="text-sm font-semibold text-gray-300"
+              ><i class="fa-solid fa-ticket text-magenta-soft mr-1"></i>
+              Entradas</span
+            >
+            <span id="from-price" class="font-bold text-white lg:text-lg"
+              >Entradas desde —</span
+            >
           </div>
-          <button id="buy-btn" onclick="openModal()" class="w-full btn-magenta text-white font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider">
+          <button
+            id="buy-btn"
+            onclick="openModal()"
+            class="w-full btn-magenta text-white font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider"
+          >
             Comprar entradas
           </button>
-          <p id="buy-hint" class="text-[10px] text-center text-gray-400 mt-3 hidden lg:block">Transacción segura. Pago por transferencia.</p>
+          <p
+            id="buy-hint"
+            class="text-[10px] text-center text-gray-400 mt-3 hidden lg:block"
+          >
+            Transacción segura. Pago por transferencia.
+          </p>
         </div>
       </div>
     </main>
 
     <!-- Footer -->
     <footer class="text-center py-8 mt-8 relative z-10">
-      <p class="text-[10px] tracking-[0.4em] uppercase text-white/30">de santos no queda nada</p>
-      <a href="/admin.html" class="inline-block mt-3 text-[9px] tracking-[0.3em] uppercase text-white/20 hover:text-magenta-soft transition">admin</a>
+      <p class="text-[10px] tracking-[0.4em] uppercase text-white/30">
+        de santos no queda nada
+      </p>
+      <a
+        href="/admin.html"
+        class="inline-block mt-3 text-[9px] tracking-[0.3em] uppercase text-white/20 hover:text-magenta-soft transition"
+        >admin</a
+      >
     </footer>
 
     <!-- CHECKOUT MODAL -->
-    <div id="checkout-modal" class="hidden fixed inset-0 z-[60] flex items-center justify-center px-4 bg-black/90 backdrop-blur-sm">
-      <div class="card-dark max-w-lg w-full p-6 md:p-8 border border-white/10 relative max-h-[90vh] overflow-y-auto">
-        <button onclick="closeModal()" class="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition z-10">
+    <div
+      id="checkout-modal"
+      class="hidden fixed inset-0 z-[60] flex items-center justify-center px-4 bg-black/90 backdrop-blur-sm"
+    >
+      <div
+        class="card-dark max-w-lg w-full p-6 md:p-8 border border-white/10 relative max-h-[90vh] overflow-y-auto"
+      >
+        <button
+          onclick="closeModal()"
+          class="absolute top-4 right-4 w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition z-10"
+        >
           <i class="fa-solid fa-xmark"></i>
         </button>
 
@@ -161,118 +283,250 @@
           <p class="text-xs text-gray-400 mb-6">Elegí cuántas y de qué tipo</p>
 
           <div class="space-y-4 mb-6">
-            <div class="bg-black/30 p-4 rounded-xl border border-white/5 flex justify-between items-center">
+            <div
+              class="bg-black/30 p-4 rounded-xl border border-white/5 flex justify-between items-center"
+            >
               <div>
                 <h4 class="font-bold">General U.U.D</h4>
-                <p class="text-magenta-soft font-bold text-sm" id="modal-price-gen">—</p>
+                <p
+                  class="text-magenta-soft font-bold text-sm"
+                  id="modal-price-gen"
+                >
+                  —
+                </p>
               </div>
-              <div class="flex items-center gap-2 bg-white/5 rounded-lg p-1 border border-white/10">
-                <button onclick="changeQty('gen', -1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">−</button>
-                <span id="qty-gen" class="font-bold w-5 text-center text-sm">0</span>
-                <button onclick="changeQty('gen', 1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">+</button>
+              <div
+                class="flex items-center gap-2 bg-white/5 rounded-lg p-1 border border-white/10"
+              >
+                <button
+                  onclick="changeQty('gen', -1)"
+                  class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg"
+                >
+                  −
+                </button>
+                <span id="qty-gen" class="font-bold w-5 text-center text-sm"
+                  >0</span
+                >
+                <button
+                  onclick="changeQty('gen', 1)"
+                  class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg"
+                >
+                  +
+                </button>
               </div>
             </div>
-            <div class="bg-black/30 p-4 rounded-xl border border-magenta/30 flex justify-between items-center relative overflow-hidden">
-              <div class="absolute -right-7 top-2 bg-magenta text-[10px] font-bold px-7 py-0.5 rotate-45">VIP</div>
+            <div
+              class="bg-black/30 p-4 rounded-xl border border-magenta/30 flex justify-between items-center relative overflow-hidden"
+            >
+              <div
+                class="absolute -right-7 top-2 bg-magenta text-[10px] font-bold px-7 py-0.5 rotate-45"
+              >
+                VIP
+              </div>
               <div>
                 <h4 class="font-bold">VIP Access</h4>
-                <p class="text-magenta-soft font-bold text-sm" id="modal-price-vip">—</p>
+                <p
+                  class="text-magenta-soft font-bold text-sm"
+                  id="modal-price-vip"
+                >
+                  —
+                </p>
               </div>
-              <div class="flex items-center gap-2 bg-white/5 rounded-lg p-1 border border-white/10">
-                <button onclick="changeQty('vip', -1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">−</button>
-                <span id="qty-vip" class="font-bold w-5 text-center text-sm">0</span>
-                <button onclick="changeQty('vip', 1)" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg">+</button>
+              <div
+                class="flex items-center gap-2 bg-white/5 rounded-lg p-1 border border-white/10"
+              >
+                <button
+                  onclick="changeQty('vip', -1)"
+                  class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg"
+                >
+                  −
+                </button>
+                <span id="qty-vip" class="font-bold w-5 text-center text-sm"
+                  >0</span
+                >
+                <button
+                  onclick="changeQty('vip', 1)"
+                  class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-md text-lg"
+                >
+                  +
+                </button>
               </div>
             </div>
           </div>
 
-          <div class="flex justify-between items-center mb-6 pt-4 border-t border-white/10">
+          <div
+            class="flex justify-between items-center mb-6 pt-4 border-t border-white/10"
+          >
             <span class="text-gray-400">Total a pagar:</span>
-            <span id="total-price" class="text-2xl font-bold text-white">$0</span>
+            <span id="total-price" class="text-2xl font-bold text-white"
+              >$0</span
+            >
           </div>
 
-          <button onclick="goToData()" class="w-full btn-magenta text-white font-bold py-4 rounded-xl">
+          <button
+            onclick="goToData()"
+            class="w-full btn-magenta text-white font-bold py-4 rounded-xl"
+          >
             Continuar <i class="fa-solid fa-arrow-right ml-2"></i>
           </button>
         </div>
 
         <!-- STEP 2: Data -->
         <div id="step-data" class="hidden">
-          <button onclick="backToTickets()" class="text-xs text-gray-400 mb-4 hover:text-white">
+          <button
+            onclick="backToTickets()"
+            class="text-xs text-gray-400 mb-4 hover:text-white"
+          >
             <i class="fa-solid fa-arrow-left"></i> Volver a entradas
           </button>
           <h3 class="text-2xl font-bold mb-2">Tus Datos</h3>
-          <p class="text-sm text-gray-400 mb-6">Necesitamos esto para validar tu acceso al evento.</p>
+          <p class="text-sm text-gray-400 mb-6">
+            Necesitamos esto para validar tu acceso al evento.
+          </p>
 
           <div class="space-y-4 mb-6">
             <div>
-              <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">Nombre Completo</label>
-              <input type="text" id="name" autocomplete="name" placeholder="María Pérez" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-magenta outline-none mt-1 transition" />
+              <label
+                class="text-xs font-bold text-gray-400 uppercase tracking-wider"
+                >Nombre Completo</label
+              >
+              <input
+                type="text"
+                id="name"
+                autocomplete="name"
+                placeholder="María Pérez"
+                class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-magenta outline-none mt-1 transition"
+              />
             </div>
             <div>
-              <label class="text-xs font-bold text-gray-400 uppercase tracking-wider">DNI (sin puntos)</label>
-              <input type="tel" inputmode="numeric" id="dni" placeholder="40123456" class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-magenta outline-none mt-1 transition" />
+              <label
+                class="text-xs font-bold text-gray-400 uppercase tracking-wider"
+                >DNI (sin puntos)</label
+              >
+              <input
+                type="tel"
+                inputmode="numeric"
+                id="dni"
+                placeholder="40123456"
+                class="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-magenta outline-none mt-1 transition"
+              />
             </div>
           </div>
 
           <p id="data-error" class="hidden text-xs text-red-400 mb-3"></p>
-          <button onclick="goToPayment()" class="w-full btn-magenta text-white font-bold py-4 rounded-xl">
+          <button
+            onclick="goToPayment()"
+            class="w-full btn-magenta text-white font-bold py-4 rounded-xl"
+          >
             Continuar al pago <i class="fa-solid fa-arrow-right ml-2"></i>
           </button>
         </div>
 
-        <!-- STEP 3: Payment (alias / CVU, NO QR) -->
+        <!-- STEP 3: Payment (Mercado Pago + transferencia) -->
         <div id="step-payment" class="hidden">
-          <button onclick="backToData()" class="text-xs text-gray-400 mb-4 hover:text-white">
+          <button
+            onclick="backToData()"
+            class="text-xs text-gray-400 mb-4 hover:text-white"
+          >
             <i class="fa-solid fa-arrow-left"></i> Volver
           </button>
-          <h3 class="text-xl font-bold mb-1">Abona para confirmar</h3>
-          <p class="text-xs text-gray-400 mb-5">Transferí el monto exacto y mandanos el comprobante por WhatsApp.</p>
-
-          <div class="bg-black/50 p-4 rounded-xl text-sm text-left space-y-3 mb-6 border border-white/10">
-            <div class="flex justify-between items-center">
-              <span class="text-gray-400 text-xs uppercase tracking-wider">Titular</span>
-              <span id="pay-titular" class="text-white font-semibold text-right">SERGIO ISMAEL CEPEDA ORTIZ</span>
-            </div>
-            <div class="flex justify-between items-center">
-              <span class="text-gray-400 text-xs uppercase tracking-wider">Alias</span>
-              <button type="button" onclick="copyValue('alias')" class="flex items-center gap-2 text-magenta-soft font-bold hover:text-magenta transition group">
-                <span id="pay-alias">egresantos</span>
-                <i class="fa-regular fa-copy text-xs opacity-60 group-hover:opacity-100"></i>
-              </button>
-            </div>
-            <div class="flex justify-between items-center gap-3">
-              <span class="text-gray-400 text-xs uppercase tracking-wider">CVU</span>
-              <button type="button" onclick="copyValue('cvu')" class="flex items-center gap-2 text-white font-mono text-xs hover:text-magenta-soft transition group min-w-0">
-                <span id="pay-cvu" class="truncate">0000177500094392422010</span>
-                <i class="fa-regular fa-copy text-xs opacity-60 group-hover:opacity-100"></i>
-              </button>
-            </div>
-            <hr class="border-white/10 my-2" />
-            <div class="flex justify-between items-center font-bold">
-              <span class="text-gray-300">Total a transferir</span>
-              <span id="final-total" class="text-magenta-soft text-xl">$0</span>
-            </div>
-          </div>
-
-          <p class="text-[11px] text-gray-400 mb-4 leading-relaxed">
-            <i class="fa-solid fa-circle-info text-magenta-soft mr-1"></i>
-            Una vez transferido, tocá el botón verde para enviar el comprobante por WhatsApp y validar tu compra.
+          <h3 class="text-xl font-bold mb-1">Pagá tus entradas</h3>
+          <p class="text-xs text-gray-400 mb-4">
+            Tu lugar ya quedó reservado. Elegí cómo querés pagar.
           </p>
 
-          <button onclick="finalizePurchase()" id="finalize-btn" class="w-full bg-[#25D366] hover:bg-[#1fba59] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.99]">
-            <i class="fa-brands fa-whatsapp text-xl"></i> Enviar Comprobante
-          </button>
+          <!-- ===== MERCADO PAGO ===== -->
+          <div class="bg-gradient-to-br from-[#009ee3]/20 to-magenta/10 border border-[#009ee3]/40 rounded-xl p-4 mb-4">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-bolt text-[#00d3ff] text-lg"></i>
+              <h4 class="font-black text-sm uppercase tracking-wider">Pago instantáneo</h4>
+              <span class="ml-auto text-[9px] tracking-[0.2em] uppercase bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded-full font-bold">RECOMENDADO</span>
+            </div>
+            <p class="text-[11px] text-gray-300 mb-3 leading-relaxed">
+              Tarjeta, dinero en cuenta o transferencia. Tu ticket se genera automáticamente al volver.
+            </p>
+            <div id="mp-buttons" class="space-y-2"></div>
+            <p class="text-[10px] text-yellow-400/80 mt-3 leading-relaxed">
+              <i class="fa-solid fa-circle-info"></i> Si comprás más de una entrada del mismo tipo, repetí la operación una vez por cada una.
+            </p>
+          </div>
+
+          <!-- ===== TRANSFERENCIA (alternativa) ===== -->
+          <details class="bg-black/40 rounded-xl border border-white/10 mb-4 overflow-hidden">
+            <summary class="cursor-pointer px-4 py-3 text-xs font-bold uppercase tracking-wider text-gray-300 hover:text-white transition list-none flex items-center justify-between">
+              <span><i class="fa-solid fa-building-columns text-magenta-soft mr-2"></i> Pagar por transferencia</span>
+              <i class="fa-solid fa-chevron-down text-[10px] text-gray-500"></i>
+            </summary>
+            <div class="px-4 pb-4 space-y-3 text-sm border-t border-white/5 pt-3">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400 text-xs uppercase tracking-wider">Titular</span>
+                <span id="pay-titular" class="text-white font-semibold text-right text-xs">SERGIO ISMAEL CEPEDA ORTIZ</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400 text-xs uppercase tracking-wider">Alias</span>
+                <button type="button" onclick="copyValue('alias')" class="flex items-center gap-2 text-magenta-soft font-bold hover:text-magenta transition group">
+                  <span id="pay-alias">egresantos</span>
+                  <i class="fa-regular fa-copy text-xs opacity-60 group-hover:opacity-100"></i>
+                </button>
+              </div>
+              <div class="flex justify-between items-center gap-3">
+                <span class="text-gray-400 text-xs uppercase tracking-wider">CVU</span>
+                <button type="button" onclick="copyValue('cvu')" class="flex items-center gap-2 text-white font-mono text-xs hover:text-magenta-soft transition group min-w-0">
+                  <span id="pay-cvu" class="truncate">0000177500094392422010</span>
+                  <i class="fa-regular fa-copy text-xs opacity-60 group-hover:opacity-100"></i>
+                </button>
+              </div>
+              <hr class="border-white/10 my-2" />
+              <div class="flex justify-between items-center font-bold">
+                <span class="text-gray-300">Total a transferir</span>
+                <span id="final-total" class="text-magenta-soft text-xl">$0</span>
+              </div>
+              <button onclick="finalizePurchase()" id="finalize-btn" class="w-full bg-[#25D366] hover:bg-[#1fba59] text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2 transition active:scale-[0.99] mt-3">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Enviar Comprobante
+              </button>
+            </div>
+          </details>
         </div>
       </div>
     </div>
 
     <!-- Toast -->
-    <div id="toast" class="fixed bottom-24 lg:bottom-6 left-1/2 -translate-x-1/2 z-[70] hidden rounded-2xl bg-[#242424] border border-magenta/40 px-5 py-3 text-sm shadow-2xl"></div>
+    <div
+      id="toast"
+      class="fixed bottom-24 lg:bottom-6 left-1/2 -translate-x-1/2 z-[70] hidden rounded-2xl bg-[#242424] border border-magenta/40 px-5 py-3 text-sm shadow-2xl"
+    ></div>
+
+    <!-- FOMO BANNER (live purchase) -->
+    <div
+      id="fomo-banner"
+      class="fixed top-20 lg:top-24 left-4 right-4 lg:left-auto lg:right-6 lg:max-w-xs z-[55] hidden translate-x-0 lg:translate-x-full opacity-0 transition-all duration-500"
+    >
+      <div class="rounded-2xl bg-gradient-to-r from-magenta/95 to-[#7a004e]/95 backdrop-blur-md border border-magenta-soft/40 shadow-[0_10px_40px_-10px_rgba(194,0,126,0.6)] px-4 py-3 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-fire text-yellow-300 text-lg"></i>
+        </div>
+        <div class="min-w-0 flex-1">
+          <p class="text-[10px] tracking-[0.2em] uppercase text-white/70 font-bold">Acaba de pasar</p>
+          <p id="fomo-text" class="text-xs text-white font-semibold leading-tight truncate">—</p>
+        </div>
+      </div>
+    </div>
 
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-      import { getFirestore, doc, addDoc, collection, onSnapshot, serverTimestamp, query } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+      import {
+        getFirestore,
+        doc,
+        addDoc,
+        collection,
+        onSnapshot,
+        serverTimestamp,
+        query,
+        orderBy,
+        limit,
+        setDoc,
+        increment,
+      } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
@@ -280,7 +534,7 @@
         projectId: "egresantos-nights",
         storageBucket: "egresantos-nights.firebasestorage.app",
         messagingSenderId: "992418363007",
-        appId: "1:992418363007:web:e60cb64e260090b92ab14a"
+        appId: "1:992418363007:web:e60cb64e260090b92ab14a",
       };
 
       const app = initializeApp(firebaseConfig);
@@ -289,13 +543,28 @@
       // ====== State ======
       const STORAGE_KEY = "egresantos:event";
       const DEFAULT_WHATSAPP = "5492646279449";
+      const MP_LINKS = {
+        general: { url: "https://mpago.la/2XYLdAb", price: 6500 },
+        vip:     { url: "https://mpago.la/14hhewp", price: 12980 },
+      };
+      const ARGENTINE_CITIES = [
+        "San Juan","Rivadavia","Pocito","Rawson","Chimbas","Capital","Albardón",
+        "Caucete","Santa Lucía","9 de Julio","Mendoza","Córdoba","Buenos Aires",
+        "Sarmiento","Zonda","Ullum","Calingasta","Jáchal","Iglesia","Angaco"
+      ];
+      const FAKE_NAMES = [
+        "Sofía","Lautaro","Camila","Valentín","Martina","Joaquín","Mía","Benjamín",
+        "Catalina","Bruno","Emma","Tomás","Olivia","Mateo","Julieta","Bautista",
+        "Isabella","Felipe","Lucía","Thiago","Florencia","Agustín","Renata","Iván"
+      ];
       const state = {
         event: {
           title: "Egresantos U.U.D - Capital San Juan",
           organizer: "Organiza: EGRESANTOS & ISMMA PRODUCCIONES",
           date: "Jueves 11 de diciembre — 23:00 hs",
           location: "San Miguel entre 6 y 7, Pocito, San Juan",
-          description: "Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.",
+          description:
+            "Es el punto final. Una noche donde las reglas se rompen. De santos no queda nada.",
           priceGeneral: 6000,
           priceVIP: 12000,
           whatsapp: DEFAULT_WHATSAPP,
@@ -312,6 +581,29 @@
       const rrppName = (urlParams.get("ref") || "VENTA DIRECTA").toUpperCase();
       document.getElementById("rrpp-name").textContent = rrppName;
 
+      // ====== Track RRPP click (once per session per ref) ======
+      (function trackRrppClick() {
+        if (rrppName === "VENTA DIRECTA") return;
+        try {
+          const sessionKey = `egresantos:click:${rrppName}`;
+          if (sessionStorage.getItem(sessionKey)) return;
+          sessionStorage.setItem(sessionKey, "1");
+          setDoc(
+            doc(db, "config", "rrpp_clicks"),
+            { [rrppName]: increment(1) },
+            { merge: true }
+          ).catch(() => {});
+        } catch (e) {}
+      })();
+
+      // ====== Token generator: ISM-NNNN-AA ======
+      function genToken() {
+        const digits = String(Math.floor(1000 + Math.random() * 9000));
+        const A = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        const B = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        return `ISM-${digits}-${A}${B}`;
+      }
+
       // Hydrate from localStorage immediately (zero latency)
       try {
         const cached = localStorage.getItem(STORAGE_KEY);
@@ -322,9 +614,14 @@
       } catch (e) {}
 
       // ====== Rendering ======
-      function $(id) { return document.getElementById(id); }
+      function $(id) {
+        return document.getElementById(id);
+      }
       function escapeHtml(s) {
-        return String(s ?? "").replace(/[&<>\"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+        return String(s ?? "").replace(
+          /[&<>\"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
       }
       function fmt(n) {
         if (!n || isNaN(n)) return "—";
@@ -336,11 +633,34 @@
         try {
           const [y, m, d] = dateStr.split("-").map(Number);
           const date = new Date(y, m - 1, d);
-          const dias = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
-          const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+          const dias = [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miércoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+          ];
+          const meses = [
+            "enero",
+            "febrero",
+            "marzo",
+            "abril",
+            "mayo",
+            "junio",
+            "julio",
+            "agosto",
+            "septiembre",
+            "octubre",
+            "noviembre",
+            "diciembre",
+          ];
           const label = `${dias[date.getDay()]} ${date.getDate()} de ${meses[date.getMonth()]}`;
           return timeStr ? `${label} — ${timeStr} hs` : label;
-        } catch (err) { return dateStr; }
+        } catch (err) {
+          return dateStr;
+        }
       }
 
       function renderEvent() {
@@ -355,7 +675,9 @@
         if (e.organizer) $("event-organizer").textContent = e.organizer;
 
         // Date: prefer structured eventDate+eventTime, fallback to legacy `date` text
-        const dateLabel = e.eventDate ? buildDateLabel(e.eventDate, e.eventTime) : (e.date || "");
+        const dateLabel = e.eventDate
+          ? buildDateLabel(e.eventDate, e.eventTime)
+          : e.date || "";
         if (dateLabel) $("event-date").textContent = dateLabel;
 
         if (e.location) $("event-location").textContent = e.location;
@@ -368,7 +690,9 @@
           mapsLink.href = e.googleMapsUrl;
           mapsLink.classList.remove("hidden");
           // Try to embed the same URL; if it's a /maps/place link Google will render it
-          mapIframe.src = e.googleMapsUrl.includes("output=embed") ? e.googleMapsUrl : `${e.googleMapsUrl}${e.googleMapsUrl.includes("?") ? "&" : "?"}output=embed`;
+          mapIframe.src = e.googleMapsUrl.includes("output=embed")
+            ? e.googleMapsUrl
+            : `${e.googleMapsUrl}${e.googleMapsUrl.includes("?") ? "&" : "?"}output=embed`;
         } else if (e.location) {
           const q = encodeURIComponent(e.location);
           mapIframe.src = `https://www.google.com/maps?q=${q}&output=embed`;
@@ -379,15 +703,20 @@
         if (e.description) {
           $("event-description").innerHTML = e.description
             .split(/\n+/)
-            .map(p => `<p>${escapeHtml(p)}</p>`).join("");
+            .map((p) => `<p>${escapeHtml(p)}</p>`)
+            .join("");
         }
         $("modal-price-gen").textContent = fmt(e.priceGeneral);
         $("modal-price-vip").textContent = fmt(e.priceVIP);
-        const minPrice = Math.min(...[e.priceGeneral, e.priceVIP].filter(p => p > 0)) || 0;
-        $("from-price").textContent = minPrice > 0 ? `Entradas desde ${fmt(minPrice)}` : "Entradas desde —";
+        const minPrice =
+          Math.min(...[e.priceGeneral, e.priceVIP].filter((p) => p > 0)) || 0;
+        $("from-price").textContent =
+          minPrice > 0 ? `Entradas desde ${fmt(minPrice)}` : "Entradas desde —";
 
         if (e.instagram) $("nav-instagram").href = e.instagram;
-        if (e.whatsapp) $("nav-help").href = `https://wa.me/${String(e.whatsapp).replace(/\D/g, "")}`;
+        if (e.whatsapp)
+          $("nav-help").href =
+            `https://wa.me/${String(e.whatsapp).replace(/\D/g, "")}`;
         if (e.titular) $("pay-titular").textContent = e.titular;
         if (e.alias) $("pay-alias").textContent = e.alias;
         if (e.cvu) $("pay-cvu").textContent = e.cvu;
@@ -397,23 +726,35 @@
 
       // ====== Firestore: live event config ======
       const eventRef = doc(db, "config", "event");
-      onSnapshot(eventRef, (snap) => {
-        if (snap.exists()) {
-          state.event = { ...state.event, ...snap.data() };
-          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state.event)); } catch (e) {}
-          renderEvent();
-          updateSoldOut();
-        }
-      }, (err) => console.warn("snapshot:", err));
+      onSnapshot(
+        eventRef,
+        (snap) => {
+          if (snap.exists()) {
+            state.event = { ...state.event, ...snap.data() };
+            try {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(state.event));
+            } catch (e) {}
+            renderEvent();
+            updateSoldOut();
+          }
+        },
+        (err) => console.warn("snapshot:", err),
+      );
 
       // ====== Firestore: live sales count for sold-out logic ======
       let totalSold = 0;
-      onSnapshot(query(collection(db, "ventas")), (snap) => {
-        let sum = 0;
-        snap.forEach(d => { sum += Number(d.data().cantidad || 0); });
-        totalSold = sum;
-        updateSoldOut();
-      }, (err) => console.warn("sales snapshot:", err));
+      onSnapshot(
+        query(collection(db, "ventas")),
+        (snap) => {
+          let sum = 0;
+          snap.forEach((d) => {
+            sum += Number(d.data().cantidad || 0);
+          });
+          totalSold = sum;
+          updateSoldOut();
+        },
+        (err) => console.warn("sales snapshot:", err),
+      );
 
       function updateSoldOut() {
         const cupo = Number(state.event.cupoMaximo || 0);
@@ -423,15 +764,31 @@
         if (cupo > 0 && totalSold >= cupo) {
           btn.disabled = true;
           btn.classList.remove("btn-magenta");
-          btn.classList.add("bg-red-900/40", "text-red-300", "cursor-not-allowed", "border", "border-red-500/30");
-          btn.innerHTML = '<i class="fa-solid fa-ban mr-2"></i> CAPACIDAD AGOTADA';
-          if (hint) hint.textContent = "El evento alcanzó el cupo máximo. Gracias por el apoyo.";
+          btn.classList.add(
+            "bg-red-900/40",
+            "text-red-300",
+            "cursor-not-allowed",
+            "border",
+            "border-red-500/30",
+          );
+          btn.innerHTML =
+            '<i class="fa-solid fa-ban mr-2"></i> CAPACIDAD AGOTADA';
+          if (hint)
+            hint.textContent =
+              "El evento alcanzó el cupo máximo. Gracias por el apoyo.";
         } else {
           btn.disabled = false;
           btn.classList.add("btn-magenta");
-          btn.classList.remove("bg-red-900/40", "text-red-300", "cursor-not-allowed", "border", "border-red-500/30");
+          btn.classList.remove(
+            "bg-red-900/40",
+            "text-red-300",
+            "cursor-not-allowed",
+            "border",
+            "border-red-500/30",
+          );
           btn.textContent = "Comprar entradas";
-          if (hint) hint.textContent = "Transacción segura. Pago por transferencia.";
+          if (hint)
+            hint.textContent = "Transacción segura. Pago por transferencia.";
           // Soft warning when 90%+
           if (cupo > 0 && totalSold / cupo >= 0.9 && hint) {
             const left = cupo - totalSold;
@@ -454,7 +811,7 @@
         document.body.style.overflow = "";
       }
       function showStep(step) {
-        ["tickets", "data", "payment"].forEach(s => {
+        ["tickets", "data", "payment"].forEach((s) => {
           $(`step-${s}`).classList.toggle("hidden", s !== step);
         });
       }
@@ -464,7 +821,9 @@
         updateTotal();
       }
       function updateTotal() {
-        const total = cart.gen * (state.event.priceGeneral || 0) + cart.vip * (state.event.priceVIP || 0);
+        const total =
+          cart.gen * (state.event.priceGeneral || 0) +
+          cart.vip * (state.event.priceVIP || 0);
         $("total-price").textContent = fmt(total) === "—" ? "$0" : fmt(total);
         $("final-total").textContent = fmt(total) === "—" ? "$0" : fmt(total);
       }
@@ -475,8 +834,15 @@
         }
         showStep("data");
       }
-      function backToTickets() { showStep("tickets"); }
-      function backToData() { showStep("data"); }
+      function backToTickets() {
+        showStep("tickets");
+      }
+      function backToData() {
+        showStep("data");
+      }
+
+      let currentToken = null;
+      let currentSaleId = null;
 
       async function goToPayment() {
         const name = $("name").value.trim();
@@ -484,19 +850,35 @@
         const err = $("data-error");
         err.classList.add("hidden");
         if (name.length < 3 || !/^[0-9]{7,9}$/.test(dni)) {
-          err.textContent = "Revisá el nombre y el DNI (7-9 dígitos sin puntos).";
+          err.textContent =
+            "Revisá el nombre y el DNI (7-9 dígitos sin puntos).";
           err.classList.remove("hidden");
           return;
         }
         // Pre-register the sale as "pendiente" so admin sees it live
         try {
-          const total = cart.gen * (state.event.priceGeneral || 0) + cart.vip * (state.event.priceVIP || 0);
+          const total =
+            cart.gen * (state.event.priceGeneral || 0) +
+            cart.vip * (state.event.priceVIP || 0);
           const items = [];
-          if (cart.gen > 0) items.push({ tipo: "general", cantidad: cart.gen, precio: state.event.priceGeneral });
-          if (cart.vip > 0) items.push({ tipo: "vip", cantidad: cart.vip, precio: state.event.priceVIP });
-          const tipoResumen = items.map(i => `${i.cantidad}x ${i.tipo.toUpperCase()}`).join(" + ");
+          if (cart.gen > 0)
+            items.push({
+              tipo: "general",
+              cantidad: cart.gen,
+              precio: state.event.priceGeneral,
+            });
+          if (cart.vip > 0)
+            items.push({
+              tipo: "vip",
+              cantidad: cart.vip,
+              precio: state.event.priceVIP,
+            });
+          const tipoResumen = items
+            .map((i) => `${i.cantidad}x ${i.tipo.toUpperCase()}`)
+            .join(" + ");
 
-          window.__lastSale = await addDoc(collection(db, "ventas"), {
+          currentToken = genToken();
+          const saleRef = await addDoc(collection(db, "ventas"), {
             nombre: name.toUpperCase(),
             dni,
             tipo: tipoResumen,
@@ -507,13 +889,77 @@
             promotor: rrppName,
             evento: state.event.title,
             estado: "pendiente",
+            token: currentToken,
+            metodo: "pendiente",
             createdAt: serverTimestamp(),
           });
+          currentSaleId = saleRef.id;
+          window.__lastSale = saleRef;
         } catch (e) {
           console.error(e);
           // Continue anyway — payment flow shouldn't be blocked
+          currentToken = currentToken || genToken();
         }
+        renderMpButtons();
         showStep("payment");
+      }
+
+      // ====== Mercado Pago buttons ======
+      function renderMpButtons() {
+        const wrap = $("mp-buttons");
+        if (!wrap) return;
+        const buttons = [];
+        if (cart.gen > 0) {
+          buttons.push(`
+            <a href="${MP_LINKS.general.url}" target="_blank" rel="noopener"
+               onclick="onMpClick('general', ${cart.gen})"
+               class="block w-full bg-white hover:bg-gray-100 text-[#009ee3] font-black py-3 rounded-xl text-center transition active:scale-[0.99] shadow-lg">
+              <i class="fa-solid fa-credit-card mr-2"></i>
+              Pagar GENERAL · $${MP_LINKS.general.price.toLocaleString("es-AR")}
+              ${cart.gen > 1 ? `<span class="block text-[10px] font-semibold text-gray-500 mt-0.5">Repetir ${cart.gen} veces</span>` : ""}
+            </a>
+          `);
+        }
+        if (cart.vip > 0) {
+          buttons.push(`
+            <a href="${MP_LINKS.vip.url}" target="_blank" rel="noopener"
+               onclick="onMpClick('vip', ${cart.vip})"
+               class="block w-full bg-gradient-to-r from-magenta to-magenta-soft hover:opacity-90 text-white font-black py-3 rounded-xl text-center transition active:scale-[0.99] shadow-lg">
+              <i class="fa-solid fa-crown mr-2"></i>
+              Pagar VIP · $${MP_LINKS.vip.price.toLocaleString("es-AR")}
+              ${cart.vip > 1 ? `<span class="block text-[10px] font-semibold text-white/80 mt-0.5">Repetir ${cart.vip} veces</span>` : ""}
+            </a>
+          `);
+        }
+        buttons.push(`
+          <button type="button" onclick="goToTicket()"
+                  class="block w-full bg-emerald-500 hover:bg-emerald-400 text-white font-black py-3 rounded-xl text-center transition active:scale-[0.99] mt-3">
+            <i class="fa-solid fa-ticket mr-2"></i> YA PAGUÉ — VER MI TICKET
+          </button>
+          <p class="text-[10px] text-center text-white/50 mt-2 font-mono">Token: ${currentToken || "—"}</p>
+        `);
+        wrap.innerHTML = buttons.join("");
+      }
+
+      function onMpClick(tipo, qty) {
+        // Update sale to track that user clicked MP
+        if (currentSaleId) {
+          import("https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js")
+            .then(({ updateDoc, doc: docRef }) => {
+              updateDoc(docRef(db, "ventas", currentSaleId), {
+                metodo: "mercadopago",
+                mpClickedAt: new Date().toISOString(),
+              }).catch(() => {});
+            });
+        }
+      }
+
+      function goToTicket() {
+        if (!currentToken) {
+          showToast("Primero completá tus datos", true);
+          return;
+        }
+        window.location.href = `/success.html?token=${encodeURIComponent(currentToken)}`;
       }
 
       function copyValue(field) {
@@ -521,14 +967,16 @@
         if (!txt) return;
         navigator.clipboard?.writeText(txt).then(
           () => showToast(`${field.toUpperCase()} copiado`),
-          () => showToast("No se pudo copiar", true)
+          () => showToast("No se pudo copiar", true),
         );
       }
 
       function finalizePurchase() {
         const name = $("name").value.trim().toUpperCase();
         const dni = $("dni").value.trim();
-        const total = cart.gen * (state.event.priceGeneral || 0) + cart.vip * (state.event.priceVIP || 0);
+        const total =
+          cart.gen * (state.event.priceGeneral || 0) +
+          cart.vip * (state.event.priceVIP || 0);
 
         let pedido = "";
         if (cart.gen > 0) pedido += `${cart.gen}x GENERAL `;
@@ -548,7 +996,10 @@
           `Adjunto comprobante 📎`,
         ];
         const msg = encodeURIComponent(lines.join("\n"));
-        const phone = String(state.event.whatsapp || DEFAULT_WHATSAPP).replace(/\D/g, "");
+        const phone = String(state.event.whatsapp || DEFAULT_WHATSAPP).replace(
+          /\D/g,
+          "",
+        );
         window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
       }
 
@@ -580,6 +1031,92 @@
       window.goToPayment = goToPayment;
       window.copyValue = copyValue;
       window.finalizePurchase = finalizePurchase;
+      window.onMpClick = onMpClick;
+      window.goToTicket = goToTicket;
+
+      // ====== FOMO LIVE BANNER ======
+      // Shows real recent confirmed sales when available, otherwise rotates synthetic ones.
+      const seenFomoIds = new Set();
+      let firstFomoSnapshot = true;
+      let realConfirmedSales = [];
+
+      function showFomo(text) {
+        const el = $("fomo-banner");
+        const txt = $("fomo-text");
+        if (!el || !txt) return;
+        txt.textContent = text;
+        el.classList.remove("hidden");
+        // animate in
+        requestAnimationFrame(() => {
+          el.style.opacity = "1";
+          el.style.transform = "translateX(0)";
+        });
+        clearTimeout(el._hideTimer);
+        el._hideTimer = setTimeout(() => {
+          el.style.opacity = "0";
+          el.style.transform = window.innerWidth >= 1024 ? "translateX(100%)" : "translateY(-20px)";
+          setTimeout(() => el.classList.add("hidden"), 500);
+        }, 5000);
+      }
+
+      function firstName(full) {
+        const f = String(full || "").trim().split(/\s+/)[0] || "";
+        if (!f) return "Alguien";
+        // Title case
+        return f.charAt(0).toUpperCase() + f.slice(1).toLowerCase();
+      }
+
+      function pickRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function syntheticFomo() {
+        const name = pickRandom(FAKE_NAMES);
+        const city = pickRandom(ARGENTINE_CITIES);
+        showFomo(`${name} de ${city} acaba de adquirir su entrada`);
+      }
+
+      // Subscribe to last confirmed sales for real FOMO
+      onSnapshot(
+        query(collection(db, "ventas"), orderBy("createdAt", "desc"), limit(8)),
+        (snap) => {
+          const docs = [];
+          snap.forEach((d) => docs.push({ id: d.id, ...d.data() }));
+          realConfirmedSales = docs.filter(
+            (d) => ["confirmada", "ingresado"].includes((d.estado || "").toLowerCase())
+          );
+          if (firstFomoSnapshot) {
+            firstFomoSnapshot = false;
+            docs.forEach((d) => seenFomoIds.add(d.id));
+            return;
+          }
+          // Show banner for new confirmed sales we haven't shown yet
+          for (const d of docs) {
+            if (seenFomoIds.has(d.id)) continue;
+            seenFomoIds.add(d.id);
+            if (["confirmada", "ingresado"].includes((d.estado || "").toLowerCase())) {
+              const name = firstName(d.nombre);
+              showFomo(`${name} acaba de comprar ${d.cantidad || 1} entrada${(d.cantidad || 1) > 1 ? "s" : ""}`);
+              break;
+            }
+          }
+        },
+        () => {}
+      );
+
+      // Rotate synthetic FOMO every ~25-40s when nothing real is happening
+      setTimeout(() => {
+        function rotate() {
+          if (Math.random() < 0.6 || realConfirmedSales.length === 0) {
+            syntheticFomo();
+          } else {
+            const real = pickRandom(realConfirmedSales);
+            showFomo(`${firstName(real.nombre)} acaba de comprar su entrada`);
+          }
+          setTimeout(rotate, 25000 + Math.random() * 15000);
+        }
+        rotate();
+      }, 8000);
     </script>
   </body>
 </html>

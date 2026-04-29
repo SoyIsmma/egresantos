@@ -337,13 +337,30 @@
         if (decodedText === lastScan && now - lastScanAt < 2000) return;
         lastScan = decodedText;
         lastScanAt = now;
+
+        // 1) Try EGRESANTOS token (QR from the digital ticket)
+        const token = extractToken(decodedText);
+        if (token) {
+          validateToken(token);
+          return;
+        }
+
+        // 2) Fall back to DNI from PDF417 / plain digits
         const dni = extractDni(decodedText);
         if (!dni) {
-          showToast("Código sin DNI válido", true);
+          showToast("Código no reconocido", true);
           soundWarn();
           return;
         }
         validateDni(dni);
+      }
+
+      function extractToken(raw) {
+        if (!raw) return null;
+        const txt = String(raw).trim().toUpperCase();
+        // Format: ISM-NNNN-AA  (optionally prefixed with "EGRESANTOS:")
+        const m = txt.match(/ISM-\d{4}-[A-Z]{2}/);
+        return m ? m[0] : null;
       }
 
       function extractDni(raw) {
@@ -366,10 +383,70 @@
       // ===== Manual lookup =====
       $("manual-form").addEventListener("submit", (ev) => {
         ev.preventDefault();
-        const dni = $("manual-dni").value.trim();
-        if (!/^\d{7,9}$/.test(dni)) return showToast("DNI inválido (7-9 dígitos)", true);
-        validateDni(dni);
+        const raw = $("manual-dni").value.trim();
+        if (!raw) return;
+        // Accept DNI or token in the manual field
+        const tk = extractToken(raw);
+        if (tk) return validateToken(tk);
+        if (!/^\d{7,9}$/.test(raw)) return showToast("Ingresá un DNI o un token (ISM-NNNN-AA)", true);
+        validateDni(raw);
       });
+
+      // ===== Validation by token =====
+      async function validateToken(token) {
+        if (busy) return;
+        busy = true;
+        ensureAudio();
+        try {
+          const q = query(collection(db, "ventas"), where("token", "==", token));
+          const snap = await getDocs(q);
+          if (snap.empty) {
+            soundWarn();
+            return showResult({
+              status: "notfound",
+              title: "TOKEN INVÁLIDO",
+              subtitle: "No hay ningún ticket con ese código",
+              detail: token,
+            });
+          }
+          const target = { id: snap.docs[0].id, ...snap.docs[0].data() };
+          await processTarget(target, `Token: ${token}`);
+        } catch (e) {
+          console.error(e);
+          soundError();
+          showResult({ status: "error", title: "ERROR", subtitle: "No se pudo validar", detail: e.message || "" });
+        } finally {
+          $("manual-dni").value = "";
+        }
+      }
+
+      async function processTarget(target, detailExtra) {
+        const estado = (target.estado || "").toLowerCase();
+        if (estado === "ingresado") {
+          soundError();
+          return showResult({
+            status: "used",
+            title: "YA INGRESÓ",
+            subtitle: target.nombre || "—",
+            detail: detailExtra || `${target.cantidad || 1} tix`,
+          });
+        }
+        if (estado !== "confirmada") {
+          // Pendiente: still let pass but warn
+          soundWarn();
+        }
+        await updateDoc(doc(db, "ventas", target.id), {
+          estado: "ingresado",
+          ingresadoAt: new Date().toISOString(),
+        });
+        soundSuccess();
+        showResult({
+          status: "ok",
+          title: "BIENVENIDO",
+          subtitle: target.nombre || "—",
+          detail: `${target.cantidad || 1} tix · ${target.tipo || ""}`,
+        });
+      }
 
       // ===== Validation logic =====
       async function validateDni(dni) {

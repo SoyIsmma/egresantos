@@ -18,6 +18,7 @@ export default defineConfig({
         main: path.resolve(import.meta.dirname, "index.html"),
         admin: path.resolve(import.meta.dirname, "admin.html"),
         scanner: path.resolve(import.meta.dirname, "scanner.html"),
+        success: path.resolve(import.meta.dirname, "success.html"),
       },
     },
   },

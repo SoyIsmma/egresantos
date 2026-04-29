@@ -144,6 +144,9 @@
           </div>
         </div>
         <div class="flex items-center gap-2">
+          <button id="sound-toggle" type="button" title="Activar/desactivar sonido de venta" class="inline-flex items-center justify-center text-[10px] tracking-[0.3em] uppercase text-white/70 hover:text-white transition px-3 py-2 border border-white/10 hover:border-magenta/40 rounded-full">
+            <i id="sound-icon" class="fa-solid fa-volume-high text-magenta-soft"></i>
+          </button>
           <a href="/scanner.html" target="_blank" class="inline-flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-white/80 hover:text-white transition px-4 py-2 border border-magenta/40 bg-magenta/10 hover:bg-magenta/20 rounded-full">
             <i class="fa-solid fa-qrcode text-magenta-soft"></i> <span class="hidden sm:inline">scanner</span>
           </a>
@@ -459,8 +462,44 @@
       let unsubscribers = [];
       let allSales = [];
       let rrppList = [];
+      let rrppClicks = {};
       let saleSearch = "";
       let cupoMaximo = 0;
+      let prevConfirmedIds = new Set();
+      let firstSalesSnapshot = true;
+      let soundEnabled = localStorage.getItem("egresantos:adminSound") !== "off";
+
+      // ===== Sound (cash register beep) =====
+      let audioCtx = null;
+      function ensureAudio() {
+        if (!audioCtx) {
+          try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {}
+        }
+      }
+      function beep(freq, durationMs, type = "sine", gainVal = 0.12) {
+        if (!soundEnabled) return;
+        ensureAudio();
+        if (!audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.frequency.value = freq;
+        osc.type = type;
+        gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + durationMs / 1000);
+        osc.connect(gain).connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + durationMs / 1000);
+      }
+      function soundCashRegister() {
+        // ka-CHING
+        beep(1200, 90, "triangle", 0.14);
+        setTimeout(() => beep(1600, 110, "triangle", 0.14), 90);
+        setTimeout(() => beep(2000, 220, "sine", 0.12), 200);
+      }
+      function soundNewLead() {
+        beep(880, 120, "sine", 0.1);
+        setTimeout(() => beep(1320, 140, "sine", 0.1), 120);
+      }
 
       function showToast(msg, isError = false) {
         const t = $("toast");
@@ -534,6 +573,35 @@
 
       $("logout-btn").addEventListener("click", () => signOut(auth));
 
+      // Sound toggle
+      function refreshSoundIcon() {
+        const ic = $("sound-icon");
+        if (!ic) return;
+        ic.className = soundEnabled
+          ? "fa-solid fa-volume-high text-magenta-soft"
+          : "fa-solid fa-volume-xmark text-white/40";
+      }
+      refreshSoundIcon();
+      $("sound-toggle").addEventListener("click", () => {
+        soundEnabled = !soundEnabled;
+        localStorage.setItem("egresantos:adminSound", soundEnabled ? "on" : "off");
+        refreshSoundIcon();
+        if (soundEnabled) {
+          ensureAudio();
+          // Resume context if browser suspended it
+          if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+          soundCashRegister();
+          showToast("Sonido activado");
+        } else {
+          showToast("Sonido silenciado");
+        }
+      });
+      // Unlock audio on first interaction (browsers require gesture)
+      document.addEventListener("click", () => {
+        ensureAudio();
+        if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+      }, { once: true });
+
       // ===== Live snapshots =====
       function startLiveData() {
         stopLiveData();
@@ -577,10 +645,46 @@
           $("stat-rrpp").textContent = rrppList.length;
         }));
 
+        // RRPP click counters
+        unsubscribers.push(onSnapshot(doc(db, "config", "rrpp_clicks"), (snap) => {
+          rrppClicks = snap.exists() ? (snap.data() || {}) : {};
+          renderRrppList();
+        }));
+
         // Sales
         unsubscribers.push(onSnapshot(query(collection(db, "ventas"), orderBy("createdAt", "desc")), (snap) => {
-          allSales = [];
-          snap.forEach(d => allSales.push({ id: d.id, ...d.data() }));
+          const next = [];
+          snap.forEach(d => next.push({ id: d.id, ...d.data() }));
+
+          // Detect new sales for sound feedback (skip very first snapshot)
+          if (!firstSalesSnapshot) {
+            for (const s of next) {
+              if (prevConfirmedIds.has(s.id)) continue;
+              // Brand new doc since last snapshot
+              const estado = (s.estado || "").toLowerCase();
+              if (estado === "confirmada" || estado === "ingresado") {
+                soundCashRegister();
+                showToast(`Nueva venta confirmada: ${s.nombre || ""}`);
+              } else if (estado === "pendiente") {
+                soundNewLead();
+              }
+            }
+            // Detect transitions: pendiente → confirmada
+            const prevSalesById = new Map(allSales.map(x => [x.id, x]));
+            for (const s of next) {
+              const prev = prevSalesById.get(s.id);
+              if (!prev) continue;
+              const prevEst = (prev.estado || "").toLowerCase();
+              const newEst = (s.estado || "").toLowerCase();
+              if (prevEst !== "confirmada" && newEst === "confirmada") {
+                soundCashRegister();
+                showToast(`Pago confirmado: ${s.nombre || ""}`);
+              }
+            }
+          }
+          prevConfirmedIds = new Set(next.map(s => s.id));
+          firstSalesSnapshot = false;
+          allSales = next;
           renderSales();
         }, (err) => {
           console.error(err);
@@ -610,6 +714,10 @@
           const sales = allSales.filter(s => (s.promotor || "").toUpperCase() === name.toUpperCase());
           const tickets = sales.reduce((sum, s) => sum + Number(s.cantidad || 0), 0);
           const recaudado = sales.reduce((sum, s) => sum + Number(s.total || 0), 0);
+          const clicks = Number(rrppClicks[name.toUpperCase()] || rrppClicks[name] || 0);
+          // Conversion rate: confirmed sales / clicks
+          const confirmedSales = sales.filter(s => ["confirmada","ingresado"].includes((s.estado || "").toLowerCase())).length;
+          const conv = clicks > 0 ? Math.round((confirmedSales / clicks) * 100) : null;
           return `
             <div class="rounded-xl border border-white/10 bg-white/[0.02] hover:border-magenta/40 transition p-3 md:p-4">
               <div class="flex items-start justify-between gap-3 flex-wrap">
@@ -618,6 +726,9 @@
                     <p class="font-bold text-base">${escapeHtml(name)}</p>
                     <span class="pill" style="background:rgba(194,0,126,0.1);color:#ff2ea6;border:1px solid rgba(194,0,126,0.25)">
                       ${tickets} tix · ${formatPrice(recaudado)}
+                    </span>
+                    <span class="pill" style="background:rgba(56,189,248,0.1);color:#7dd3fc;border:1px solid rgba(56,189,248,0.25)" title="Clicks únicos en su link">
+                      <i class="fa-solid fa-mouse-pointer text-[9px] mr-0.5"></i> ${clicks} click${clicks === 1 ? "" : "s"}${conv !== null ? ` · ${conv}%` : ""}
                     </span>
                   </div>
                   <div class="flex items-center gap-2 mt-2">

@@ -1,0 +1,45 @@
+Actúa como un desarrollador Senior Full-stack para finalizar mi ticketera. El sistema debe ser robusto, estético y automatizado.
+
+1. Integración de Pagos y Lógica de "Success":
+
+Configura los botones de compra para redireccionar a los links de Mercado Pago:
+
+General: https://mpago.la/2XYLdAb ($6.500 con comisión).
+
+VIP: http://mpago.la/14hhewp ($12.980 con comisión).
+
+Crea una Página de Éxito (success.html): Cuando el usuario vuelve de Mercado Pago, el sistema debe verificar el pago en Firestore y generar automáticamente un Ticket Digital.
+
+2. Generación de Tickets QR Encriptados:
+
+El QR no debe ser el DNI. Debe generar un Token Único Encriptado (ej: ISM-7293-AX).
+
+Seguridad "Anti-Captura": Debajo del QR, añade un reloj digital que muestre segundos en movimiento y la fecha actual. Esto sirve para que el portero verifique que no es una captura de pantalla vieja.
+
+Botón "Enviar a un amigo": Si el usuario compra más de una entrada, permite que pueda enviar el link de un ticket individual por WhatsApp a otra persona.
+
+3. Automatización de WhatsApp (Estrategia Segura):
+
+Añade un botón: "Recibir entrada por WhatsApp". Al tocarlo, se debe abrir un mensaje predefinido hacia el número +5493888532881 que incluya el Token y el DNI del comprador para que la productora tenga el respaldo.
+
+4. Panel de Administración y Starlink Ready:
+
+El admin.html debe tener un Monitor en Vivo con efectos de sonido (opcionales) cada vez que se confirme una venta.
+
+Gestor de RRPP: Tabla para ver cuántos clicks y ventas generó cada promotor mediante parámetros ?ref=nombre.
+
+Exportación: Botón para bajar la lista de asistentes en CSV (Backup para la puerta).
+
+5. Estética "Festival Premium":
+
+Diseño: Fondo negro profundo (#0a0a0a), tarjetas con efecto cristal (Glassmorphism), y botones con gradientes magenta a púrpura (#c2007e).
+
+Interacción: Añade una barra de progreso de "Capacidad" que cambie de color a medida que se llega al Sold Out.
+
+Componente Único: Un banner dinámico que diga: "¡[Nombre] de [Ciudad] acaba de adquirir su entrada!" para generar sentido de urgencia.
+
+6. Instrucciones de Cierre:
+
+Asegúrate de que todos los archivos (index.html, admin.html, scanner.html, success.html) utilicen la misma configuración de Firebase para estar sincronizados.
+
+Al terminar, explícame cómo exportar el proyecto final en un archivo ZIP.
