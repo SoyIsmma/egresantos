@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "echo 'Preparando sitio para Egresantos...'"
+    "build": "echo 'Preparando sitio...'"
   },
   "dependencies": {
     "mercadopago": "^2.0.15",
@@ -22,7 +22,8 @@
     "has-tostringtag": "^1.0.2",
     "hasown": "^2.0.2",
     "gopd": "^1.0.1",
-    "has-property-descriptors": "^1.0.2"
+    "has-property-descriptors": "^1.0.2",
+    "delayed-stream": "^1.0.0"
   },
   "devDependencies": {
     "typescript": "~5.9.2",
