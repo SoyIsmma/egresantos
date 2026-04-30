@@ -1,236 +1,220 @@
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-  import {
-    getFirestore,
-    doc,
-    getDoc,
-    collection,
-    query,
-    where,
-    onSnapshot,
-    limit
-  } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  onSnapshot,
+  limit
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
-    authDomain: "egresantos-nights.firebaseapp.com",
-    projectId: "egresantos-nights",
-    storageBucket: "egresantos-nights.firebasestorage.app",
-    messagingSenderId: "992418363007",
-    appId: "1:992418363007:web:e60cb64e260090b92ab14a"
-  };
+/* FIREBASE */
+const firebaseConfig = {
+  apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
+  authDomain: "egresantos-nights.firebaseapp.com",
+  projectId: "egresantos-nights",
+  storageBucket: "egresantos-nights.firebasestorage.app",
+  messagingSenderId: "992418363007",
+  appId: "1:992418363007:web:e60cb64e260090b92ab14a"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  const $ = (id) => document.getElementById(id);
+const $ = (id) => document.getElementById(id);
 
-  const PRODUCTORA_WA = "5493888532881";
+const PRODUCTORA_WA = "5493888532881";
 
-  const params = new URLSearchParams(location.search);
-  const token = (params.get("token") || "").trim().toUpperCase();
+/* TOKEN URL */
+const params = new URLSearchParams(location.search);
+const token = (params.get("token") || "").trim().toUpperCase();
 
-  function showState(name) {
-    ["loading", "notfound", "pending", "ready"].forEach((s) => {
-      const el = $(`state-${s}`);
-      if (el) el.classList.toggle("hidden", s !== name);
-    });
+/* UI STATES */
+function showState(name) {
+  ["loading", "notfound", "pending", "ready"].forEach((s) => {
+    const el = $(`state-${s}`);
+    if (el) el.classList.toggle("hidden", s !== name);
+  });
+}
+
+function showToast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.remove("hidden");
+
+  setTimeout(() => {
+    t.classList.add("hidden");
+  }, 2200);
+}
+
+/* CLOCK */
+const meses = [
+  "enero","febrero","marzo","abril","mayo","junio",
+  "julio","agosto","septiembre","octubre","noviembre","diciembre"
+];
+
+const dias = [
+  "Domingo","Lunes","Martes","Miércoles",
+  "Jueves","Viernes","Sábado"
+];
+
+function tickClock() {
+  const now = new Date();
+
+  const hh = String(now.getHours()).padStart(2, "0");
+  const mm = String(now.getMinutes()).padStart(2, "0");
+  const ss = String(now.getSeconds()).padStart(2, "0");
+
+  const clockEl = $("live-clock");
+  const dateEl = $("live-date");
+
+  if (clockEl) clockEl.textContent = `${hh}:${mm}:${ss}`;
+
+  if (dateEl) {
+    dateEl.textContent =
+      `${dias[now.getDay()]} ${now.getDate()} de ${meses[now.getMonth()]} ${now.getFullYear()}`;
   }
+}
 
-  function showToast(msg) {
-    const t = $("toast");
-    t.textContent = msg;
-    t.classList.remove("hidden");
-    setTimeout(() => t.classList.add("hidden"), 2500);
-  }
+setInterval(tickClock, 1000);
+tickClock();
 
-  const meses = [
-    "enero","febrero","marzo","abril","mayo","junio",
-    "julio","agosto","septiembre","octubre","noviembre","diciembre"
-  ];
+/* VALIDAR TOKEN */
+if (!token || !/^ISM-\d{4}-[A-Z]{2}$/i.test(token)) {
+  showState("notfound");
+} else {
 
-  const dias = [
-    "Domingo","Lunes","Martes","Miércoles",
-    "Jueves","Viernes","Sábado"
-  ];
+  $("pending-token").textContent = token;
 
-  function tickClock() {
-    const now = new Date();
+  const pendingMsg = encodeURIComponent(
+`Hola! Ya pagué mi entrada para EGRESANTOS.
 
-    const hh = String(now.getHours()).padStart(2, "0");
-    const mm = String(now.getMinutes()).padStart(2, "0");
-    const ss = String(now.getSeconds()).padStart(2, "0");
+Token: ${token}
 
-    if ($("live-clock")) $("live-clock").textContent = `${hh}:${mm}:${ss}`;
+Adjunto comprobante.`
+  );
 
-    if ($("live-date")) {
-      $("live-date").textContent =
-        `${dias[now.getDay()]} ${now.getDate()} de ${meses[now.getMonth()]} ${now.getFullYear()}`;
-    }
-  }
+  $("wa-receive-pending").href =
+    `https://wa.me/${PRODUCTORA_WA}?text=${pendingMsg}`;
 
-  setInterval(tickClock, 1000);
-  tickClock();
+  const q = query(
+    collection(db, "ventas"),
+    where("token", "==", token),
+    limit(1)
+  );
 
-  if (!token || !/^ISM-\d{4}-[A-Z]{2}$/i.test(token)) {
-    showState("notfound");
-  } else {
-    $("pending-token").textContent = token;
+  onSnapshot(q, (snap) => {
 
-    const pendingMsg = encodeURIComponent(
-      `Hola! Ya pagué mi entrada para EGRESANTOS.\n\nToken: ${token}\n\nAdjunto comprobante.`
-    );
-
-    $("wa-receive-pending").href =
-      `https://wa.me/${PRODUCTORA_WA}?text=${pendingMsg}`;
-
-    const q = query(
-      collection(db, "ventas"),
-      where("token", "==", token),
-      limit(1)
-    );
-
-    onSnapshot(q, (snap) => {
-      if (snap.empty) {
-        showState("notfound");
-        return;
-      }
-
-      const row = snap.docs[0];
-      const sale = { id: row.id, ...row.data() };
-
-      renderSale(sale);
-
-    }, (error) => {
-      console.error(error);
+    if (snap.empty) {
       showState("notfound");
-    });
-  }
-
-  let qrDrawn = false;
-  let lastEstado = "";
-
-  function renderSale(sale) {
-
-    const estado = (sale.estado || "pendiente").toLowerCase();
-    const isReady =
-      estado === "confirmada" ||
-      estado === "ingresado";
-
-    if (!isReady) {
-      showState("pending");
-      lastEstado = estado;
       return;
     }
 
-    showState("ready");
+    const row = snap.docs[0];
+    const sale = { id: row.id, ...row.data() };
 
-    $("ticket-title").textContent = sale.evento || "Tu entrada";
-    $("ticket-name").textContent = sale.nombre || "—";
-    $("ticket-dni").textContent = sale.dni || "—";
-    $("ticket-tipo").textContent = sale.tipo || "General";
-    $("ticket-cant").textContent = sale.cantidad || 1;
-    $("ticket-token").textContent = token;
+    renderSale(sale);
 
-    getDoc(doc(db, "config", "event"))
-      .then((snap) => {
-        if (!snap.exists()) return;
+  }, (error) => {
+    console.error(error);
+    showState("notfound");
+  });
+}
 
-        const ev = snap.data();
+/* RENDER */
+let qrDrawn = false;
+let lastEstado = "";
 
-        $("ticket-event").textContent =
-          (ev.title || "EGRESANTOS").toUpperCase();
+function renderSale(sale) {
 
-        if (ev.date) {
-          $("ticket-date").textContent = ev.date;
-        }
-      })
-      .catch(() => {});
+  const estado = (sale.estado || "pendiente").toLowerCase();
 
-    /* ===========================
-       QR CORREGIDO COMPLETO
-    =========================== */
+  const isReady =
+    estado === "confirmada" ||
+    estado === "ingresado";
 
-    if (!qrDrawn) {
-      qrDrawn = true;
+  if (!isReady) {
+    showState("pending");
+    lastEstado = estado;
+    return;
+  }
+
+  showState("ready");
+
+  $("ticket-title").textContent = sale.evento || "Tu entrada";
+  $("ticket-name").textContent = sale.nombre || "—";
+  $("ticket-dni").textContent = sale.dni || "—";
+  $("ticket-tipo").textContent = sale.tipo || "General";
+  $("ticket-cant").textContent = sale.cantidad || 1;
+  $("ticket-token").textContent = token;
+
+  getDoc(doc(db, "config", "event"))
+    .then((snap) => {
+      if (!snap.exists()) return;
+
+      const ev = snap.data();
+
+      $("ticket-event").textContent =
+        (ev.title || "EGRESANTOS").toUpperCase();
+
+      if (ev.date) {
+        $("ticket-date").textContent = ev.date;
+      }
+    })
+    .catch(() => {});
+
+  /* QR CORREGIDO */
+  if (!qrDrawn) {
+
+    qrDrawn = true;
+
+    const wrap = $("qr-canvas");
+    wrap.innerHTML = "Generando QR...";
+
+    try {
 
       const qrPayload = `EGRESANTOS:${token}`;
-      const wrap = $("qr-canvas");
 
-      wrap.innerHTML = `
-        <div class="text-white/40 text-xs animate-pulse">
-          Generando QR...
-        </div>
-      `;
+      window.QRCode.toCanvas(
+        qrPayload,
+        {
+          width: 240,
+          margin: 1,
+          color: {
+            dark: "#000000",
+            light: "#ffffff"
+          }
+        },
+        (err, canvas) => {
 
-      try {
+          wrap.innerHTML = "";
 
-        if (window.QRCode && typeof window.QRCode.toCanvas === "function") {
+          if (err || !canvas) {
+            wrap.innerHTML = "No se pudo crear QR";
+            console.error(err);
+            return;
+          }
 
-          window.QRCode.toCanvas(
-            qrPayload,
-            {
-              width: 240,
-              margin: 1,
-              color: {
-                dark: "#0a0a0a",
-                light: "#ffffff"
-              }
-            },
-            (err, canvas) => {
+          canvas.style.borderRadius = "14px";
+          canvas.style.maxWidth = "240px";
+          canvas.style.width = "100%";
+          canvas.style.height = "auto";
 
-              wrap.innerHTML = "";
-
-              if (err || !canvas) {
-                wrap.innerHTML = `
-                  <div class="text-red-400 text-xs text-center">
-                    Error al crear QR
-                  </div>
-                `;
-                console.error(err);
-                return;
-              }
-
-              canvas.style.borderRadius = "14px";
-              canvas.style.width = "100%";
-              canvas.style.maxWidth = "240px";
-              canvas.style.height = "auto";
-              canvas.style.boxShadow =
-                "0 0 25px rgba(194,0,126,.25)";
-
-              wrap.appendChild(canvas);
-            }
-          );
-
-        } else {
-
-          wrap.innerHTML = `
-            <div class="text-red-400 text-xs text-center">
-              Librería QR no cargada
-            </div>
-          `;
-
-          console.error("QRCode no existe");
-
+          wrap.appendChild(canvas);
         }
+      );
 
-      } catch (error) {
-
-        wrap.innerHTML = `
-          <div class="text-red-400 text-xs text-center">
-            No se pudo generar QR
-          </div>
-        `;
-
-        console.error(error);
-      }
+    } catch (error) {
+      wrap.innerHTML = "Error QR";
+      console.error(error);
     }
+  }
 
-    /* ===========================
-       BOTON WHATSAPP
-    =========================== */
-
-    const recvMsg = encodeURIComponent(
+  /* WHATSAPP */
+  const recvMsg = encodeURIComponent(
 `🎟️ EGRESANTOS - ENTRADA CONFIRMADA
 
 Titular: ${sale.nombre || "-"}
@@ -239,15 +223,15 @@ Tipo: ${sale.tipo || "-"}
 Token: ${token}
 
 Mostrá este mensaje en puerta.`
-    );
+  );
 
-    $("wa-receive").href =
-      `https://wa.me/${PRODUCTORA_WA}?text=${recvMsg}`;
+  $("wa-receive").href =
+    `https://wa.me/${PRODUCTORA_WA}?text=${recvMsg}`;
 
-    if (lastEstado && lastEstado !== estado) {
-      showToast("¡Pago confirmado!");
-    }
-
-    lastEstado = estado;
+  if (lastEstado && lastEstado !== estado) {
+    showToast("¡Pago confirmado!");
   }
+
+  lastEstado = estado;
+}
 </script>
