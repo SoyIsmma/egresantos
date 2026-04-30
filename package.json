@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "echo 'No build script needed for static site'"
+    "build": "echo 'Preparando sitio para Egresantos...'"
   },
   "dependencies": {
     "mercadopago": "^2.0.15",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "follow-redirects": "^1.15.6"
   },
   "devDependencies": {
     "typescript": "~5.9.2",
