@@ -14,7 +14,12 @@
     "asynckit": "^0.4.0",
     "combined-stream": "^1.0.8",
     "mime-types": "^2.1.35",
-    "mime-db": "^1.52.0"
+    "mime-db": "^1.52.0",
+    "es-set-tostringtag": "^2.1.0",
+    "call-bind": "^1.0.7",
+    "define-properties": "^1.2.1",
+    "get-intrinsic": "^1.2.4",
+    "has-tostringtag": "^1.0.2"
   },
   "devDependencies": {
     "typescript": "~5.9.2",
