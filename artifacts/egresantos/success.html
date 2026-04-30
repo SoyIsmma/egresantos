@@ -1,237 +1,265 @@
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
-import {
-  getFirestore,
-  doc,
-  getDoc,
-  collection,
-  query,
-  where,
-  onSnapshot,
-  limit
-} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>Tu Ticket · EGRESANTOS</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Corregido: Librería QR -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        magenta: "#c2007e",
+                        "magenta-soft": "#ff2ea6",
+                        ink: "#0a0a0a",
+                    },
+                    fontFamily: { sans: ["Inter", "system-ui", "sans-serif"] },
+                },
+            },
+        };
+    </script>
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+        .ticket { background: linear-gradient(180deg, #141414 0%, #0a0a0a 100%); border: 1px solid rgba(194, 0, 126, 0.3); position: relative; }
+        .ticket::before, .ticket::after { content: ""; position: absolute; width: 24px; height: 24px; background: #1a1a1a; border-radius: 50%; top: 50%; transform: translateY(-50%); }
+        .ticket::before { left: -12px; }
+        .ticket::after { right: -12px; }
+        .live-clock { font-variant-numeric: tabular-nums; letter-spacing: 0.05em; }
+        .pulse-dot { animation: pulse-dot 1s ease-in-out infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .qr-frame { background: white; border-radius: 1rem; padding: 1rem; position: relative; overflow: hidden; }
+        .glass-soft { background: rgba(20,20,20,0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.06); }
+        .ticket-flip { animation: ticketIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        @keyframes ticketIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    </style>
+</head>
+<body class="bg-ink text-white font-sans antialiased min-h-screen overflow-x-hidden">
+    <div class="bg-radial-glow"></div>
+    <header class="relative z-10 flex items-center justify-between px-5 py-4 max-w-2xl mx-auto">
+        <a href="/" class="flex items-center gap-2 text-white/60 hover:text-white text-xs tracking-[0.3em] uppercase transition">
+            <i class="fa-solid fa-arrow-left"></i> Volver
+        </a>
+        <img src="/logo.png" alt="EGRESANTOS" class="h-7 w-auto opacity-90" />
+    </header>
 
-/* FIREBASE */
-const firebaseConfig = {
-  apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
-  authDomain: "egresantos-nights.firebaseapp.com",
-  projectId: "egresantos-nights",
-  storageBucket: "egresantos-nights.firebasestorage.app",
-  messagingSenderId: "992418363007",
-  appId: "1:992418363007:web:e60cb64e260090b92ab14a"
-};
+    <main class="relative z-10 max-w-md mx-auto px-5 pb-20">
+        <!-- LOADING -->
+        <section id="state-loading" class="text-center py-16">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-2 border-white/10 border-t-magenta-soft"></div>
+            <p class="mt-4 text-white/60 text-sm">Buscando tu ticket...</p>
+        </section>
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+        <!-- NOT FOUND -->
+        <section id="state-notfound" class="hidden text-center py-16">
+            <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-yellow-500/15 border border-yellow-500/30 flex items-center justify-center">
+                <i class="fa-solid fa-circle-question text-3xl text-yellow-400"></i>
+            </div>
+            <h2 class="text-2xl font-black italic tracking-tight mb-2">Ticket no encontrado</h2>
+            <p class="text-white/60 text-sm mb-6">El código de tu ticket no es válido o expiró.</p>
+            <a href="/" class="inline-block rounded-2xl bg-magenta hover:bg-magenta-soft text-white font-bold px-6 py-3 transition"> Volver al inicio </a>
+        </section>
 
-const $ = (id) => document.getElementById(id);
+        <!-- PENDING -->
+        <section id="state-pending" class="hidden">
+            <div class="rounded-3xl glass-soft p-7 text-center">
+                <div class="w-20 h-20 mx-auto mb-5 rounded-full bg-yellow-500/15 border border-yellow-500/30 flex items-center justify-center relative">
+                    <i class="fa-solid fa-hourglass-half text-3xl text-yellow-400"></i>
+                    <span class="absolute inset-0 rounded-full border-2 border-yellow-400/40 animate-ping"></span>
+                </div>
+                <h2 class="text-2xl font-black italic tracking-tight mb-2">Esperando pago</h2>
+                <p class="text-white/60 text-sm mb-1">Tu ticket aparecerá apenas se confirme el pago.</p>
+                <p class="text-emerald-400 text-xs flex items-center justify-center gap-1.5 mt-3">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span> Verificando en tiempo real
+                </p>
+            </div>
+            <div class="mt-5 rounded-2xl border border-white/10 bg-white/[0.02] p-5 text-left">
+                <p class="text-[10px] tracking-[0.3em] uppercase text-white/50 mb-2">Mientras tanto</p>
+                <p class="text-sm text-white/80 leading-relaxed mb-4"> ¿Ya pagaste? Mandanos el comprobante por WhatsApp. </p>
+                <a id="wa-receive-pending" href="#" target="_blank" class="block w-full text-center rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3 transition">
+                    <i class="fa-brands fa-whatsapp mr-2"></i> Avisar a la productora
+                </a>
+            </div>
+            <p class="mt-6 text-center text-[10px] text-white/40 font-mono">Token: <span id="pending-token">—</span></p>
+        </section>
 
-const PRODUCTORA_WA = "5493888532881";
+        <!-- READY: TICKET -->
+        <section id="state-ready" class="hidden">
+            <div class="text-center mb-5">
+                <div class="inline-flex items-center gap-2 bg-emerald-500/15 border border-emerald-500/30 px-3 py-1 rounded-full">
+                    <i class="fa-solid fa-circle-check text-emerald-400 text-xs"></i>
+                    <span class="text-[10px] tracking-[0.25em] uppercase text-emerald-300 font-bold">Pago confirmado</span>
+                </div>
+            </div>
+            <div class="ticket ticket-flip rounded-3xl p-6 md:p-7 mb-5 shadow-[0_30px_60px_-20px_rgba(194,0,126,0.4)]">
+                <div class="text-center mb-4">
+                    <p id="ticket-event" class="text-[10px] tracking-[0.4em] uppercase text-magenta-soft font-bold mb-1">EGRESANTOS</p>
+                    <h1 id="ticket-title" class="text-xl font-black italic tracking-tight">Tu entrada</h1>
+                    <p id="ticket-date" class="text-xs text-white/50 mt-1">—</p>
+                </div>
+                <div class="qr-frame mx-auto" style="max-width: 280px;">
+                    <div id="qr-canvas" class="flex items-center justify-center"></div>
+                </div>
+                <div class="mt-4 mb-2 text-center">
+                    <p class="text-[9px] tracking-[0.3em] uppercase text-white/40 mb-1">Validez en vivo</p>
+                    <div class="flex items-center justify-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot"></span>
+                        <span id="live-clock" class="live-clock text-2xl font-black italic text-white">--:--:--</span>
+                    </div>
+                    <p id="live-date" class="text-[10px] text-white/50 mt-0.5">—</p>
+                </div>
+                <div class="border-t border-dashed border-white/10 mt-4 pt-4 grid grid-cols-2 gap-4">
+                    <div>
+                        <p class="text-[9px] tracking-[0.25em] uppercase text-white/40">Titular</p>
+                        <p id="ticket-name" class="font-bold text-sm truncate">—</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[9px] tracking-[0.25em] uppercase text-white/40">DNI</p>
+                        <p id="ticket-dni" class="font-mono text-sm">—</p>
+                    </div>
+                    <div>
+                        <p class="text-[9px] tracking-[0.25em] uppercase text-white/40">Tipo</p>
+                        <p id="ticket-tipo" class="font-bold text-sm text-magenta-soft">—</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[9px] tracking-[0.25em] uppercase text-white/40">Cantidad</p>
+                        <p id="ticket-cant" class="font-black italic text-sm">—</p>
+                    </div>
+                </div>
+                <div class="mt-4 pt-4 border-t border-dashed border-white/10 text-center">
+                    <p class="text-[9px] tracking-[0.3em] uppercase text-white/40">Token único</p>
+                    <p id="ticket-token" class="font-mono font-bold text-magenta-soft text-base tracking-widest mt-0.5">—</p>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <a id="wa-receive" href="#" target="_blank" class="block w-full text-center rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-3.5 transition active:scale-[0.99]">
+                    <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Recibir entrada por WhatsApp
+                </a>
+                <div id="share-friend-wrap" class="hidden">
+                    <button id="share-friend-btn" class="block w-full text-center rounded-2xl bg-white/10 hover:bg-white/15 text-white font-bold py-3 transition active:scale-[0.99]">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Enviar a un amigo
+                    </button>
+                </div>
+                <a href="/" class="block w-full text-center rounded-2xl border border-white/10 text-white/70 text-sm py-3 transition"> Volver al inicio </a>
+            </div>
+        </section>
+    </main>
 
-/* TOKEN URL */
-const params = new URLSearchParams(location.search);
-const token = (params.get("token") || "").trim().toUpperCase();
+    <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] hidden rounded-2xl bg-[#141414] border border-magenta/40 px-5 py-3 text-sm shadow-2xl"></div>
 
-/* UI STATES */
-function showState(name) {
-  ["loading", "notfound", "pending", "ready"].forEach((s) => {
-    const el = $(`state-${s}`);
-    if (el) el.classList.toggle("hidden", s !== name);
-  });
-}
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+        import { getFirestore, doc, getDoc, collection, query, where, onSnapshot, limit } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-function showToast(msg) {
-  const t = $("toast");
-  t.textContent = msg;
-  t.classList.remove("hidden");
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6zu8iS12VNlU-i7J8yJIc4IQZV4aM-m0",
+            authDomain: "egresantos-nights.firebaseapp.com",
+            projectId: "egresantos-nights",
+            storageBucket: "egresantos-nights.firebasestorage.app",
+            messagingSenderId: "992418363007",
+            appId: "1:992418363007:web:e60cb64e260090b92ab14a",
+        };
 
-  setTimeout(() => {
-    t.classList.add("hidden");
-  }, 2200);
-}
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const $ = (id) => document.getElementById(id);
+        const PRODUCTORA_WA = "5492644837583"; // Ismael, actualicé este número según tu perfil
 
-/* CLOCK */
-const meses = [
-  "enero","febrero","marzo","abril","mayo","junio",
-  "julio","agosto","septiembre","octubre","noviembre","diciembre"
-];
+        const params = new URLSearchParams(location.search);
+        const token = (params.get("token") || "").trim().toUpperCase();
 
-const dias = [
-  "Domingo","Lunes","Martes","Miércoles",
-  "Jueves","Viernes","Sábado"
-];
-
-function tickClock() {
-  const now = new Date();
-
-  const hh = String(now.getHours()).padStart(2, "0");
-  const mm = String(now.getMinutes()).padStart(2, "0");
-  const ss = String(now.getSeconds()).padStart(2, "0");
-
-  const clockEl = $("live-clock");
-  const dateEl = $("live-date");
-
-  if (clockEl) clockEl.textContent = `${hh}:${mm}:${ss}`;
-
-  if (dateEl) {
-    dateEl.textContent =
-      `${dias[now.getDay()]} ${now.getDate()} de ${meses[now.getMonth()]} ${now.getFullYear()}`;
-  }
-}
-
-setInterval(tickClock, 1000);
-tickClock();
-
-/* VALIDAR TOKEN */
-if (!token || !/^ISM-\d{4}-[A-Z]{2}$/i.test(token)) {
-  showState("notfound");
-} else {
-
-  $("pending-token").textContent = token;
-
-  const pendingMsg = encodeURIComponent(
-`Hola! Ya pagué mi entrada para EGRESANTOS.
-
-Token: ${token}
-
-Adjunto comprobante.`
-  );
-
-  $("wa-receive-pending").href =
-    `https://wa.me/${PRODUCTORA_WA}?text=${pendingMsg}`;
-
-  const q = query(
-    collection(db, "ventas"),
-    where("token", "==", token),
-    limit(1)
-  );
-
-  onSnapshot(q, (snap) => {
-
-    if (snap.empty) {
-      showState("notfound");
-      return;
-    }
-
-    const row = snap.docs[0];
-    const sale = { id: row.id, ...row.data() };
-
-    renderSale(sale);
-
-  }, (error) => {
-    console.error(error);
-    showState("notfound");
-  });
-}
-
-/* RENDER */
-let qrDrawn = false;
-let lastEstado = "";
-
-function renderSale(sale) {
-
-  const estado = (sale.estado || "pendiente").toLowerCase();
-
-  const isReady =
-    estado === "confirmada" ||
-    estado === "ingresado";
-
-  if (!isReady) {
-    showState("pending");
-    lastEstado = estado;
-    return;
-  }
-
-  showState("ready");
-
-  $("ticket-title").textContent = sale.evento || "Tu entrada";
-  $("ticket-name").textContent = sale.nombre || "—";
-  $("ticket-dni").textContent = sale.dni || "—";
-  $("ticket-tipo").textContent = sale.tipo || "General";
-  $("ticket-cant").textContent = sale.cantidad || 1;
-  $("ticket-token").textContent = token;
-
-  getDoc(doc(db, "config", "event"))
-    .then((snap) => {
-      if (!snap.exists()) return;
-
-      const ev = snap.data();
-
-      $("ticket-event").textContent =
-        (ev.title || "EGRESANTOS").toUpperCase();
-
-      if (ev.date) {
-        $("ticket-date").textContent = ev.date;
-      }
-    })
-    .catch(() => {});
-
-  /* QR CORREGIDO */
-  if (!qrDrawn) {
-
-    qrDrawn = true;
-
-    const wrap = $("qr-canvas");
-    wrap.innerHTML = "Generando QR...";
-
-    try {
-
-      const qrPayload = `EGRESANTOS:${token}`;
-
-      window.QRCode.toCanvas(
-        qrPayload,
-        {
-          width: 240,
-          margin: 1,
-          color: {
-            dark: "#000000",
-            light: "#ffffff"
-          }
-        },
-        (err, canvas) => {
-
-          wrap.innerHTML = "";
-
-          if (err || !canvas) {
-            wrap.innerHTML = "No se pudo crear QR";
-            console.error(err);
-            return;
-          }
-
-          canvas.style.borderRadius = "14px";
-          canvas.style.maxWidth = "240px";
-          canvas.style.width = "100%";
-          canvas.style.height = "auto";
-
-          wrap.appendChild(canvas);
+        function showState(name) {
+            ["loading", "notfound", "pending", "ready"].forEach((s) => {
+                const el = $(`state-${s}`);
+                if (el) el.classList.toggle("hidden", s !== name);
+            });
         }
-      );
 
-    } catch (error) {
-      wrap.innerHTML = "Error QR";
-      console.error(error);
-    }
-  }
+        function showToast(msg, isError = false) {
+            const t = $("toast");
+            t.textContent = msg;
+            t.classList.remove("hidden");
+            setTimeout(() => t.classList.add("hidden"), 2400);
+        }
 
-  /* WHATSAPP */
-  const recvMsg = encodeURIComponent(
-`🎟️ EGRESANTOS - ENTRADA CONFIRMADA
+        // Reloj en vivo
+        const meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+        const dias = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+        function tickClock() {
+            const now = new Date();
+            if ($("live-clock")) $("live-clock").textContent = now.toLocaleTimeString('es-AR');
+            if ($("live-date")) $("live-date").textContent = `${dias[now.getDay()]} ${now.getDate()} de ${meses[now.getMonth()]} ${now.getFullYear()}`;
+        }
+        setInterval(tickClock, 1000);
+        tickClock();
 
-Titular: ${sale.nombre || "-"}
-DNI: ${sale.dni || "-"}
-Tipo: ${sale.tipo || "-"}
-Token: ${token}
+        if (!token) {
+            showState("notfound");
+        } else {
+            $("pending-token").textContent = token;
+            const pendingMsg = encodeURIComponent(`¡Hola! Pagué mi entrada para EGRESANTOS.\n\nMi token es: *${token}*\n\nAdjunto comprobante.`);
+            $("wa-receive-pending").href = `https://wa.me/${PRODUCTORA_WA}?text=${pendingMsg}`;
 
-Mostrá este mensaje en puerta.`
-  );
+            // Suscripción en tiempo real a la venta
+            const q = query(collection(db, "ventas"), where("token", "==", token), limit(1));
+            onSnapshot(q, (snap) => {
+                if (snap.empty) {
+                    showState("pending"); // Si no existe, lo dejamos en pendiente
+                    return;
+                }
+                renderSale(snap.docs[0].data());
+            }, (err) => {
+                console.error(err);
+                showState("notfound");
+            });
+        }
 
-  $("wa-receive").href =
-    `https://wa.me/${PRODUCTORA_WA}?text=${recvMsg}`;
+        let qrDrawn = false;
+        function renderSale(sale) {
+            const estado = (sale.estado || "pendiente").toLowerCase();
+            if (estado !== "confirmada" && estado !== "ingresado") {
+                showState("pending");
+                return;
+            }
 
-  if (lastEstado && lastEstado !== estado) {
-    showToast("¡Pago confirmado!");
-  }
+            showState("ready");
+            $("ticket-title").textContent = sale.evento || "Tu entrada";
+            $("ticket-name").textContent = sale.nombre || "—";
+            $("ticket-dni").textContent = sale.dni || "—";
+            $("ticket-tipo").textContent = sale.tipo || "—";
+            $("ticket-cant").textContent = sale.cantidad || 1;
+            $("ticket-token").textContent = token;
 
-  lastEstado = estado;
-}
-</script>
+            // Generar QR
+            if (!qrDrawn) {
+                qrDrawn = true;
+                QRCode.toCanvas(token, { width: 240, margin: 1 }, (err, canvas) => {
+                    if (!err) {
+                        $("qr-canvas").innerHTML = "";
+                        $("qr-canvas").appendChild(canvas);
+                    }
+                });
+            }
+
+            // WhatsApp link
+            const recvMsg = encodeURIComponent(`🎟️ *EGRESANTOS — TICKET CONFIRMADO*\n\n👤 Titular: *${sale.nombre}*\n🪪 DNI: ${sale.dni}\n🔐 Token: *${token}*`);
+            $("wa-receive").href = `https://wa.me/${PRODUCTORA_WA}?text=${recvMsg}`;
+
+            // Enviar a un amigo
+            if (sale.cantidad > 1) {
+                $("share-friend-wrap").classList.remove("hidden");
+                $("share-friend-btn").onclick = () => {
+                    const friendMsg = encodeURIComponent(`¡Te paso tu entrada para EGRESANTOS! 🔥\n\nLink: ${window.location.href}`);
+                    window.open(`https://wa.me/?text=${friendMsg}`, "_blank");
+                };
+            }
+        }
+    </script>
+</body>
+</html>
