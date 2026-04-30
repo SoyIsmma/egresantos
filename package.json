@@ -27,7 +27,11 @@
     "function-bind": "^1.1.2",
     "es-errors": "^1.3.0",
     "set-function-length": "^1.2.1",
-    "object-inspect": "^1.13.1"
+    "object-inspect": "^1.13.1",
+    "call-bind-apply-helpers": "^1.0.2",
+    "dunder-proto": "^1.0.1",
+    "es-define-property": "^1.0.1",
+    "es-object-atoms": "^1.0.0"
   },
   "devDependencies": {
     "typescript": "~5.9.2",
