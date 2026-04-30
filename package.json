@@ -19,7 +19,10 @@
     "call-bind": "^1.0.7",
     "define-properties": "^1.2.1",
     "get-intrinsic": "^1.2.4",
-    "has-tostringtag": "^1.0.2"
+    "has-tostringtag": "^1.0.2",
+    "hasown": "^2.0.2",
+    "gopd": "^1.0.1",
+    "has-property-descriptors": "^1.0.2"
   },
   "devDependencies": {
     "typescript": "~5.9.2",
